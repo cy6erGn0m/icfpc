@@ -53,6 +53,9 @@ public class Mine(val width: Int, val height: Int) {
         Array<MineCell>(height) { MineCell.INVALID }
     }
 
+    public var lambdaCount: Int = 0
+        private set
+
     public fun get(x: Int, y: Int) : MineCell {
         if (inRange(x, y)) {
             return MineCell.INVALID
@@ -73,6 +76,9 @@ public class Mine(val width: Int, val height: Int) {
             if (v != MineCell.ROCK || oldValue != MineCell.EMPTY && oldValue != MineCell.ROCK) {
                 throw IllegalArgumentException("The cell was not invalid before write: map[$x, $y] = ${oldValue}. When trying to write $v")
             }
+        }
+        if (v == MineCell.LAMBDA) {
+            lambdaCount++
         }
         map[x][y] = v
     }
