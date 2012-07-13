@@ -54,7 +54,17 @@ public class Mine(val width: Int, val height: Int) {
     }
 
     public fun get(x: Int, y: Int) : MineCell {
+        if (x !in 1..width || y !in 1..height) {
+            return MineCell.INVALID
+        }
         return map[x][y]
+    }
+
+    public fun set(x: Int, y: Int, v : MineCell) {
+        if (v == MineCell.INVALID) {
+            throw IllegalArgumentException("Attempt to write INVALID to ($x, $y)")
+        }
+        map[x][y] = v
     }
 
     public fun toString(): String {
