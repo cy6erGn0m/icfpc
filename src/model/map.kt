@@ -25,7 +25,7 @@ enum class CellState(val representation : String) {
     INVALID: CellState("!")
 
     public fun fromString(s: String) : CellState {
-
+        return INVALID
     }
 
     public fun toString(): String = representation
