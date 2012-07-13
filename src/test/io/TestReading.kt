@@ -13,13 +13,13 @@ public class TestReading : TestCase() {
         var totalFiles = 0
         var errorFiles = 0
         File("mines").recurse{ f ->
-            if (f.isFile()) {
+            if (f.isFile() && f.getName()!!.endsWith(".map")) {
                 val input = FileInputStream(f)
                 val mine = readMine(input)
                 input.close()
                 totalFiles++
                 try {
-                    assertSameLines(f.readText(), mine.toString())
+                    assertSameLines(f.toString()!!, f.readText(), mine.toString())
                 } catch (e : ComparisonFailure) {
                     ex = e
                     errorFiles++

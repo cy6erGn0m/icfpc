@@ -116,9 +116,9 @@ public class Mine(val width: Int, val height: Int) {
 
     public fun toString(): String {
         val sb = StringBuilder()
-        for (y in (height - 1) downto 0) {
+        for (y in 0..height - 1) {
             for (x in 0..width - 1) {
-                sb.append(this[x, y])
+                sb.append(this[x, height - y - 1])
             }
             sb.append("\n")
         }

@@ -8,11 +8,16 @@ import model.toMineCell
 import model.MineCell
 
 public fun readMine(input: InputStream): Mine {
+    val lines = streamToLines(input)
+    return readMine(lines)
+}
+
+public fun streamToLines(input: InputStream): List<String> {
     val lines = ArrayList<String>()
     input.reader().buffered().forEachLine { line ->
         lines.add(line)
     }
-    return readMine(lines)
+    return lines
 }
 
 public fun readMine(string: String): Mine {

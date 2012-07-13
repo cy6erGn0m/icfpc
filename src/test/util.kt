@@ -3,7 +3,7 @@ package testUtil
 import junit.framework.ComparisonFailure
 import util.repeat
 
-public fun assertSameLines(expected : String, actual : String) {
+public fun assertSameLines(message: String, expected : String, actual : String) {
     val expectedLines = expected.split('\n')
     val actualLines = actual.split('\n')
     for (i in 0..(Math.max(expectedLines.size, actualLines.size) - 1)) {
@@ -14,7 +14,7 @@ public fun assertSameLines(expected : String, actual : String) {
         expectedLine += " ".repeat(len - expectedLine.length)
         actualLine += " ".repeat(len - actualLine.length)
         if (expectedLine != actualLine) {
-            throw ComparisonFailure(null, expected, actual)
+            throw ComparisonFailure(message, expected, actual)
         }
     }
 }
