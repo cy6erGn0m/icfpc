@@ -15,7 +15,7 @@ class EvaluatorTest {
     fun doTest(inFile: String, outFile: String) {
         val input = loadMine(inFile)
         val expected = loadMine(outFile)
-        val actual = mapUpdate(input)
+        val actual = mineUpdate(input)
         assertEquals(expected.toString(), actual.toString())
     }
 

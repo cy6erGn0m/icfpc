@@ -106,7 +106,7 @@ public class Mine(val width: Int, val height: Int) {
                 robotX = x
                 robotY = y
             }
-            else -> {
+        else -> {
             }
         }
         map[x][y] = v

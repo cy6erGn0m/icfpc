@@ -12,7 +12,7 @@ import model.MineCell.OPEN_LIFT
 import model.MineCell.EMPTY
 import util._assert
 
-fun mapUpdate(mine: Mine): Mine {
+fun mineUpdate(mine: Mine): Mine {
     val r = Mine(mine.width, mine.height)
     for (y in 0..mine.height - 1) {
         for (x in 0..mine.width - 1) {

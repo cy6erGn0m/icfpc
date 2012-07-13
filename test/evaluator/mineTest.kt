@@ -9,9 +9,19 @@ import org.junit.Assert.assertEquals
 
 class MineTest() {
 
-    test fun robot1() {
+    test fun robotAtZero() {
         val robotAtZero = readMine("R")
         assertEquals(0, robotAtZero.robotX)
         assertEquals(0, robotAtZero.robotY)
+    }
+
+    test fun robotSomewhereElse() {
+        val robotAtZero = readMine("""
+.....
+..R..
+....#
+        """)
+        assertEquals(2, robotAtZero.robotX)
+        assertEquals(2, robotAtZero.robotY)
     }
 }
