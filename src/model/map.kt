@@ -33,7 +33,7 @@ enum class CellState(val representation : String) {
 
 // m lines
 // n columns
-class Map(val width: Int, val height: Int) {
+public class Mine(val width: Int, val height: Int) {
     private val map: Array<Array<CellState>> = Array(width) {
         Array<CellState>(height) { CellState.INVALID }
     }
