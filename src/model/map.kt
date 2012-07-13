@@ -1,30 +1,46 @@
 package model
 
+import java.util.HashMap
+
 val validStates = hashSet(
-                    CellState.ROBOT,
-                    CellState.ROCK,
-                    CellState.CLOSED_LIFT,
-                    CellState.EARTH,
-                    CellState.WALL,
-                    CellState.LAMBDA,
-                    CellState.OPEN_LIFT,
-                    CellState.EMPTY
+                    MineCell.ROBOT,
+                    MineCell.ROCK,
+                    MineCell.CLOSED_LIFT,
+                    MineCell.EARTH,
+                    MineCell.WALL,
+                    MineCell.LAMBDA,
+                    MineCell.OPEN_LIFT,
+                    MineCell.EMPTY
                 )
 
-val allStates = validStates + CellState.INVALID
+val allStates = validStates + MineCell.INVALID
 
-enum class CellState(val representation : String) {
-    ROBOT: CellState("R")
-    ROCK: CellState("*")
-    CLOSED_LIFT: CellState("L")
-    EARTH: CellState(".")
-    WALL: CellState("#")
-    LAMBDA: CellState("\\")
-    OPEN_LIFT: CellState("O")
-    EMPTY: CellState(" ")
-    INVALID: CellState("!")
+fun main(args: Array<String>) {
+    1 to 2
+}
 
-    public fun fromChar(c: Char) : CellState {
+val stringToState : java.util.Map<String, MineCell> //= hashMap<String, CellState>(*validStates.map<CellState, #(String, CellState)> {s -> s.representation to s}.toArray())
+        =        run {
+    val map = HashMap<String, MineCell>()
+    for (cs in validStates) {
+        map[cs.representation] = cs
+    }
+    map
+}
+
+
+enum class MineCell(val representation : String) {
+    ROBOT: MineCell("R")
+    ROCK: MineCell("*")
+    CLOSED_LIFT: MineCell("L")
+    EARTH: MineCell(".")
+    WALL: MineCell("#")
+    LAMBDA: MineCell("\\")
+    OPEN_LIFT: MineCell("O")
+    EMPTY: MineCell(" ")
+    INVALID: MineCell("!")
+
+    public fun fromChar(c: Char) : MineCell {
         return INVALID // TODO
     }
 
@@ -34,11 +50,11 @@ enum class CellState(val representation : String) {
 // m lines
 // n columns
 public class Mine(val width: Int, val height: Int) {
-    private val map: Array<Array<CellState>> = Array(width) {
-        Array<CellState>(height) { CellState.INVALID }
+    private val map: Array<Array<MineCell>> = Array(width) {
+        Array<MineCell>(height) { MineCell.INVALID }
     }
 
-    public fun get(x: Int, y: Int) : CellState {
+    public fun get(x: Int, y: Int) : MineCell {
         return map[x][y]
     }
 
