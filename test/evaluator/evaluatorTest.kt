@@ -31,4 +31,32 @@ class EvaluatorTest {
         doEvaluatorTest("rockSlidesLambda")
     }
 
+    test fun rockSlidesLambdaToTheRight() {
+        doEvaluatorTest("rockSlidesLambdaToTheRight")
+    }
+
+    test fun rockDoesntSlideLambdaToTheLeft() {
+        doEvaluatorTest("rockDoesntSlideLambdaToTheLeft")
+    }
+
+    test fun rockFallsDown() {
+        doEvaluatorTest("rockFallsDown")
+    }
+
+    test fun threeRocksFallDownSideBySide() {
+        doEvaluatorTest("threeRocksFallDownSideBySide")
+    }
+
+    test fun threeRocksFallDownOnTopOfEachOtherAndSlideToTheRight() {
+        doEvaluatorTest("threeRocksFallDownOnTopOfEachOtherAndSlideToTheRight")
+    }
+
+    test fun threeRocksFallDownOnTopOfEachOtherAndSlideToTheLeft() {
+        doEvaluatorTest("threeRocksFallDownOnTopOfEachOtherAndSlideToTheLeft")
+    }
+
+    test fun manyRocksFallDownOnTopOfEachOtherStraight() {
+        doEvaluatorTest("manyRocksFallDownOnTopOfEachOtherStraight")
+    }
+
 }
