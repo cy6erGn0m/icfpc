@@ -1,6 +1,7 @@
 package model
 
 import java.util.HashMap
+import util._assert
 
 val validStates = hashSet(
                     MineCell.ROBOT,
@@ -95,4 +96,17 @@ public class Mine(val width: Int, val height: Int) {
         }
         return sb.toString()!!
     }
+}
+
+fun mineDiff(a: Mine, b: Mine): #(Int, Int)? {
+    _assert(a.width == b.width, "Widths don't match: ${a.width} != ${b.width}")
+    _assert(a.height == b.height, "Heights don't match: ${a.height} != ${b.height}")
+    for (y in 0..a.height - 1) {
+        for (x in 0..a.width - 1) {
+            if (a[x, y] != b[x, y]) {
+                return #(x, y)
+            }
+        }
+    }
+    return null
 }
