@@ -67,6 +67,13 @@ public class Mine(val width: Int, val height: Int) {
         if (v == MineCell.INVALID) {
             throw IllegalArgumentException("Attempt to write INVALID to ($x, $y)")
         }
+        val oldValue = map[x][y]
+        if (oldValue != MineCell.INVALID) {
+            // We can write rocks over empties and other rocks
+            if (v != MineCell.ROCK || oldValue != MineCell.EMPTY && oldValue != MineCell.ROCK) {
+                throw IllegalArgumentException("The cell was not invalid before write: map[$x, $y] = ${oldValue}. When trying to write $v")
+            }
+        }
         map[x][y] = v
     }
 
