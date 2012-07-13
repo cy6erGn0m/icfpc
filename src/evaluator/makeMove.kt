@@ -67,8 +67,8 @@ fun makeMove(move: Move, robot: Robot): Robot {
     return Robot(newMine, newMoveCount, lambdas, RobotStatus.LIVE)
 }
 
-fun countScore(robot: Robot) {
-    when (robot.status) {
+fun countScore(robot: Robot): Int {
+    return when (robot.status) {
         RobotStatus.DEAD -> -robot.moveCount
         RobotStatus.LIVE -> 25 * robot.lambdas - robot.moveCount
         RobotStatus.ABORTED -> 50 * robot.lambdas - robot.moveCount
