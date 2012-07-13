@@ -17,7 +17,7 @@ enum class RobotStatus(val terminated: Boolean) {
     WON: RobotStatus(true)
 }
 
-class Robot(val mine: Mine, val points: Int, val lambdas: Int, val status: RobotStatus) {
+class Robot(val mine: Mine, val moveCount: Int, val lambdas: Int, val status: RobotStatus) {
     val x: Int = mine.robotX
     val y: Int = mine.robotY
 }

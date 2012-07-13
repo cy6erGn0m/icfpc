@@ -21,7 +21,7 @@ val validTargetCells = arrayList(MineCell.EMPTY, MineCell.EARTH, MineCell.LAMBDA
 
 fun makeMove(move: Move, robot: Robot): Robot {
     if (move == Move.ABORT) {
-        return Robot(robot.mine, robot.points, robot.lambdas, RobotStatus.ABORTED)
+        return Robot(robot.mine, robot.moveCount, robot.lambdas, RobotStatus.ABORTED)
     }
     val oldMine = robot.mine
     var newX = robot.x + move.deltaX
@@ -54,15 +54,25 @@ fun makeMove(move: Move, robot: Robot): Robot {
         }
         else -> throw IllegalStateException("Unknown move: $move")
     }
-    val points = robot.points - 1
+    val newMoveCount = robot.moveCount + 1
     if (resultingStatus == RobotStatus.WON) {
-        return Robot(oldMine, points, lambdas, RobotStatus.WON)
+        return Robot(oldMine, newMoveCount, lambdas, RobotStatus.WON)
     }
     val newMine = mineUpdate(oldMine)
     val isRockAbove = newMine[newX, newY + 1] == ROCK
     val wasRockAbove = oldMine[newX, newY + 1] == ROCK
     if (isRockAbove && !wasRockAbove) {
-        return Robot(newMine, points, lambdas, RobotStatus.DEAD)
+        return Robot(newMine, newMoveCount, lambdas, RobotStatus.DEAD)
     }
-    return Robot(newMine, points, lambdas, RobotStatus.LIVE)
+    return Robot(newMine, newMoveCount, lambdas, RobotStatus.LIVE)
+}
+
+fun countScore(robot: Robot) {
+    when (robot.status) {
+        RobotStatus.DEAD -> -robot.moveCount
+        RobotStatus.LIVE -> 25 * robot.lambdas - robot.moveCount
+        RobotStatus.ABORTED -> 50 * robot.lambdas - robot.moveCount
+        RobotStatus.WON -> 75 * robot.lambdas - robot.moveCount
+        else -> throw IllegalStateException("Unknown state: ${robot.status}")
+    }
 }

@@ -1,6 +1,5 @@
 package evaluator
 
-
 import model.Mine
 import java.io.FileInputStream
 import io.readMine
