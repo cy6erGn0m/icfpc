@@ -19,9 +19,8 @@ fun main(args: Array<String>) {
     1 to 2
 }
 
-val stringToState : java.util.Map<String, MineCell> //= hashMap<String, CellState>(*validStates.map<CellState, #(String, CellState)> {s -> s.representation to s}.toArray())
-        =        run {
-    val map = HashMap<String, MineCell>()
+val charToState: java.util.Map<Char, MineCell> = run {
+    val map = HashMap<Char, MineCell>()
     for (cs in validStates) {
         map[cs.representation] = cs
     }
@@ -29,22 +28,27 @@ val stringToState : java.util.Map<String, MineCell> //= hashMap<String, CellStat
 }
 
 
-enum class MineCell(val representation : String) {
-    ROBOT: MineCell("R")
-    ROCK: MineCell("*")
-    CLOSED_LIFT: MineCell("L")
-    EARTH: MineCell(".")
-    WALL: MineCell("#")
-    LAMBDA: MineCell("\\")
-    OPEN_LIFT: MineCell("O")
-    EMPTY: MineCell(" ")
-    INVALID: MineCell("!")
+enum class MineCell(val representation : Char) {
+    ROBOT: MineCell('R')
+    ROCK: MineCell('*')
+    CLOSED_LIFT: MineCell('L')
+    EARTH: MineCell('.')
+    WALL: MineCell('#')
+    LAMBDA: MineCell('\\')
+    OPEN_LIFT: MineCell('O')
+    EMPTY: MineCell(' ')
+    INVALID: MineCell('!')
 
     public fun fromChar(c: Char) : MineCell {
-        return INVALID // TODO
+        val cell = charToState[c]
+        if (cell == null) {
+            throw IllegalArgumentException("Unknown cell code: $c")
+        }
+        return cell
     }
 
-    public fun toString(): String = representation
+    public fun toChar(): Char = representation
+    public fun toString(): String = representation.toString()
 }
 
 // m lines
