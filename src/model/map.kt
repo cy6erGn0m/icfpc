@@ -85,7 +85,7 @@ public class Mine(val width: Int, val height: Int) {
         map[x][y] = v
     }
 
-    private fun inRange(x: Int, y: Int) = x !in 0..(width - 1) || y !in 0..(height - 1)
+    private fun inRange(x: Int, y: Int) = x in 0..(width - 1) && y in 0..(height - 1)
 
     public fun toString(): String {
         val sb = StringBuilder()
