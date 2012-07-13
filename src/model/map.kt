@@ -24,8 +24,8 @@ enum class CellState(val representation : String) {
     EMPTY: CellState(" ")
     INVALID: CellState("!")
 
-    public fun fromString(s: String) : CellState {
-        return INVALID
+    public fun fromChar(c: Char) : CellState {
+        return INVALID // TODO
     }
 
     public fun toString(): String = representation
