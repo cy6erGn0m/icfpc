@@ -35,16 +35,17 @@ enum class MineCell(val representation : Char) {
     EMPTY: MineCell(' ')
     INVALID: MineCell('!')
 
-    public fun fromChar(c: Char) : MineCell {
-        val cell = charToState[c]
-        if (cell == null) {
-            throw IllegalArgumentException("Unknown cell code: $c")
-        }
-        return cell
-    }
-
     public fun toChar(): Char = representation
     public fun toString(): String = representation.toString()
+}
+
+// this is an extension function because enums can't have class object (KT-2410)
+public fun Char.toMineCell() : MineCell {
+    val cell = charToState[this]
+    if (cell == null) {
+        throw IllegalArgumentException("Unknown cell code: $this")
+    }
+    return cell
 }
 
 // m lines
