@@ -67,4 +67,16 @@ class EvaluatorTest {
         doEvaluatorTest("rockDoesntSlideFromNotRock")
     }
 
+    test fun comlexCasesOfRocksNotSliding() {
+        doEvaluatorTest("comlexCasesOfRocksNotSliding")
+    }
+
+    test fun liftOpensWhenNoLambdasPresent() {
+        doEvaluatorTest("liftOpensWhenNoLambdasPresent")
+    }
+
+    test fun liftDoesntOpenWhenLambdasPresent() {
+        doEvaluatorTest("liftDoesntOpenWhenLambdasPresent")
+    }
+
 }
