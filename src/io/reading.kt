@@ -12,6 +12,15 @@ public fun readMine(input: InputStream): Mine {
     input.reader().buffered().forEachLine { line ->
         lines.add(line)
     }
+    return readMine(lines)
+}
+
+public fun readMine(string: String): Mine {
+    val lines = string.split('\n').toList()
+    return readMine(lines)
+}
+
+public fun readMine(lines: List<String>): Mine {
     val height = lines.size()
     val lengths: List<Int> = lines.map { it -> it.length }
     val width = lengths.fold(0, { x, y -> Math.max(x, y) })

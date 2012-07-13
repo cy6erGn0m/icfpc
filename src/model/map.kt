@@ -4,15 +4,15 @@ import java.util.HashMap
 import util._assert
 
 val validStates = hashSet(
-                    MineCell.ROBOT,
-                    MineCell.ROCK,
-                    MineCell.CLOSED_LIFT,
-                    MineCell.EARTH,
-                    MineCell.WALL,
-                    MineCell.LAMBDA,
-                    MineCell.OPEN_LIFT,
-                    MineCell.EMPTY
-                )
+        MineCell.ROBOT,
+        MineCell.ROCK,
+        MineCell.CLOSED_LIFT,
+        MineCell.EARTH,
+        MineCell.WALL,
+        MineCell.LAMBDA,
+        MineCell.OPEN_LIFT,
+        MineCell.EMPTY
+)
 
 val allStates = validStates + MineCell.INVALID
 
@@ -24,7 +24,7 @@ val charToState: java.util.Map<Char, MineCell> = run {
     map
 }
 
-enum class MineCell(val representation : Char) {
+enum class MineCell(val representation: Char) {
     ROBOT: MineCell('R')
     ROCK: MineCell('*')
     CLOSED_LIFT: MineCell('L')
@@ -40,7 +40,7 @@ enum class MineCell(val representation : Char) {
 }
 
 // this is an extension function because enums can't have class object (KT-2410)
-public fun Char.toMineCell() : MineCell {
+public fun Char.toMineCell(): MineCell {
     val cell = charToState[this]
     if (cell == null) {
         throw IllegalArgumentException("Unknown cell code: $this")
@@ -51,6 +51,7 @@ public fun Char.toMineCell() : MineCell {
 // m lines
 // n columns
 public class Mine(val width: Int, val height: Int) {
+
     private val map: Array<Array<MineCell>> = Array(width) {
         Array<MineCell>(height) { MineCell.INVALID }
     }
@@ -58,7 +59,27 @@ public class Mine(val width: Int, val height: Int) {
     public var lambdaCount: Int = 0
         private set
 
-    public fun get(x: Int, y: Int) : MineCell {
+    public var robotX: Int = -1
+        get() {
+            _assert($robotX != -1, "Robot position read before initialized")
+            return $robotX
+        }
+        private set(v) {
+            _assert($robotX == -1, "Robot position already set")
+            $robotX = v
+        }
+
+    public var robotY: Int = -1
+        get() {
+            _assert($robotY != -1, "Robot position read before initialized")
+            return $robotY
+        }
+        private set(v) {
+            _assert($robotY == -1, "Robot position already set")
+            $robotY = v
+        }
+
+    public fun get(x: Int, y: Int): MineCell {
         if (!inRange(x, y)) {
             return MineCell.INVALID
         }
@@ -79,8 +100,14 @@ public class Mine(val width: Int, val height: Int) {
                 throw IllegalArgumentException("The cell was not invalid before write: map[$x, $y] = ${oldValue}. When trying to write $v")
             }
         }
-        if (v == MineCell.LAMBDA) {
-            lambdaCount++
+        when (v) {
+            MineCell.LAMBDA -> lambdaCount++
+            MineCell.ROBOT -> {
+                robotX = x
+                robotY = y
+            }
+            else -> {
+            }
         }
         map[x][y] = v
     }
