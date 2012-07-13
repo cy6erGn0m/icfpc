@@ -64,7 +64,7 @@ fun mapUpdateAt(cur: Mine, x: Int, y: Int, res: Mine){
         at(CLOSED_LIFT)
             && cur.lambdaCount == 0
         -> {
-            cur[x, y] = OPEN_LIFT
+            res[x, y] = OPEN_LIFT
         }
 
         else -> {

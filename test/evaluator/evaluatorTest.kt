@@ -59,4 +59,12 @@ class EvaluatorTest {
         doEvaluatorTest("manyRocksFallDownOnTopOfEachOtherStraight")
     }
 
+    test fun rockDoesntSlideFromARobot() {
+        doEvaluatorTest("rockDoesntSlideFromARobot")
+    }
+
+    test fun rockDoesntSlideFromNotRock() {
+        doEvaluatorTest("rockDoesntSlideFromNotRock")
+    }
+
 }
