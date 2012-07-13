@@ -59,7 +59,7 @@ public class Mine(val width: Int, val height: Int) {
         private set
 
     public fun get(x: Int, y: Int) : MineCell {
-        if (inRange(x, y)) {
+        if (!inRange(x, y)) {
             return MineCell.INVALID
         }
         return map[x][y]
@@ -89,8 +89,8 @@ public class Mine(val width: Int, val height: Int) {
 
     public fun toString(): String {
         val sb = StringBuilder()
-        for (x in 0..width - 1) {
-            for (y in 0..height - 1) {
+        for (y in 0 downto (height - 1)) {
+            for (x in 0..width - 1) {
                 sb.append(this[x, y])
             }
             sb.append("\n")

@@ -16,7 +16,7 @@ public fun readMine(input: InputStream): Mine {
     val lengths: List<Int> = lines.map { it -> it.length }
     val width = lengths.fold(0, { x, y -> Math.max(x, y) })
 
-    val mine = Mine(height, width)
+    val mine = Mine(width, height)
     for (y in 0..(height - 1)) {
         val line = lines[height - y - 1]
         for (x in 0..(width - 1)) {
