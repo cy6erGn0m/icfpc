@@ -14,14 +14,9 @@ import util._assert
 
 fun mapUpdate(mine: Mine): Mine {
     val r = Mine(mine.width, mine.height)
-    for (y in 1..mine.height) {
-        for (x in 1..mine.width) {
-
-            val current = mine[x, y]
-
-
-
-
+    for (y in 0..mine.height - 1) {
+        for (x in 0..mine.width - 1) {
+            mapUpdateAt(mine, x, y, r)
         }
     }
     return mine
