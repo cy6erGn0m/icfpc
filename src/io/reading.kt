@@ -7,7 +7,7 @@ import model.Mine
 import model.toMineCell
 import model.MineCell
 
-public fun readMine(input : InputStream) : Mine {
+public fun readMine(input: InputStream): Mine {
     val lines = ArrayList<String>()
     input.reader().buffered().forEachLine { line ->
         lines.add(line)
