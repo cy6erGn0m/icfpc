@@ -12,13 +12,23 @@ class EvaluatorTest {
         return readMine(FileInputStream(fileName))
     }
 
-    test fun test1() {
-        val inFile = "mines/evaluator/case1-in.map"
-        val outFile = "mines/evaluator/case1-out.map"
-        val inMine = loadMine(inFile)
-        val outMine = loadMine(outFile)
-        val actual = mapUpdate(inMine)
-        assertEquals(outMine.toString(), actual.toString())
+    fun doTest(inFile: String, outFile: String) {
+        val input = loadMine(inFile)
+        val expected = loadMine(outFile)
+        val actual = mapUpdate(input)
+        assertEquals(expected.toString(), actual.toString())
+    }
+
+    fun doEvaluatorTest(name: String) {
+        doTest("mines/evaluator/$name/in.map", "mines/evaluator/$name/out.map")
+    }
+
+    test fun case1() {
+        doEvaluatorTest("case1")
+    }
+
+    test fun rockSlidesLambda() {
+        doEvaluatorTest("rockSlidesLambda")
     }
 
 }

@@ -19,7 +19,7 @@ fun mapUpdate(mine: Mine): Mine {
             mapUpdateAt(mine, x, y, r)
         }
     }
-    return mine
+    return r
 }
 
 fun mapUpdateAt(cur: Mine, x: Int, y: Int, res: Mine){
