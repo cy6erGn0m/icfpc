@@ -1,6 +1,7 @@
-package util
+package testUtil
 
 import junit.framework.ComparisonFailure
+import util.repeat
 
 public fun assertSameLines(expected : String, actual : String) {
     val expectedLines = expected.split('\n')
