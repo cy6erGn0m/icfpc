@@ -15,10 +15,6 @@ val validStates = hashSet(
 
 val allStates = validStates + MineCell.INVALID
 
-fun main(args: Array<String>) {
-    1 to 2
-}
-
 val charToState: java.util.Map<Char, MineCell> = run {
     val map = HashMap<Char, MineCell>()
     for (cs in validStates) {
@@ -26,7 +22,6 @@ val charToState: java.util.Map<Char, MineCell> = run {
     }
     map
 }
-
 
 enum class MineCell(val representation : Char) {
     ROBOT: MineCell('R')
