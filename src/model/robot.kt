@@ -9,6 +9,8 @@ public enum class Move(val repr: Char, val deltaX: Int = 0, val deltaY: Int = 0)
     DOWN: Move('D', 0 , -1)
     LEFT: Move('L', -1, 0)
     RIGHT: Move('R', 1, 0)
+
+    public fun toString(): String = "${repr}"
 }
 
 val possibleMoves = arrayList(
@@ -32,4 +34,8 @@ public class Robot(val mine: Mine, val moveCount: Int, val collectedLambdas: Int
                    val oxygen: Int, won: Boolean = false) {
     val x: Int = if (!won) mine.robotX else -1
     val y: Int = if (!won) mine.robotY else -1
+
+    public fun toString(): String {
+        return "Robot[moveCount=${moveCount},collectedLambdas=${collectedLambdas},status=${status},oxygen=${oxygen}]"
+    }
 }
