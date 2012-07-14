@@ -113,7 +113,7 @@ public class Mine(val width: Int, val height: Int) {
                 robotX = x
                 robotY = y
             }
-        else -> {
+            else -> {
             }
         }
         map[x + y * width] = v
@@ -128,6 +128,9 @@ public class Mine(val width: Int, val height: Int) {
         }
         map[oldX + oldY * width] = MineCell.EMPTY
         //if robot enters lift it just disappears
+        if (map[newX + newY * width] == MineCell.LAMBDA) {
+            lambdaCount--
+        }
         if (map[newX + newY * width] != MineCell.OPEN_LIFT) {
             map[newX + newY * width] = MineCell.ROBOT
         }

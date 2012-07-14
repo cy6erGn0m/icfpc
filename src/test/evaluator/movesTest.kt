@@ -133,4 +133,8 @@ class MovesTest : TestCase() {
     fun testWin() {
         doTest()
     }
+
+    fun testEatLambdaAndWin() {
+        doTest()
+    }
 }
