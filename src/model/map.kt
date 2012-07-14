@@ -52,9 +52,7 @@ public fun Char.toMineCell(): MineCell {
 // n columns
 public class Mine(val width: Int, val height: Int) {
 
-    private val map: Array<Array<MineCell>> = Array(width) {
-        Array<MineCell>(height) { MineCell.INVALID }
-    }
+    private val map: Array<MineCell> = Array(width * height) { MineCell.INVALID }
 
     public var lambdaCount: Int = 0
         private set
@@ -83,7 +81,7 @@ public class Mine(val width: Int, val height: Int) {
         if (!inRange(x, y)) {
             return MineCell.INVALID
         }
-        return map[x][y]
+        return map[x + y * width]
     }
 
     public fun set(x: Int, y: Int, v: MineCell) {
@@ -93,7 +91,7 @@ public class Mine(val width: Int, val height: Int) {
         if (v == MineCell.INVALID) {
             throw IllegalArgumentException("Attempt to write INVALID to ($x, $y)")
         }
-        val oldValue = map[x][y]
+        val oldValue = map[x + y * width]
         if (oldValue != MineCell.INVALID) {
             // We can write rocks over empties and other rocks
             if (v != MineCell.ROCK || oldValue != MineCell.EMPTY && oldValue != MineCell.ROCK) {
@@ -109,7 +107,7 @@ public class Mine(val width: Int, val height: Int) {
         else -> {
             }
         }
-        map[x][y] = v
+        map[x + y * width] = v
     }
 
     private fun inRange(x: Int, y: Int) = x in 0..(width - 1) && y in 0..(height - 1)
