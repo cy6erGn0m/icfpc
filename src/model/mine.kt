@@ -2,6 +2,7 @@ package model
 
 import java.util.HashMap
 import util._assert
+import sun.net.www.content.audio.x_aiff
 
 val validStates = hashSet(
         MineCell.ROBOT,
@@ -34,6 +35,10 @@ enum class MineCell(val representation: Char) {
     OPEN_LIFT: MineCell('O')
     EMPTY: MineCell(' ')
     INVALID: MineCell('!')
+
+    fun isPassable(): Boolean {
+        return this == EARTH || this == EMPTY || this == LAMBDA || this == OPEN_LIFT;
+    }
 
     public fun toChar(): Char = representation
     public fun toString(): String = representation.toString()
@@ -112,6 +117,17 @@ public class Mine(val width: Int, val height: Int) {
             }
         }
         map[x + y * width] = v
+    }
+
+    public fun moveRobot(oldX: Int, oldY: Int, newX: Int, newY: Int) {
+        if (map[oldX + oldY * width] != MineCell.ROBOT) {
+            throw IllegalStateException("No robot at ($oldX, $oldY)")
+        }
+        if (!map[newX + newY * width].isPassable()) {
+            throw IllegalStateException("Map is not passable at ($newX, $newY)")
+        }
+        map[oldX + oldY * width] = MineCell.EMPTY
+        map[newX + newY * width] = MineCell.ROBOT
     }
 
     private fun inRange(x: Int, y: Int) = x in 0..(width - 1) && y in 0..(height - 1)

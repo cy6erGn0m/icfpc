@@ -65,7 +65,8 @@ class MovesTest : TestCase() {
         else -> throw IllegalArgumentException("Unknown status: $this")
     }
 
-    fun doTest(name: String) {
+    fun doTest() {
+        val name = getTestName()
         val testData = loadTestData(name)
 
         var robot = Robot(testData.startMine, 0, 0, RobotStatus.LIVE)
@@ -79,8 +80,37 @@ class MovesTest : TestCase() {
         assertEquals(testData.expectedMine.toString(), robot.mine.toString())
     }
 
-    fun testSimple() {
-        doTest("simple")
+    fun getTestName(): String {
+        val rawName = getName()!!
+        val nameWithoutTestPrefix = rawName.substring(4)
+        return nameWithoutTestPrefix.decapitalize()
     }
 
+    fun testSimple() {
+        doTest()
+    }
+
+    fun testMoveRight() {
+        doTest()
+    }
+
+    fun testExcavateEarth() {
+        doTest()
+    }
+
+    fun testCantMoveThroughWall() {
+        doTest()
+    }
+
+    fun testCantMoveThroughWallForSeveralTimes() {
+        doTest()
+    }
+
+    fun testNavigatingThroughLabyrinth() {
+        doTest()
+    }
+
+    fun testNavigatingThereAndBack() {
+        doTest()
+    }
 }

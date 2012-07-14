@@ -28,11 +28,13 @@ fun makeMove(move: Move, robot: Robot): Robot {
     var newY = robot.y + move.deltaY
     var lambdas = robot.lambdas
     var resultingStatus: RobotStatus = RobotStatus.LIVE
+    var shouldMove = true
     when (oldMine[newX, newY]) {
         WALL, CLOSED_LIFT, INVALID -> {
             //impassable
             newX = robot.x
             newY = robot.y
+            shouldMove = false
         }
         EARTH, EMPTY -> {
             //nothing to do here
@@ -51,12 +53,18 @@ fun makeMove(move: Move, robot: Robot): Robot {
                     oldMine[behindTheRockX, robot.y] = ROCK
                 }
             }
+
+            //specially parsed that case
+            shouldMove = false
         }
         else -> throw IllegalStateException("Unknown move: $move")
     }
     val newMoveCount = robot.moveCount + 1
     if (resultingStatus == RobotStatus.WON) {
         return Robot(oldMine, newMoveCount, lambdas, RobotStatus.WON)
+    }
+    if (oldMine[newX, newY].isPassable() && shouldMove) {
+        oldMine.moveRobot(robot.x, robot.y, newX, newY)
     }
     val newMine = mineUpdate(oldMine)
     val isRockAbove = newMine[newX, newY + 1] == ROCK
