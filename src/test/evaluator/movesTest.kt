@@ -182,4 +182,20 @@ class MovesTest : UsefulTestCase() {
     fun testFlood2AlmostWinsButWaits() {
         doTest()
     }
+
+    fun testFlood2DivesIntoFloodAndDies() {
+        doTest()
+    }
+
+    fun testFlood2DivesIntoFloodAndLives() {
+        doTest()
+    }
+
+    fun testFlood3JumpsFromWaterAndSurvives() {
+        doTest()
+    }
+
+    fun testFlood3JumpsFromWaterAndDiesBecauseTooSlow() {
+        doTest()
+    }
 }
