@@ -156,14 +156,17 @@ public class Mine(val width: Int, val height: Int) {
     }
 
     public fun copy(): Mine {
-        //TODO: set flood params?
-        val result = Mine(width, height)
+        val copy = Mine(width, height)
         for (x in 0..width - 1) {
             for (y in 0..height - 1) {
-                result[x, y] = this[x, y]
+                copy[x, y] = this[x, y]
             }
         }
-        return result
+        copy.water = water
+        copy.floodPeriod = floodPeriod
+        copy.nextFlood = nextFlood
+        copy.waterproof = waterproof
+        return copy
     }
 
 }
