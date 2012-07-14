@@ -66,7 +66,7 @@ fun makeMove(move: Move, robot: Robot): Robot {
     }
     val isRockAbove = newMine[newX, newY + 1] == ROCK
     val wasRockAbove = oldMine[newX, newY + 1] == ROCK
-    val newOxygen = if (newY <= newMine.water) robot.oxygen - 1 else oldMine.waterproof
+    val newOxygen = if (robot.y <= oldMine.water && newY <= newMine.water) robot.oxygen - 1 else oldMine.waterproof
     val severelySmashedByRock = isRockAbove && !wasRockAbove
     if (severelySmashedByRock || newOxygen < 0) {
         return Robot(newMine, newMoveCount, lambdas, RobotStatus.DEAD, -1)
