@@ -53,6 +53,10 @@ public fun Char.toMineCell(): MineCell {
 public class Mine(val width: Int, val height: Int) {
 
     private val map: Array<MineCell> = Array(width * height) { MineCell.INVALID }
+    public var water: Int = 0
+    public var floodPeriod: Int = 0
+    public var nextFlood: Int = 0
+    public var waterproof: Int = 10
 
     public var lambdaCount: Int = 0
         private set
