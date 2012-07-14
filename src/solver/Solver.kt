@@ -19,7 +19,7 @@ public class Solver(val initialMine: Mine) {
         val queue = LinkedList<RobotState>()
         val visited = HashSet<RobotHash>()
 
-        val startRobot = Robot(initialMine, 0, 0, RobotStatus.LIVE)
+        val startRobot = Robot(initialMine, 0, 0, RobotStatus.LIVE, initialMine.waterproof)
 
         queue.push(RobotState(startRobot, null))
         visited.add(RobotHash.calculate(startRobot))
@@ -29,7 +29,7 @@ public class Solver(val initialMine: Mine) {
             val robot = robotState.robot;
 
             for (move in model.possibleMoves) {
-                val copy = Robot(robot.mine.copy(), robot.moveCount, robot.collectedLambdas, robot.status)
+                val copy = Robot(robot.mine.copy(), robot.moveCount, robot.collectedLambdas, robot.status, robot.oxygen)
 
                 println("path: ${robotState.path}")
                 println("visited: ${visited.size()}")
