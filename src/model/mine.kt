@@ -55,9 +55,12 @@ public fun Char.toMineCell(): MineCell {
 
 // m lines
 // n columns
-public class Mine(val width: Int, val height: Int) {
+public fun Mine(width: Int, height: Int): Mine = Mine(ArrayCellMatrix(width, height))
+public class Mine(private val map: CellMatrix) {
 
-    private val map = ArrayCellMatrix(width, height)
+    public val width: Int = map.width
+    public val height: Int = map.height
+
     public var water: Int = 0
     public var floodPeriod: Int = 0
     public var nextFlood: Int = 0
