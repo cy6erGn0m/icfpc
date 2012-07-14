@@ -167,6 +167,20 @@ public class Mine(private val matrix: CellMatrix) {
         return sb.toString()!!
     }
 
+    public fun copy(): Mine {
+        val copy = Mine(width, height)
+        for (x in 0..width - 1) {
+            for (y in 0..height - 1) {
+                copy[x, y] = this[x, y]
+            }
+        }
+        copy.water = water
+        copy.floodPeriod = floodPeriod
+        copy.nextFlood = nextFlood
+        copy.waterproof = waterproof
+        return copy
+    }
+
     public fun copyMapAsDeltaNoCountersSet(): Mine {
         val result = Mine(width, height)
 //        val result = Mine(DeltaCellMatrix.create(matrix))
