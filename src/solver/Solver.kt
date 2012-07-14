@@ -19,52 +19,57 @@ public class Solver(val initialMine: Mine) {
 
     val logFile = PrintWriter(FileWriter("log"))
 
-    private fun log(s: String) {
+    fun log(s: String) {
         logFile.println(s)
     }
-    private fun log() = log("")
+    fun log() = log("")
+
+
+    fun makeMove(state: RobotState, move: Move): RobotState {
+        val robot = state.robot
+        val copy = Robot(robot.mine.copy(), robot.moveCount, robot.collectedLambdas, robot.status, robot.oxygen)
+        val newRobot = makeMove(move, copy)
+        val newPath = RobotPath(move, state.path)
+        return RobotState(newRobot, newPath)
+    }
+
+    fun score(state: RobotState): Int {
+        return 50 * state.robot.collectedLambdas - state.robot.moveCount
+    }
+
+    fun logNewState(queue: StateQueue, newState: RobotState, move: Move) {
+        log("path: ${newState.path}")
+        log("visited: ${queue.visited.size()}")
+        log("status: ${newState.robot.status}")
+        log("move: ${move.repr}")
+        log("hash: ${RobotHash.calculate(newState.robot)}")
+        log(newState.robot.mine.toString())
+        log()
+    }
+
 
     public fun start() {
-        val queue = LinkedList<RobotState>()
-        val visited = HashSet<RobotHash>()
-
         val startRobot = Robot(initialMine, 0, 0, RobotStatus.LIVE, initialMine.waterproof)
+        val queue = StateQueue()
 
         queue.push(RobotState(startRobot, null))
-        visited.add(RobotHash.calculate(startRobot))
 
         while (!queue.isEmpty() && answer == null) {
-            val robotState = queue.poll()!!
-            val robot = robotState.robot;
+            val robotState = queue.pop()
 
             for (move in model.possibleMoves) {
-                val copy = Robot(robot.mine.copy(), robot.moveCount, robot.collectedLambdas, robot.status, robot.oxygen)
-
-                val newRobot = makeMove(move, copy)
-                val newPath = RobotPath(move, robotState.path)
-                val newState = RobotState(newRobot, newPath)
-                val newHash = RobotHash.calculate(newRobot)
-                if (newRobot.status == RobotStatus.WON) {
+                val newState = makeMove(robotState, move)
+                if (newState.robot.status == RobotStatus.WON) {
                     answer = newState
                     break
                 }
-                if (newRobot.status == RobotStatus.DEAD) {
+                if (newState.robot.status == RobotStatus.DEAD) {
                     continue
                 }
 
-
-                if (!visited.contains(newHash)) {
-                    log("path: ${newPath}")
-                    log("visited: ${visited.size()}")
-                    log("status: ${newRobot.status}")
-                    log("move: ${move.repr}")
-                    log("hash: ${newHash.toString()}")
-
-                    log(newRobot.mine.toString())
-                    log()
-
-                    queue.offer(newState)
-                    visited.add(newHash)
+                if (!queue.containsSimilar(newState)) {
+                    // logNewState(queue, newState, move)
+                    queue.push(newState)
                 }
                 2 + 2
             }
