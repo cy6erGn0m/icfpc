@@ -1,0 +1,3 @@
+rm submission/kotlin.zip
+zip -0r -0r submission/kotlin.zip src mines/ lib/
+cp out/artifacts/icfpc_jar/*.jar submission

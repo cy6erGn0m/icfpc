@@ -1,0 +1,15 @@
+<component name="ArtifactManager">
+  <artifact name="icfpc:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/icfpc_jar</output-path>
+    <root id="root">
+      <element id="archive" name="icfpc.jar">
+        <element id="directory" name="META-INF">
+          <element id="file-copy" path="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" />
+        </element>
+        <element id="module-output" name="icfpc" />
+      </element>
+      <element id="library" level="project" name="KotlinRuntime" />
+      <element id="library" level="project" name="junit-4" />
+    </root>
+  </artifact>
+</component>
