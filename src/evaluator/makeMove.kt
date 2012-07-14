@@ -20,6 +20,9 @@ val validTargetCells = arrayList(MineCell.EMPTY, MineCell.EARTH, MineCell.LAMBDA
 
 
 fun makeMove(move: Move, robot: Robot): Robot {
+    if (robot.status != RobotStatus.LIVE) {
+        throw IllegalArgumentException("Only live robots can move")
+    }
     if (move == Move.ABORT) {
         return Robot(robot.mine, robot.moveCount, robot.collectedLambdas, RobotStatus.ABORTED, -1)
     }
@@ -64,7 +67,8 @@ fun makeMove(move: Move, robot: Robot): Robot {
     val isRockAbove = newMine[newX, newY + 1] == ROCK
     val wasRockAbove = oldMine[newX, newY + 1] == ROCK
     val newOxygen = if (newY <= newMine.water) robot.oxygen - 1 else oldMine.waterproof
-    if (isRockAbove && !wasRockAbove || newOxygen < 0) {
+    val severelySmashedByRock = isRockAbove && !wasRockAbove
+    if (severelySmashedByRock || newOxygen < 0) {
         return Robot(newMine, newMoveCount, lambdas, RobotStatus.DEAD, -1)
     }
     return Robot(newMine, newMoveCount, lambdas, RobotStatus.LIVE, newOxygen)

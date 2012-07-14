@@ -144,4 +144,12 @@ class MovesTest : UsefulTestCase() {
     fun testMoveRockToPass() {
         doTest()
     }
+
+    fun testCanPassUnderFallingRockLikeABoss() {
+        doTest()
+    }
+
+    fun testFailToPassUnderFallingRockLikeABoss() {
+        doTest()
+    }
 }
