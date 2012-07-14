@@ -130,21 +130,21 @@ public class Mine(private val matrix: CellMatrix) {
         if (!matrix[newX, newY].isPassable()) {
             throw IllegalStateException("Map is not passable at ($newX, $newY)")
         }
-        map[oldX, oldY] = MineCell.EMPTY
-        if (map[newX, newY] == MineCell.LAMBDA) {
+        matrix[oldX, oldY] = MineCell.EMPTY
+        if (matrix[newX, newY] == MineCell.LAMBDA) {
             lambdaCount--
         }
         //if robot enters lift it just disappears
-        if (map[newX, newY] != MineCell.OPEN_LIFT) {
-            map[newX, newY] = MineCell.ROBOT
+        if (matrix[newX, newY] != MineCell.OPEN_LIFT) {
+            matrix[newX, newY] = MineCell.ROBOT
         }
     }
 
     public fun tryMoveRock(rockX: Int, rockY: Int, left: Boolean) {
         val behindTheRockX = rockX + (if (left) -1 else 1)
-        if (map[behindTheRockX, rockY] == MineCell.EMPTY) {
-            map[behindTheRockX, rockY] = MineCell.ROCK
-            map[rockX, rockY] = MineCell.EMPTY
+        if (matrix[behindTheRockX, rockY] == MineCell.EMPTY) {
+            matrix[behindTheRockX, rockY] = MineCell.ROCK
+            matrix[rockX, rockY] = MineCell.EMPTY
         }
     }
 
