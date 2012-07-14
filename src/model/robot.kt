@@ -1,5 +1,6 @@
 package model
 
+import java.util.Arrays
 
 public enum class Move(val repr: Char, val deltaX: Int = 0, val deltaY: Int = 0) {
     WAIT: Move('W')
@@ -9,6 +10,14 @@ public enum class Move(val repr: Char, val deltaX: Int = 0, val deltaY: Int = 0)
     LEFT: Move('L', -1, 0)
     RIGHT: Move('R', 1, 0)
 }
+
+val possibleMoves = arrayList(
+        Move.DOWN,
+        Move.LEFT,
+        Move.RIGHT,
+        Move.WAIT,
+        Move.UP
+)
 
 public enum class RobotStatus(val terminated: Boolean, val name: String) {
     LIVE: RobotStatus(false, "LIVE")
