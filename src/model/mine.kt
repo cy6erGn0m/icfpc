@@ -154,21 +154,6 @@ public class Mine(val width: Int, val height: Int) {
         }
         return sb.toString()!!
     }
-
-    public fun copy(): Mine {
-        val copy = Mine(width, height)
-        for (x in 0..width - 1) {
-            for (y in 0..height - 1) {
-                copy[x, y] = this[x, y]
-            }
-        }
-        copy.water = water
-        copy.floodPeriod = floodPeriod
-        copy.nextFlood = nextFlood
-        copy.waterproof = waterproof
-        return copy
-    }
-
 }
 
 fun mineDiff(a: Mine, b: Mine): #(Int, Int)? {
