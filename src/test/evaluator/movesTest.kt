@@ -158,4 +158,12 @@ class MovesTest : UsefulTestCase() {
     fun testContest9Random() {
         doTest()
     }
+
+    fun testWaterKillsRobotWaits() {
+        doTest()
+    }
+
+    fun testWaterAlmostKillsRobotWaits() {
+        doTest()
+    }
 }
