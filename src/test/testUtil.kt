@@ -1,20 +1,17 @@
 package testUtil
 
 import junit.framework.ComparisonFailure
-import util.repeat
+import util.trimTrailingSpaces
 
-public fun assertSameLines(message: String, expected : String, actual : String) {
-    val expectedLines = expected.split('\n')
-    val actualLines = actual.split('\n')
+public fun assertSameLines(message: String, expectedText: String, actualText: String) {
+    val expectedLines = expectedText.split('\n')
+    val actualLines = actualText.split('\n')
     for (i in 0..(Math.max(expectedLines.size, actualLines.size) - 1)) {
-        var expectedLine = if (i < expectedLines.size) expectedLines[i] else ""
-        var actualLine = if (i < actualLines.size) actualLines[i] else ""
-        val len = Math.max(expectedLine.length, actualLine.length)
+        val expectedLine = if (i < expectedLines.size) expectedLines[i].trimTrailingSpaces() else ""
+        val actualLine = if (i < actualLines.size) actualLines[i].trimTrailingSpaces() else ""
 
-        expectedLine += " ".repeat(len - expectedLine.length)
-        actualLine += " ".repeat(len - actualLine.length)
         if (expectedLine != actualLine) {
-            throw ComparisonFailure(message, expected, actual)
+            throw ComparisonFailure(message, expectedText, actualText)
         }
     }
 }
