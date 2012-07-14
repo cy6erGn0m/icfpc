@@ -155,4 +155,12 @@ class MovesTest : UsefulTestCase() {
     fun testFailToPassUnderFallingRockLikeABoss() {
         doTest()
     }
+
+    fun testContest1Optimal() {
+        doTest()
+    }
+
+    fun testContest9Random() {
+        doTest()
+    }
 }
