@@ -11,6 +11,8 @@ import evaluator.makeMove
 import java.util.HashSet
 import java.io.PrintWriter
 import java.io.FileWriter
+import java.util.Collection
+import java.util.List
 
 public class Solver(val initialMine: Mine) {
     private val workerThread = Thread.currentThread()!!;
@@ -34,7 +36,11 @@ public class Solver(val initialMine: Mine) {
     }
 
     fun score(state: RobotState): Int {
-        return 50 * state.robot.collectedLambdas - state.robot.moveCount
+        var ans = 50 * state.robot.collectedLambdas - state.robot.moveCount
+        if (state.robot.status == RobotStatus.WON) {
+            ans += 25 * state.robot.collectedLambdas
+        }
+        return ans
     }
 
     fun logNewState(queue: StateQueue, newState: RobotState, move: Move) {
@@ -48,17 +54,14 @@ public class Solver(val initialMine: Mine) {
     }
 
 
-    public fun start() {
-        val startRobot = Robot(initialMine, 0, 0, RobotStatus.LIVE, initialMine.waterproof)
-        val queue = StateQueue()
-
-        queue.push(RobotState(startRobot, null))
-
+    fun processStates(queue: StateQueue, resultsLimit: Int): BestRobotStates {
+        val states = BestRobotStates({score(it)}, resultsLimit)
         while (!queue.isEmpty() && answer == null) {
             val robotState = queue.pop()
 
             for (move in model.possibleMoves) {
                 val newState = makeMove(robotState, move)
+                states.add(newState)
                 if (newState.robot.status == RobotStatus.WON) {
                     answer = newState
                     break
@@ -74,8 +77,17 @@ public class Solver(val initialMine: Mine) {
                 2 + 2
             }
         }
-        logFile.close()
+        return states
+    }
 
+    public fun start() {
+        val startRobot = Robot(initialMine, 0, 0, RobotStatus.LIVE, initialMine.waterproof)
+        val queue = StateQueue()
+
+        queue.push(RobotState(startRobot, null))
+
+        answer = processStates(queue, 1).getBestState()
+        logFile.close()
     }
 
     public fun interruptAndWriteResult() {

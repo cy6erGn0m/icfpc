@@ -32,9 +32,9 @@ class SolverTest : TestCase() {
         assertEquals(expected, ans)
     }
 
-    fun testUp() = doSolverTest("up", "U")
+    fun testUp() = doSolverTest("up", "UU")
     fun testOneLambda() = doSolverTest("oneLambda", "RRRR")
-    fun testNoLambda() = doSolverTest("noLambda", "DDRRR")
+    fun testOneMoreLambda() = doSolverTest("oneMoreLambda", "DDRRR")
 
     fun testContest1() = doContestTest(1, "DLLDDRRLULLDL")
     fun testContest2() = doContestTest(2, "RRRRDLRULURULLLDDLDL")
