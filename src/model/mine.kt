@@ -53,13 +53,12 @@ public fun Char.toMineCell(): MineCell {
     return cell
 }
 
-// m lines
-// n columns
 public fun Mine(width: Int, height: Int): Mine = Mine(ArrayCellMatrix(width, height))
-public class Mine(private val map: CellMatrix) {
 
-    public val width: Int = map.width
-    public val height: Int = map.height
+public class Mine(private val matrix: CellMatrix) {
+
+    public val width: Int = matrix.width
+    public val height: Int = matrix.height
 
     public var water: Int = 0
     public var floodPeriod: Int = 0
@@ -93,7 +92,7 @@ public class Mine(private val map: CellMatrix) {
         if (!inRange(x, y)) {
             return MineCell.INVALID
         }
-        return map[x, y]
+        return matrix[x, y]
     }
 
     public fun set(x: Int, y: Int, v: MineCell) {
@@ -103,13 +102,15 @@ public class Mine(private val map: CellMatrix) {
         if (v == MineCell.INVALID) {
             throw IllegalArgumentException("Attempt to write INVALID to ($x, $y)")
         }
-        val oldValue = map[x, y]
-        if (oldValue != MineCell.INVALID) {
-            // We can write rocks over empties and other rocks
-            if (v != MineCell.ROCK || oldValue != MineCell.EMPTY && oldValue != MineCell.ROCK) {
-                throw IllegalArgumentException("The cell was not invalid before write: map[$x, $y] = ${oldValue}. When trying to write $v")
-            }
-        }
+        val oldValue = matrix[x, y]
+        if (oldValue == v) return
+
+//        if (oldValue != MineCell.INVALID) {
+//            // We can write rocks over empties and other rocks
+//            if (v != MineCell.ROCK || oldValue != MineCell.EMPTY && oldValue != MineCell.ROCK) {
+//                throw IllegalArgumentException("The cell was not invalid before write: map[$x, $y] = ${oldValue}. When trying to write '$v'")
+//            }
+//        }
         when (v) {
             MineCell.LAMBDA -> lambdaCount++
             MineCell.ROBOT -> {
@@ -119,14 +120,14 @@ public class Mine(private val map: CellMatrix) {
             else -> {
             }
         }
-        map[x, y] = v
+        matrix[x, y] = v
     }
 
     public fun moveRobot(oldX: Int, oldY: Int, newX: Int, newY: Int) {
-        if (map[oldX, oldY] != MineCell.ROBOT) {
+        if (matrix[oldX, oldY] != MineCell.ROBOT) {
             throw IllegalStateException("No robot at ($oldX, $oldY)")
         }
-        if (!map[newX, newY].isPassable()) {
+        if (!matrix[newX, newY].isPassable()) {
             throw IllegalStateException("Map is not passable at ($newX, $newY)")
         }
         map[oldX, oldY] = MineCell.EMPTY
@@ -164,5 +165,19 @@ public class Mine(private val map: CellMatrix) {
             sb.append("Waterproof $waterproof")
         }
         return sb.toString()!!
+    }
+
+    public fun copyMapAsDeltaNoCountersSet(): Mine {
+        val result = Mine(width, height)
+//        val result = Mine(DeltaCellMatrix.create(matrix))
+//        result.robotX = $robotX
+//        result.robotY = $robotY
+//        result.water = water
+//        result.floodPeriod = floodPeriod
+//        result.nextFlood = nextFlood
+//        result.waterproof = waterproof
+//        result.lambdaCount = lambdaCount
+
+        return result
     }
 }

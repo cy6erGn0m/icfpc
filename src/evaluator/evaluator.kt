@@ -11,9 +11,10 @@ import model.MineCell.LAMBDA
 import model.MineCell.OPEN_LIFT
 import model.MineCell.EMPTY
 import util._assert
+import model.DeltaCellMatrix
 
 fun mineUpdate(mine: Mine): Mine {
-    val r = Mine(mine.width, mine.height)
+    val r = mine.copyMapAsDeltaNoCountersSet()
     for (y in 0..mine.height - 1) {
         for (x in 0..mine.width - 1) {
             mapUpdateAt(mine, x, y, r)
@@ -32,7 +33,7 @@ fun mineUpdate(mine: Mine): Mine {
     return r
 }
 
-fun mapUpdateAt(cur: Mine, x: Int, y: Int, res: Mine){
+fun mapUpdateAt(cur: Mine, x: Int, y: Int, res: Mine) {
     fun at(cell: MineCell) = cur[x, y] == cell
     val atRock = at(ROCK)
     val rockOverRock = atRock && cur[x, y - 1] == ROCK

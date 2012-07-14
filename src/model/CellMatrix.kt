@@ -6,7 +6,7 @@ import java.util.HashMap
 class Point(val x: Int, val y: Int) {
     public fun equals(other: Any?): Boolean {
         if (other == null) return false
-        if (other.javaClass == javaClass<Point>()) return false
+        if (other.javaClass != javaClass<Point>()) return false
         val otherPoint = other as Point
         return x == otherPoint.x && y == otherPoint.y
     }
@@ -37,7 +37,19 @@ public class ArrayCellMatrix(width: Int, height: Int) : CellMatrix(width, height
     }
 }
 
-public class DeltaCellMatrix(private val baseline: CellMatrix) : CellMatrix(baseline.width, baseline.height) {
+public class DeltaCellMatrix internal(private val baseline: CellMatrix) : CellMatrix(baseline.width, baseline.height) {
+    class object {
+        fun create(baseline: CellMatrix): DeltaCellMatrix {
+            if (baseline is DeltaCellMatrix) {
+                val effectiveBaseline = baseline.baseline
+                val result = DeltaCellMatrix(effectiveBaseline)
+                result.map.putAll(baseline.map)
+                return result
+            }
+            return DeltaCellMatrix(baseline)
+        }
+    }
+
     private val map = HashMap<Point, MineCell>()
 
     public val deltaSize: Int
@@ -53,6 +65,7 @@ public class DeltaCellMatrix(private val baseline: CellMatrix) : CellMatrix(base
 
     public override fun set(x: Int, y: Int, v: MineCell) {
         if (this[x, y] != v) {
+//            println("($x, $y) [${this[x, y]}]= $v")
             map[Point(x, y)] = v
         }
     }

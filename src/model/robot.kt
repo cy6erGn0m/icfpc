@@ -10,11 +10,13 @@ public enum class Move(val repr: Char, val deltaX: Int = 0, val deltaY: Int = 0)
     RIGHT: Move('R', 1, 0)
 }
 
-public enum class RobotStatus(val terminated: Boolean) {
-    LIVE: RobotStatus(false)
-    DEAD: RobotStatus(true)
-    ABORTED: RobotStatus(true)
-    WON: RobotStatus(true)
+public enum class RobotStatus(val terminated: Boolean, val name: String) {
+    LIVE: RobotStatus(false, "LIVE")
+    DEAD: RobotStatus(true, "DEAD")
+    ABORTED: RobotStatus(true, "ABORTED")
+    WON: RobotStatus(true, "WON")
+
+    public fun toString(): String = name
 }
 
 public class Robot(val mine: Mine, val moveCount: Int, val collectedLambdas: Int, val status: RobotStatus,

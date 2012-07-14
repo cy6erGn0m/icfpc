@@ -76,10 +76,13 @@ class MovesTest : UsefulTestCase() {
             robot = makeMove(move, robot)
         }
 
-        assertEquals(testData.expectedScore, countScore(robot))
-        assertEquals(testData.expectedStatus, robot.status)
-        assertEquals(testData.expectedMine.toString(), robot.mine.toString())
+        val expected = makeString(testData.expectedScore, testData.expectedStatus, testData.expectedMine)
+        val actual = makeString(countScore(robot), robot.status, robot.mine)
+
+        assertEquals(expected, actual)
     }
+
+    fun makeString(score: Int, status: RobotStatus, mine: Mine) = "" + score + "\n" + status + "\n" + mine
 
     fun testSimple() {
         doTest()
