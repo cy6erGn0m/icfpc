@@ -14,12 +14,13 @@ import model.MineCell.EMPTY
 import model.MineCell.INVALID
 import model.RobotStatus
 import util._assert
+import model.Mine
 
 
 val validTargetCells = arrayList(MineCell.EMPTY, MineCell.EARTH, MineCell.LAMBDA, MineCell.OPEN_LIFT)
 
 
-fun makeMove(move: Move, robot: Robot): Robot {
+fun makeMove(move: Move, robot: Robot, update: (Mine) -> Mine): Robot {
     if (robot.status != RobotStatus.LIVE) {
         throw IllegalArgumentException("Only live robots can move")
     }
@@ -60,7 +61,7 @@ fun makeMove(move: Move, robot: Robot): Robot {
     if (oldMine[newX, newY].isPassable() && shouldMove) {
         oldMine.moveRobot(robot.x, robot.y, newX, newY)
     }
-    val newMine = mineUpdate(oldMine)
+    val newMine = update(oldMine)
     if (resultingStatus == RobotStatus.WON) {
         return Robot(newMine, newMoveCount, lambdas, RobotStatus.WON, -1, true)
     }

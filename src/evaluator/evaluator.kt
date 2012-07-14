@@ -12,9 +12,18 @@ import model.MineCell.OPEN_LIFT
 import model.MineCell.EMPTY
 import util._assert
 import model.DeltaCellMatrix
+import model.ArrayCellMatrix
+import model.CellMatrix
 
-fun mineUpdate(mine: Mine): Mine {
-    val r = mine.copyMapAsDeltaNoCountersSet()
+fun mineUpdateWithFullCopy(mine: Mine): Mine {
+    return mineUpdate(mine) {
+        matrix ->
+        ArrayCellMatrix(matrix.width, matrix.height)
+    }
+}
+
+fun mineUpdate(mine: Mine, copyMatrix: (CellMatrix) -> CellMatrix): Mine {
+    val r = mine.copyMapAsDeltaNoCountersSet(copyMatrix)
     for (y in 0..mine.height - 1) {
         for (x in 0..mine.width - 1) {
             mapUpdateAt(mine, x, y, r)

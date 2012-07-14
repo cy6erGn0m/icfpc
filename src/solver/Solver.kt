@@ -15,6 +15,9 @@ import java.util.Collection
 import java.util.List
 import util._assert
 import util.Logger
+import evaluator.mineUpdateWithFullCopy
+
+public val solverUpdate: (Mine) -> Mine = {m -> mineUpdateWithFullCopy(m)}
 
 private val RESULT_LIMIT = 20
 private val DEPTH = 15
@@ -27,7 +30,7 @@ public class Solver(val initialMine: Mine) {
     fun makeMove(state: RobotState, move: Move): RobotState {
         val robot = state.robot
         val copy = Robot(robot.mine.copy(), robot.moveCount, robot.collectedLambdas, robot.status, robot.oxygen)
-        val newRobot = makeMove(move, copy)
+        val newRobot = makeMove(move, copy, solverUpdate)
         val newPath = RobotPath(move, state.path)
         return RobotState(newRobot, newPath)
     }

@@ -14,6 +14,7 @@ import io.streamToLines
 import junit.framework.TestCase
 import model.Robot
 import testUtil.UsefulTestCase
+import solver.solverUpdate
 
 class MovesTest : UsefulTestCase() {
 
@@ -68,7 +69,7 @@ class MovesTest : UsefulTestCase() {
         var robot = Robot(testData.startMine, 0, 0, RobotStatus.LIVE, testData.startMine.waterproof)
 
         for (move in testData.moves) {
-            robot = makeMove(move, robot)
+            robot = makeMove(move, robot, solverUpdate)
         }
 
         val expected = makeString(testData.expectedScore, testData.expectedStatus, testData.expectedMine)

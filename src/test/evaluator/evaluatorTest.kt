@@ -16,7 +16,7 @@ class EvaluatorTest : UsefulTestCase() {
     fun doTest(inFile: String, outFile: String) {
         val input = loadMine(inFile)
         val expected = loadMine(outFile)
-        val actual = mineUpdate(input)
+        val actual = mineUpdateWithFullCopy(input)
         assertEquals(expected.toString(), actual.toString())
     }
 

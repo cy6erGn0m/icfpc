@@ -184,8 +184,8 @@ public class Mine(private val matrix: CellMatrix) {
         return copy
     }
 
-    public fun copyMapAsDeltaNoCountersSet(): Mine {
-        val result = Mine(width, height)
+    public fun copyMapAsDeltaNoCountersSet(copyMatrix: (CellMatrix) -> CellMatrix): Mine {
+        val result = Mine(copyMatrix(matrix))
 //        val result = Mine(DeltaCellMatrix.create(matrix))
 //        result.robotX = $robotX
 //        result.robotY = $robotY

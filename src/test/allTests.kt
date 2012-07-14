@@ -7,7 +7,8 @@ import evaluator.MineTest
 import evaluator.MovesTest
 import io.TestReading
 import evolution.createSuite
-import evaluator.incremental.incrementalMineUpdate
+import evaluator.incremental.mineUpdateWithIncrementalCopy
+import evaluator.mineUpdateWithFullCopy
 
 public fun suite(): Test {
     val suite = TestSuite()
@@ -16,8 +17,8 @@ public fun suite(): Test {
     suite.addTestSuite(javaClass<MineTest>())
     suite.addTestSuite(javaClass<MovesTest>())
     suite.addTestSuite(javaClass<TestReading>())
-    suite.addTest(createSuite())
-    suite.addTest(createSuite {m -> incrementalMineUpdate(m)})
+    suite.addTest(createSuite("Evolution") {m -> mineUpdateWithFullCopy(m)})
+    suite.addTest(createSuite("Incremental Evolution") {m -> mineUpdateWithIncrementalCopy(m)})
 
     return suite
 }

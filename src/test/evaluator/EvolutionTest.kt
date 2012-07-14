@@ -12,6 +12,7 @@ import io.streamToLines
 import junit.framework.Test
 import junit.framework.TestSuite
 import evaluator.mineUpdate
+import evaluator.mineUpdateWithFullCopy
 
 val END_MINE = "-END MINE"
 val ROOT_DIR = File("mines")
@@ -32,10 +33,10 @@ class EvolutionTest(val file: File, val update: (Mine) -> Mine) : TestCase("test
 }
 
 public fun suite(): Test {
-    return createSuite()
+    return createSuite("Evolution") {m -> mineUpdateWithFullCopy(m)}
 }
-public fun createSuite(update: (Mine) -> Mine = {m -> mineUpdate(m)}): Test {
-    val suite = TestSuite("Evolution")
+public fun createSuite(name: String, update: (Mine) -> Mine): Test {
+    val suite = TestSuite(name)
     ROOT_DIR.recurse {
         file ->
         if (file.getName()!!.endsWith(".$EXTENSION")) {
