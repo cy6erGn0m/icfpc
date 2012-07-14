@@ -9,11 +9,20 @@ import model.RobotStatus
 import model.Move
 import evaluator.makeMove
 import java.util.HashSet
+import java.io.PrintWriter
+import java.io.FileWriter
 
 public class Solver(val initialMine: Mine) {
     private val workerThread = Thread.currentThread()!!;
 
     public var answer: RobotState? = null
+
+    val logFile = PrintWriter(FileWriter("log"))
+
+    private fun log(s: String) {
+        logFile.println(s)
+    }
+    private fun log() = log("")
 
     public fun start() {
         val queue = LinkedList<RobotState>()
@@ -24,20 +33,12 @@ public class Solver(val initialMine: Mine) {
         queue.push(RobotState(startRobot, null))
         visited.add(RobotHash.calculate(startRobot))
 
-        while (!queue.isEmpty()) {
+        while (!queue.isEmpty() && answer == null) {
             val robotState = queue.poll()!!
             val robot = robotState.robot;
 
             for (move in model.possibleMoves) {
                 val copy = Robot(robot.mine.copy(), robot.moveCount, robot.collectedLambdas, robot.status, robot.oxygen)
-
-                println("path: ${robotState.path}")
-                println("visited: ${visited.size()}")
-                println("status: ${robot.status}")
-                println("move: ${move.repr}")
-                println("hash: ${RobotHash.calculate(robot).hash}")
-                println(robot.mine)
-                println()
 
                 val newRobot = makeMove(move, copy)
                 val newPath = RobotPath(move, robotState.path)
@@ -50,13 +51,26 @@ public class Solver(val initialMine: Mine) {
                 if (newRobot.status == RobotStatus.DEAD) {
                     continue
                 }
+
+
                 if (!visited.contains(newHash)) {
-                    queue.push(newState)
+                    log("path: ${newPath}")
+                    log("visited: ${visited.size()}")
+                    log("status: ${newRobot.status}")
+                    log("move: ${move.repr}")
+                    log("hash: ${newHash.toString()}")
+
+                    log(newRobot.mine.toString())
+                    log()
+
+                    queue.offer(newState)
                     visited.add(newHash)
                 }
-                System.err.println()
+                2 + 2
             }
         }
+        logFile.close()
+
     }
 
     public fun interruptAndWriteResult() {
