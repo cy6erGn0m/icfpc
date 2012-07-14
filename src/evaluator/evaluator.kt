@@ -19,6 +19,16 @@ fun mineUpdate(mine: Mine): Mine {
             mapUpdateAt(mine, x, y, r)
         }
     }
+    r.floodPeriod = mine.floodPeriod
+    r.waterproof = mine.waterproof
+    if (mine.nextFlood == 1) {
+        r.water = mine.water + 1
+        r.nextFlood = mine.floodPeriod
+    }
+    else {
+        r.water = mine.water
+        r.nextFlood = mine.nextFlood - 1
+    }
     return r
 }
 
