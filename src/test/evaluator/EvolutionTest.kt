@@ -17,14 +17,14 @@ val END_MINE = "-END MINE"
 val ROOT_DIR = File("mines")
 val EXTENSION = "evolution"
 
-class EvolutionTest(val file: File) : TestCase("test" + file.getName()!!.capitalize()) {
+class EvolutionTest(val file: File, val update: (Mine) -> Mine) : TestCase("test" + file.getName()!!.capitalize()) {
     public override fun runTest() {
         println(file)
         val lines = streamToLines(FileInputStream(file))
 
         val endMineIndex = lines.indexOf(END_MINE)
         val initialState = readMine(lines.subList(0, endMineIndex))
-        val actual = evolution(initialState)
+        val actual = evolution(initialState, update)
         val expected = file.readText()
 
         assertEquals(expected, actual)
@@ -39,18 +39,18 @@ public fun createSuite(): Test {
     ROOT_DIR.recurse {
         file ->
         if (file.getName()!!.endsWith(".$EXTENSION")) {
-            suite.addTest(EvolutionTest(file))
+            suite.addTest(EvolutionTest(file, {m -> mineUpdate(m)}))
         }
     }
     return suite
 }
 
-fun evolution(mine: Mine): String {
+fun evolution(mine: Mine, update: (Mine) -> Mine): String {
     val result = StringBuilder(mine.toString())
     result.append(END_MINE + "\n")
     var current = mine
     while (true) {
-        val new = mineUpdate(current)
+        val new = update(current)
         if (new equalsTo current) {
             break;
         }
