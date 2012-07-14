@@ -57,7 +57,7 @@ public fun Char.toMineCell(): MineCell {
 // n columns
 public class Mine(val width: Int, val height: Int) {
 
-    private val map: Array<MineCell> = Array(width * height) { MineCell.INVALID }
+    private val map = ArrayCellMatrix(width, height)
     public var water: Int = 0
     public var floodPeriod: Int = 0
     public var nextFlood: Int = 0
@@ -90,7 +90,7 @@ public class Mine(val width: Int, val height: Int) {
         if (!inRange(x, y)) {
             return MineCell.INVALID
         }
-        return map[x + y * width]
+        return map[x, y]
     }
 
     public fun set(x: Int, y: Int, v: MineCell) {
@@ -100,7 +100,7 @@ public class Mine(val width: Int, val height: Int) {
         if (v == MineCell.INVALID) {
             throw IllegalArgumentException("Attempt to write INVALID to ($x, $y)")
         }
-        val oldValue = map[x + y * width]
+        val oldValue = map[x, y]
         if (oldValue != MineCell.INVALID) {
             // We can write rocks over empties and other rocks
             if (v != MineCell.ROCK || oldValue != MineCell.EMPTY && oldValue != MineCell.ROCK) {
@@ -116,23 +116,23 @@ public class Mine(val width: Int, val height: Int) {
             else -> {
             }
         }
-        map[x + y * width] = v
+        map[x, y] = v
     }
 
     public fun moveRobot(oldX: Int, oldY: Int, newX: Int, newY: Int) {
-        if (map[oldX + oldY * width] != MineCell.ROBOT) {
+        if (map[oldX, oldY] != MineCell.ROBOT) {
             throw IllegalStateException("No robot at ($oldX, $oldY)")
         }
-        if (!map[newX + newY * width].isPassable()) {
+        if (!map[newX, newY].isPassable()) {
             throw IllegalStateException("Map is not passable at ($newX, $newY)")
         }
-        map[oldX + oldY * width] = MineCell.EMPTY
+        map[oldX, oldY] = MineCell.EMPTY
         //if robot enters lift it just disappears
-        if (map[newX + newY * width] == MineCell.LAMBDA) {
+        if (map[newX, newY] == MineCell.LAMBDA) {
             lambdaCount--
         }
-        if (map[newX + newY * width] != MineCell.OPEN_LIFT) {
-            map[newX + newY * width] = MineCell.ROBOT
+        if (map[newX, newY] != MineCell.OPEN_LIFT) {
+            map[newX, newY] = MineCell.ROBOT
         }
     }
 
