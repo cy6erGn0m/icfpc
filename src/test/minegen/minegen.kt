@@ -12,6 +12,9 @@ import java.util.Collection
 import model.Mine
 import model.count
 import model.contains
+import java.io.File
+
+val DEBUG = false
 
 class MineGenerator(private val seed: Long = 1234567) {
 
@@ -78,24 +81,28 @@ class MineGenerator(private val seed: Long = 1234567) {
                 if (closedLifts == 1) {
                     return matrix
                 }
-                println("===================================")
-                println("Generated:")
-                println(Mine(matrix))
-                println("No lambdas")
-                println("Closed lifts: $closedLifts")
-                println("!!!!!!!!!!! Rejected")
+                if (DEBUG) {
+                    println("===================================")
+                    println("Generated:")
+                    println(Mine(matrix))
+                    println("No lambdas")
+                    println("Closed lifts: $closedLifts")
+                    println("!!!!!!!!!!! Rejected")
+                }
             }
             else {
                 val openLifts = matrix.count(MineCell.CLOSED_LIFT)
                 if (openLifts == 1) {
                     return matrix
                 }
-                println("===================================")
-                println("Generated:")
-                println(Mine(matrix))
-                println("$lambdas lambdas")
-                println("Open lifts: $openLifts")
-                println("!!!!!!!!!!! Rejected")
+                if (DEBUG) {
+                    println("===================================")
+                    println("Generated:")
+                    println(Mine(matrix))
+                    println("$lambdas lambdas")
+                    println("Open lifts: $openLifts")
+                    println("!!!!!!!!!!! Rejected")
+                }
             }
         }
         return null
@@ -160,12 +167,22 @@ fun main(args: Array<String>) {
 
 
     val mineGenerator = MineGenerator()
-    var i = 0
-    while (i < 10) {
-        val matrix = mineGenerator.generateMineMatrix(littlePieces, 10, 10)
-        if (matrix != null) {
-            println(Mine(matrix))
-            i++
+    var k = 0
+    for (N in 5..100 step 5) {
+        var i = 0
+
+        while (i < 10) {
+            val matrix = mineGenerator.generateMineMatrix(littlePieces, N, N)
+            if (matrix != null) {
+                val file = File("mines/random/mine${k}_${N}x${N}.map")
+                file.writeText(Mine(matrix).toString())
+                println("Done: $file")
+                i++
+                k++
+            }
+            else {
+                println("$N x $N failed")
+            }
         }
     }
 }
