@@ -1,0 +1,27 @@
+WWWWWWWWWWWWWU
+#######
+#..***#
+#..\\\#
+#...**#
+#.*.*\#
+LR....#
+#######
+
+Water 0
+Flooding 5
+Waterproof 3
+-END MINE
+-14
+LIVE
+#######
+#..***#
+#..\\\#
+#...**#
+#R*.*\#
+L ....#
+#######
+
+Water 2
+Flooding 5/1
+Waterproof 3
+-END MINE

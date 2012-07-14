@@ -166,4 +166,12 @@ class MovesTest : UsefulTestCase() {
     fun testWaterAlmostKillsRobotWaits() {
         doTest()
     }
+
+    fun testFlood2WaterDeath() {
+        doTest()
+    }
+
+    fun testFlood2EscapesWater() {
+        doTest()
+    }
 }
