@@ -174,4 +174,12 @@ class MovesTest : UsefulTestCase() {
     fun testFlood2EscapesWater() {
         doTest()
     }
+
+    fun testFlood2Wins() {
+        doTest()
+    }
+
+    fun testFlood2AlmostWinsButWaits() {
+        doTest()
+    }
 }
