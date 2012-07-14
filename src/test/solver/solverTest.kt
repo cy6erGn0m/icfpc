@@ -27,6 +27,10 @@ class SolverTest : TestCase() {
         val ans = doTest("mines/default/contest${n}.map")
         assertEquals(expected, ans)
     }
+    fun doFloodTest(n: Int, expected: String) {
+        val ans = doTest("mines/default/flood/flood${n}.map")
+        assertEquals(expected, ans)
+    }
 
     fun testUp() = doSolverTest("up", "U")
     fun testOneLambda() = doSolverTest("oneLambda", "RRRR")
@@ -37,4 +41,6 @@ class SolverTest : TestCase() {
     fun testContest3() = doContestTest(3, "LDDDRRRRDDLLLDLLURRRRRUUR")
     fun testContest4() = doContestTest(4, "DUURDDDDRDRRRLUURUUULUDRR")
     // fun testContest5() = doContestTest(5, "")
+
+    fun testFlood2() = doFloodTest(2, "RRRRDLRULURULLLDDLDL")
 }
