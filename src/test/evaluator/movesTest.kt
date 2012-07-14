@@ -13,8 +13,9 @@ import java.util.ArrayList
 import io.streamToLines
 import junit.framework.TestCase
 import model.Robot
+import testUtil.UsefulTestCase
 
-class MovesTest : TestCase() {
+class MovesTest : UsefulTestCase() {
 
     class TestData(
         val startMine: Mine,
@@ -78,12 +79,6 @@ class MovesTest : TestCase() {
         assertEquals(testData.expectedScore, countScore(robot))
         assertEquals(testData.expectedStatus, robot.status)
         assertEquals(testData.expectedMine.toString(), robot.mine.toString())
-    }
-
-    fun getTestName(): String {
-        val rawName = getName()!!
-        val nameWithoutTestPrefix = rawName.substring(4)
-        return nameWithoutTestPrefix.decapitalize()
     }
 
     fun testSimple() {

@@ -1,6 +1,7 @@
 package testUtil
 
 import junit.framework.ComparisonFailure
+import junit.framework.TestCase
 import util.trimTrailingSpaces
 
 public fun assertSameLines(message: String, expectedText: String, actualText: String) {
@@ -14,4 +15,15 @@ public fun assertSameLines(message: String, expectedText: String, actualText: St
             throw ComparisonFailure(message, expectedText, actualText)
         }
     }
+}
+
+public abstract class UsefulTestCase : TestCase() {
+    protected fun getTestName() : String {
+        val name = getName()
+        if (name == null) {
+            return ""
+        }
+        return name.trim("test").decapitalize()
+    }
+
 }
