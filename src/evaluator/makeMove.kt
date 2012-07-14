@@ -21,7 +21,7 @@ val validTargetCells = arrayList(MineCell.EMPTY, MineCell.EARTH, MineCell.LAMBDA
 
 fun makeMove(move: Move, robot: Robot): Robot {
     if (move == Move.ABORT) {
-        return Robot(robot.mine, robot.moveCount, robot.collectedLambdas, RobotStatus.ABORTED)
+        return Robot(robot.mine, robot.moveCount, robot.collectedLambdas, RobotStatus.ABORTED, -1)
     }
     val oldMine = robot.mine
     var newX = robot.x + move.deltaX
@@ -65,14 +65,15 @@ fun makeMove(move: Move, robot: Robot): Robot {
     }
     val newMine = mineUpdate(oldMine)
     if (resultingStatus == RobotStatus.WON) {
-        return Robot(newMine, newMoveCount, lambdas, RobotStatus.WON, true)
+        return Robot(newMine, newMoveCount, lambdas, RobotStatus.WON, -1, true)
     }
     val isRockAbove = newMine[newX, newY + 1] == ROCK
     val wasRockAbove = oldMine[newX, newY + 1] == ROCK
-    if (isRockAbove && !wasRockAbove) {
-        return Robot(newMine, newMoveCount, lambdas, RobotStatus.DEAD)
+    val newOxygen = if (newY <= newMine.water) robot.oxygen - 1 else oldMine.waterproof
+    if (isRockAbove && !wasRockAbove || newOxygen < 0) {
+        return Robot(newMine, newMoveCount, lambdas, RobotStatus.DEAD, -1)
     }
-    return Robot(newMine, newMoveCount, lambdas, RobotStatus.LIVE)
+    return Robot(newMine, newMoveCount, lambdas, RobotStatus.LIVE, newOxygen)
 }
 
 fun countScore(robot: Robot): Int {

@@ -69,7 +69,7 @@ class MovesTest : TestCase() {
         val name = getTestName()
         val testData = loadTestData(name)
 
-        var robot = Robot(testData.startMine, 0, 0, RobotStatus.LIVE)
+        var robot = Robot(testData.startMine, 0, 0, RobotStatus.LIVE, testData.startMine.waterproof)
 
         for (move in testData.moves) {
             robot = makeMove(move, robot)
