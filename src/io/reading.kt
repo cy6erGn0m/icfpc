@@ -63,7 +63,7 @@ public fun readMine(lines: List<String>): Mine {
         for (i in separatorLine + 1..(lines.size() - 1)) {
             val line = lines[i].trim()
             if (line.startsWith("Water ")) {
-                mine.water = Integer.parseInt(line.trimLeading("Water "))
+                mine.water = Integer.parseInt(line.trimLeading("Water ")) - 1 // we count from 0
             }
             else if (line.startsWith("Flooding ")) {
                 val floodInfos = line.trimLeading("Flooding ").split('/')

@@ -148,7 +148,7 @@ public class Mine(val width: Int, val height: Int) {
         }
         if (!(water == 0 && floodPeriod == 0 && waterproof == 10)) {
             sb.append("\n")
-            sb.append("Water $water\n")
+            sb.append("Water ${water + 1}\n")
             sb.append("Flooding $floodPeriod${ if (floodPeriod != nextFlood) "/" + nextFlood else "" }\n")
             sb.append("Waterproof $waterproof")
         }
