@@ -80,4 +80,16 @@ class EvaluatorTest : UsefulTestCase() {
     fun testLiftDoesntOpenWhenLambdasPresent() {
         doEvaluatorTest()
     }
+
+    fun testWaterFloodsSimple() {
+        doEvaluatorTest()
+    }
+
+    fun testWaterFloodsQuickly() {
+        doEvaluatorTest()
+    }
+
+    fun testWaterFloodsLevelIncreases() {
+        doEvaluatorTest()
+    }
 }
