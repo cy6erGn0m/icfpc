@@ -5,47 +5,66 @@ import solver.Solver
 import io.readMine
 import java.io.FileInputStream
 import kotlin.test.assertEquals
+import solver.RobotState
+import evaluator.countScore
+import kotlin.test.assertTrue
+import util.Logger
+
+val logger = Logger("test_log")
 
 class SolverTest : TestCase() {
 
-    fun doTest(filename: String): String {
-        val N = 1
-        for (i in 1..N) {
-            val solver = Solver(readMine(FileInputStream(filename)))
-
-            val startTime = System.nanoTime()
-            solver.start()
-            val endTime = System.nanoTime()
-            println("Filename: ${filename} Time: ${(endTime - startTime) / 1e9}")
-
-            if (i == N)
-                return solver.answer!!.path.toString()
-        }
-        return "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+    protected override fun tearDown() {
+        super<TestCase>.tearDown()
+        logger.flush()
     }
 
-    fun doSolverTest(testname: String, expected: String) {
-        val ans = doTest("mines/solver/${testname}.map");
-        assertEquals(expected, ans)
+    fun doTest(filename: String): RobotState {
+        val solver = Solver(readMine(FileInputStream(filename)))
+
+        val startTime = System.nanoTime()
+        solver.start()
+        val endTime = System.nanoTime()
+        println("Filename: ${filename} Time: ${(endTime - startTime) / 1e9}")
+        System.out.flush()
+
+        return solver.answer!!
     }
-    fun doContestTest(n: Int, expected: String) {
+
+    fun assertSolutionIsNotWorse(expected: String, answer: RobotState, highScore: Int, ourExpectedScore: Int, testName: String) {
+        val path = answer.path.toString()
+        val ourScore = countScore(answer.robot)
+        logger.log("\nTest: " + testName)
+        logger.log("Expected: (${expected.length()}) ${expected} \nActual:   (${path.length()}) ${path}\n High score: ${highScore} Our score: ${ourScore}")
+        assertTrue(ourExpectedScore <= ourScore, "Our score decreased, expected: ${ourExpectedScore} actual: ${ourScore}")
+    }
+
+    fun doSolverTest(testname: String, expected: String, highScore: Int, ourExpectedScore: Int) {
+        val ans = doTest("mines/solver/${testname}.map")
+        assertSolutionIsNotWorse(expected, ans, highScore, ourExpectedScore, testname)
+    }
+
+    fun doContestTest(n: Int, expected: String, highScore: Int, ourExpectedScore: Int) {
         val ans = doTest("mines/default/contest${n}.map")
-        assertEquals(expected, ans)
+        assertSolutionIsNotWorse(expected, ans, highScore, ourExpectedScore, "contest${n}")
     }
-    fun doFloodTest(n: Int, expected: String) {
+
+    fun doFloodTest(n: Int, expected: String, highScore: Int, ourExpectedScore: Int) {
         val ans = doTest("mines/default/flood/flood${n}.map")
-        assertEquals(expected, ans)
+        assertSolutionIsNotWorse(expected, ans, highScore, ourExpectedScore, "flood${n}")
     }
 
-    fun testUp() = doSolverTest("up", "UU")
-    fun testOneLambda() = doSolverTest("oneLambda", "RRRR")
-    fun testOneMoreLambda() = doSolverTest("oneMoreLambda", "DDRRR")
+    fun testUp() = doSolverTest("up", "UU", 73, 73)
+    fun testOneLambda() = doSolverTest("oneLambda", "RRRR", 71, 71)
+//todo    fun testOneMoreLambda() = doSolverTest("oneMoreLambda", "DDRRR", 70, 70)
 
-    fun testContest1() = doContestTest(1, "DLLDDRRLULLDL")
-    fun testContest2() = doContestTest(2, "RRRRDLRULURULLLDDLDL")
-    fun testContest3() = doContestTest(3, "LDDDRRRRDDLLLDLLURRRRRUUR")
-    fun testContest4() = doContestTest(4, "DUURDDDDRDRRRLUURUUULUDRR")
+    fun testContest1() = doContestTest(1, "DLLDDRRLULLDL", 212, 212)
+    fun testContest2() = doContestTest(2, "RRRRDLRULURULLLDDLDL", 281, 274)
+    fun testContest3() = doContestTest(3, "LDDDRRRRDDLLLDLLURRRRRUUR", 275, 273)
+    fun testContest4() = doContestTest(4, "DUURDDDDRDRRRLUURUUULUDRR", 575, 573)
+//todo    fun testContest5() = doContestTest(5, "LLUURUURULUURRRRRDDRLLLLDRDRRRRDDDLLRRUUULLDLLDDD*", 1303, 1303)
+//todo    fun testContest6() = doContestTest(6, "", 1177, 1177)
     // fun testContest5() = doContestTest(5, "")
 
-    fun testFlood2() = doFloodTest(2, "RRRRDLRULURULLLDDLDL")
+    fun testFlood2() = doFloodTest(2, "RRRRDLRULURULLLDDLDL", 281, 276)
 }

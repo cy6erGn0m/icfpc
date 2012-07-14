@@ -16,8 +16,16 @@ class StateQueue {
         return queue.poll()!!
     }
 
+    fun peek(): RobotState {
+        return queue.peekFirst()!!
+    }
+
     fun isEmpty(): Boolean {
         return queue.isEmpty()
+    }
+
+    fun clearQueue() {
+        queue.clear()
     }
 
     fun containsSimilar(state: RobotState): Boolean {

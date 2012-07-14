@@ -13,19 +13,16 @@ import java.io.PrintWriter
 import java.io.FileWriter
 import java.util.Collection
 import java.util.List
+import util._assert
+import util.Logger
+
+private val RESULT_LIMIT = 20
+private val DEPTH = 15
 
 public class Solver(val initialMine: Mine) {
     private val workerThread = Thread.currentThread()!!;
-
     public var answer: RobotState? = null
-
-    val logFile = PrintWriter(FileWriter("log"))
-
-    fun log(s: String) {
-        logFile.println(s)
-    }
-    fun log() = log("")
-
+    private val logger = Logger("process_log")
 
     fun makeMove(state: RobotState, move: Move): RobotState {
         val robot = state.robot
@@ -43,35 +40,28 @@ public class Solver(val initialMine: Mine) {
         return ans
     }
 
-    fun logNewState(queue: StateQueue, newState: RobotState, move: Move) {
-        log("path: ${newState.path}")
-        log("visited: ${queue.visited.size()}")
-        log("status: ${newState.robot.status}")
-        log("move: ${move.repr}")
-        log("hash: ${RobotHash.calculate(newState.robot)}")
-        log(newState.robot.mine.toString())
-        log()
-    }
-
-
-    fun processStates(queue: StateQueue, resultsLimit: Int): BestRobotStates {
+    fun processStates(queue: StateQueue, resultsLimit: Int, depth: Int?): BestRobotStates {
         val states = BestRobotStates({score(it)}, resultsLimit)
-        while (!queue.isEmpty() && answer == null) {
+        val initialMoves = queue.peek().robot.moveCount
+        while (!queue.isEmpty()) {
             val robotState = queue.pop()
 
             for (move in model.possibleMoves) {
                 val newState = makeMove(robotState, move)
-                states.add(newState)
+                if (newState.robot.status == RobotStatus.DEAD) {
+                    continue
+                }
+                if (depth != null && newState.robot.moveCount == initialMoves + depth) {
+                    continue
+                }
                 if (newState.robot.status == RobotStatus.WON) {
                     answer = newState
                     break
                 }
-                if (newState.robot.status == RobotStatus.DEAD) {
-                    continue
-                }
 
                 if (!queue.containsSimilar(newState)) {
-                    // logNewState(queue, newState, move)
+                    states.add(newState)
+                    logger.logNewState(queue, newState, move)
                     queue.push(newState)
                 }
                 2 + 2
@@ -82,16 +72,22 @@ public class Solver(val initialMine: Mine) {
 
     public fun start() {
         val startRobot = Robot(initialMine, 0, 0, RobotStatus.LIVE, initialMine.waterproof)
+
+        var currentStates : List<RobotState> = arrayList(RobotState(startRobot, null))
         val queue = StateQueue()
-
-        queue.push(RobotState(startRobot, null))
-
-        answer = processStates(queue, 1).getBestState()
-        logFile.close()
+        while (answer == null) {
+            for (state in currentStates) {
+                queue.push(state)
+            }
+            val robotStates = processStates(queue, RESULT_LIMIT, DEPTH)
+            currentStates = robotStates.getBestStates()
+            queue.clearQueue()
+        }
     }
 
     public fun interruptAndWriteResult() {
         workerThread.interrupt()
         println(answer?.path)
+        logger.close()
     }
 }
