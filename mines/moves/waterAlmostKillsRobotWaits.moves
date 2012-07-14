@@ -1,15 +1,15 @@
-WWWWWW
+WWWWW
 R
 
 Water 0
 Flooding 1
 Waterproof 5
 -END MINE
--6
+-5
 LIVE
 R
 
-Water 6
+Water 5
 Flooding 1
 Waterproof 5
 -END MINE
