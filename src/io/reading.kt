@@ -6,9 +6,15 @@ import model.Mine
 import model.MineCell
 import model.toMineCell
 import util._assert
+import java.io.FileInputStream
+import java.io.File
 
 public fun readMine(input: InputStream): Mine {
     return readMine(streamToLines(input))
+}
+
+public fun readMine(input: File): Mine {
+    return readMine(FileInputStream(input))
 }
 
 public fun readMine(string: String): Mine {

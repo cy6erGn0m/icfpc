@@ -6,6 +6,7 @@ import evaluator.EvaluatorTest
 import evaluator.MineTest
 import evaluator.MovesTest
 import io.TestReading
+import evolution.createSuite
 
 public fun suite(): Test {
     val suite = TestSuite()
@@ -14,6 +15,7 @@ public fun suite(): Test {
     suite.addTestSuite(javaClass<MineTest>())
     suite.addTestSuite(javaClass<MovesTest>())
     suite.addTestSuite(javaClass<TestReading>())
+    suite.addTest(createSuite())
 
     return suite
 }

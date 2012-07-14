@@ -163,7 +163,7 @@ public class Mine(private val matrix: CellMatrix) {
             sb.append("\n")
             sb.append("Water ${water + 1}\n")
             sb.append("Flooding $floodPeriod${ if (floodPeriod != nextFlood) "/" + nextFlood else "" }\n")
-            sb.append("Waterproof $waterproof")
+            sb.append("Waterproof $waterproof\n")
         }
         return sb.toString()!!
     }
@@ -195,4 +195,15 @@ public class Mine(private val matrix: CellMatrix) {
 
         return result
     }
+}
+
+public fun Mine.equalsTo(other: Mine): Boolean {
+    if (width != other.width) return false
+    if (height != other.height) return false
+    for (y in 0..height - 1) {
+        for (x in 0..width - 1) {
+            if (this[x, y] != other[x, y]) return false
+        }
+    }
+    return true
 }
