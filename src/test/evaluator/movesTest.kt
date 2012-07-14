@@ -26,12 +26,7 @@ class MovesTest : UsefulTestCase() {
     )
 
     fun loadMine(input: List<String>): Mine {
-        val lines = ArrayList<String>()
-        for (line in input) {
-            if ("-END MINE" == line) break
-            lines.add(line)
-        }
-        return readMine(lines)
+        return readMine(input.subList(0, input.indexOf("-END MINE")))
     }
 
     fun loadTestData(name: String): TestData {
@@ -51,9 +46,9 @@ class MovesTest : UsefulTestCase() {
         }
 
         val startMine = loadMine(lines.subList(1, lines.size()))
-        val scoreString =  lines[startMine.height + 2]
-        val statusString = lines[startMine.height + 3]
-        val expectedMine = loadMine(lines.subList(startMine.height + 4, lines.size()))
+        val scoreString =  lines[lines.indexOf("-END MINE") + 1]
+        val statusString = lines[lines.indexOf("-END MINE") + 2]
+        val expectedMine = loadMine(lines.subList(lines.indexOf("-END MINE") + 3, lines.size()))
         return TestData(startMine, moves, statusString.toStatus(), Integer.parseInt(scoreString), expectedMine)
 
     }
