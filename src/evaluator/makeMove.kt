@@ -47,15 +47,9 @@ fun makeMove(move: Move, robot: Robot): Robot {
         }
         ROCK -> {
             if (move == Move.LEFT || move == Move.RIGHT) {
-                val behindTheRockX = newX + move.deltaX
                 _assert(robot.y == newY, "Move to the side only")
-                if (oldMine[behindTheRockX, robot.y] == EMPTY) {
-                    oldMine[behindTheRockX, robot.y] = ROCK
-                }
+               oldMine.tryMoveRock(rockX = newX, rockY = robot.y, left = (move == Move.LEFT))
             }
-
-            //specially parsed that case
-            shouldMove = false
         }
         else -> throw IllegalStateException("Unknown cell: ${oldMine[newX, newY]}")
     }

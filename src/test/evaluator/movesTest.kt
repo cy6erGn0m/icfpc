@@ -141,4 +141,12 @@ class MovesTest : TestCase() {
     fun testRockKills() {
         doTest()
     }
+
+    fun testSafelyDigUnderRocks() {
+        doTest()
+    }
+
+    fun testMoveRockToPass() {
+        doTest()
+    }
 }
