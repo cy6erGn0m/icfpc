@@ -127,7 +127,10 @@ public class Mine(val width: Int, val height: Int) {
             throw IllegalStateException("Map is not passable at ($newX, $newY)")
         }
         map[oldX + oldY * width] = MineCell.EMPTY
-        map[newX + newY * width] = MineCell.ROBOT
+        //if robot enters lift it just disappears
+        if (map[newX + newY * width] != MineCell.OPEN_LIFT) {
+            map[newX + newY * width] = MineCell.ROBOT
+        }
     }
 
     private fun inRange(x: Int, y: Int) = x in 0..(width - 1) && y in 0..(height - 1)
@@ -148,6 +151,18 @@ public class Mine(val width: Int, val height: Int) {
         }
         return sb.toString()!!
     }
+
+    public fun copy(): Mine {
+        //TODO: set flood params?
+        val result = Mine(width, height)
+        for (x in 0..width - 1) {
+            for (y in 0..height - 1) {
+                result[x, y] = this[x, y]
+            }
+        }
+        return result
+    }
+
 }
 
 fun mineDiff(a: Mine, b: Mine): #(Int, Int)? {

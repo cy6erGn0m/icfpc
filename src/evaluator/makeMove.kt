@@ -60,13 +60,13 @@ fun makeMove(move: Move, robot: Robot): Robot {
         else -> throw IllegalStateException("Unknown move: $move")
     }
     val newMoveCount = robot.moveCount + 1
-    if (resultingStatus == RobotStatus.WON) {
-        return Robot(oldMine, newMoveCount, lambdas, RobotStatus.WON)
-    }
     if (oldMine[newX, newY].isPassable() && shouldMove) {
         oldMine.moveRobot(robot.x, robot.y, newX, newY)
     }
     val newMine = mineUpdate(oldMine)
+    if (resultingStatus == RobotStatus.WON) {
+        return Robot(newMine, newMoveCount, lambdas, RobotStatus.WON, true)
+    }
     val isRockAbove = newMine[newX, newY + 1] == ROCK
     val wasRockAbove = oldMine[newX, newY + 1] == ROCK
     if (isRockAbove && !wasRockAbove) {

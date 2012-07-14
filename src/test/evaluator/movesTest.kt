@@ -113,4 +113,24 @@ class MovesTest : TestCase() {
     fun testNavigatingThereAndBack() {
         doTest()
     }
+
+    fun testEatLambda() {
+        doTest()
+    }
+
+    fun testEatLambdaAndAbort() {
+        doTest()
+    }
+
+    fun testNavigatingDrunk() {
+        doTest()
+    }
+
+    fun testNavigatingWithLambdas() {
+        doTest()
+    }
+
+    fun testWin() {
+        doTest()
+    }
 }
