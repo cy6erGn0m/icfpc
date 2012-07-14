@@ -70,3 +70,22 @@ public class DeltaCellMatrix internal(private val baseline: CellMatrix) : CellMa
         }
     }
 }
+
+public fun CellMatrix.contains(cell: MineCell): Boolean {
+    for (px in 0..width - 1) {
+        for (py in 0..height - 1) {
+            if (this[px, py] == cell) return true
+        }
+    }
+    return false
+}
+
+public fun CellMatrix.count(cell: MineCell): Int {
+    var result = 0
+    for (px in 0..width - 1) {
+        for (py in 0..height - 1) {
+            if (this[px, py] == cell) result++
+        }
+    }
+    return result
+}

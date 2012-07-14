@@ -9,14 +9,19 @@ import kotlin.test.assertEquals
 class SolverTest : TestCase() {
 
     fun doTest(filename: String): String {
-        val solver = Solver(readMine(FileInputStream(filename)))
+        val N = 1
+        for (i in 1..N) {
+            val solver = Solver(readMine(FileInputStream(filename)))
 
-        val startTime = System.nanoTime()
-        solver.start()
-        val endTime = System.nanoTime()
-        println("Filename: ${filename} Time: ${(endTime - startTime) / 1e9}")
+            val startTime = System.nanoTime()
+            solver.start()
+            val endTime = System.nanoTime()
+            println("Filename: ${filename} Time: ${(endTime - startTime) / 1e9}")
 
-        return solver.answer!!.path.toString()
+            if (i == N)
+                return solver.answer!!.path.toString()
+        }
+        return "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
     }
 
     fun doSolverTest(testname: String, expected: String) {

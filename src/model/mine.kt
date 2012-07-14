@@ -3,8 +3,9 @@ package model
 import java.util.HashMap
 import util._assert
 import sun.net.www.content.audio.x_aiff
+import java.util.Set
 
-val validStates = hashSet(
+public val validCells: Set<MineCell> = hashSet(
         MineCell.ROBOT,
         MineCell.ROCK,
         MineCell.CLOSED_LIFT,
@@ -15,11 +16,11 @@ val validStates = hashSet(
         MineCell.EMPTY
 )
 
-val allStates = validStates + MineCell.INVALID
+val allCells = validCells + MineCell.INVALID
 
 val charToState: java.util.Map<Char, MineCell> = run {
     val map = HashMap<Char, MineCell>()
-    for (cs in validStates) {
+    for (cs in validCells) {
         map[cs.representation] = cs
     }
     map
