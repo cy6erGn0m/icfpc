@@ -76,8 +76,7 @@ fun makeMove(move: Move, robot: Robot): Robot {
 
 fun countScore(robot: Robot): Int {
     return when (robot.status) {
-        RobotStatus.DEAD -> -robot.moveCount
-        RobotStatus.LIVE -> 25 * robot.collectedLambdas - robot.moveCount
+        RobotStatus.DEAD, RobotStatus.LIVE -> 25 * robot.collectedLambdas - robot.moveCount
         RobotStatus.ABORTED -> 50 * robot.collectedLambdas - robot.moveCount
         RobotStatus.WON -> 75 * robot.collectedLambdas - robot.moveCount
         else -> throw IllegalStateException("Unknown state: ${robot.status}")
