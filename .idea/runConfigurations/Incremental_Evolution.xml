@@ -1,10 +1,10 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="All Tests" type="JUnit" factoryName="JUnit">
+  <configuration default="false" name="Incremental Evolution" type="JUnit" factoryName="JUnit">
     <module name="icfpc" />
     <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
     <option name="ALTERNATIVE_JRE_PATH" value="" />
-    <option name="PACKAGE_NAME" value="test" />
-    <option name="MAIN_CLASS_NAME" value="test.namespace" />
+    <option name="PACKAGE_NAME" value="test.evaluator" />
+    <option name="MAIN_CLASS_NAME" value="evolution.incrementalTest.namespace" />
     <option name="METHOD_NAME" value="" />
     <option name="TEST_OBJECT" value="class" />
     <option name="VM_PARAMETERS" value="-ea" />

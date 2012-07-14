@@ -34,12 +34,12 @@ class EvolutionTest(val file: File, val update: (Mine) -> Mine) : TestCase("test
 public fun suite(): Test {
     return createSuite()
 }
-public fun createSuite(): Test {
+public fun createSuite(update: (Mine) -> Mine = {m -> mineUpdate(m)}): Test {
     val suite = TestSuite("Evolution")
     ROOT_DIR.recurse {
         file ->
         if (file.getName()!!.endsWith(".$EXTENSION")) {
-            suite.addTest(EvolutionTest(file, {m -> mineUpdate(m)}))
+            suite.addTest(EvolutionTest(file, update))
         }
     }
     return suite
