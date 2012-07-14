@@ -3,18 +3,18 @@ package evaluator
 import model.Mine
 import java.io.FileInputStream
 import io.readMine
-import org.junit.Test as test
 import org.junit.Assert.assertEquals
+import junit.framework.TestCase
 
-class MineTest() {
+class MineTest : TestCase() {
 
-    test fun robotAtZero() {
+    fun testRobotAtZero() {
         val robotAtZero = readMine("R")
         assertEquals(0, robotAtZero.robotX)
         assertEquals(0, robotAtZero.robotY)
     }
 
-    test fun robotSomewhereElse() {
+    fun testRobotSomewhereElse() {
         val robotAtZero = readMine("""
 .....
 ..R..

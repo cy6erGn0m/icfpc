@@ -3,10 +3,10 @@ package evaluator
 import model.Mine
 import java.io.FileInputStream
 import io.readMine
-import org.junit.Test as test
 import org.junit.Assert.assertEquals
+import junit.framework.TestCase
 
-class EvaluatorTest {
+class EvaluatorTest : TestCase() {
 
     fun loadMine(fileName: String): Mine {
         return readMine(FileInputStream(fileName))
@@ -23,59 +23,59 @@ class EvaluatorTest {
         doTest("mines/evaluator/$name/in.map", "mines/evaluator/$name/out.map")
     }
 
-    test fun case1() {
+    fun testCase1() {
         doEvaluatorTest("case1")
     }
 
-    test fun rockSlidesLambda() {
+    fun testRockSlidesLambda() {
         doEvaluatorTest("rockSlidesLambda")
     }
 
-    test fun rockSlidesLambdaToTheRight() {
+    fun testRockSlidesLambdaToTheRight() {
         doEvaluatorTest("rockSlidesLambdaToTheRight")
     }
 
-    test fun rockDoesntSlideLambdaToTheLeft() {
+    fun testRockDoesntSlideLambdaToTheLeft() {
         doEvaluatorTest("rockDoesntSlideLambdaToTheLeft")
     }
 
-    test fun rockFallsDown() {
+    fun testRockFallsDown() {
         doEvaluatorTest("rockFallsDown")
     }
 
-    test fun threeRocksFallDownSideBySide() {
+    fun testThreeRocksFallDownSideBySide() {
         doEvaluatorTest("threeRocksFallDownSideBySide")
     }
 
-    test fun threeRocksFallDownOnTopOfEachOtherAndSlideToTheRight() {
+    fun testThreeRocksFallDownOnTopOfEachOtherAndSlideToTheRight() {
         doEvaluatorTest("threeRocksFallDownOnTopOfEachOtherAndSlideToTheRight")
     }
 
-    test fun threeRocksFallDownOnTopOfEachOtherAndSlideToTheLeft() {
+    fun testThreeRocksFallDownOnTopOfEachOtherAndSlideToTheLeft() {
         doEvaluatorTest("threeRocksFallDownOnTopOfEachOtherAndSlideToTheLeft")
     }
 
-    test fun manyRocksFallDownOnTopOfEachOtherStraight() {
+    fun testManyRocksFallDownOnTopOfEachOtherStraight() {
         doEvaluatorTest("manyRocksFallDownOnTopOfEachOtherStraight")
     }
 
-    test fun rockDoesntSlideFromARobot() {
+    fun testRockDoesntSlideFromARobot() {
         doEvaluatorTest("rockDoesntSlideFromARobot")
     }
 
-    test fun rockDoesntSlideFromNotRock() {
+    fun testRockDoesntSlideFromNotRock() {
         doEvaluatorTest("rockDoesntSlideFromNotRock")
     }
 
-    test fun comlexCasesOfRocksNotSliding() {
+    fun testComlexCasesOfRocksNotSliding() {
         doEvaluatorTest("comlexCasesOfRocksNotSliding")
     }
 
-    test fun liftOpensWhenNoLambdasPresent() {
+    fun testLiftOpensWhenNoLambdasPresent() {
         doEvaluatorTest("liftOpensWhenNoLambdasPresent")
     }
 
-    test fun liftDoesntOpenWhenLambdasPresent() {
+    fun testLiftDoesntOpenWhenLambdasPresent() {
         doEvaluatorTest("liftDoesntOpenWhenLambdasPresent")
     }
 
