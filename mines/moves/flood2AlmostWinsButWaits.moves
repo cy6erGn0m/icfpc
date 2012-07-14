@@ -1,4 +1,4 @@
-RRUDRRULURULLLLDDWWDL
+RRUDRRULURULLLLDDWWD
 #######
 #..***#
 #..\\\#
@@ -11,17 +11,17 @@ Water 0
 Flooding 5
 Waterproof 3
 -END MINE
-279
-WON
+80
+DEAD
 #######
 #..   #
 #  *  #
 # ..  #
 #   **#
-O ****#
+OR****#
 #######
 
 Water 4
-Flooding 5/4
+Flooding 5
 Waterproof 3
 -END MINE
