@@ -36,7 +36,7 @@ fun makeMove(move: Move, robot: Robot): Robot {
             newY = robot.y
             shouldMove = false
         }
-        EARTH, EMPTY -> {
+        EARTH, EMPTY, ROBOT -> {
             //nothing to do here
         }
         LAMBDA -> {
@@ -57,7 +57,7 @@ fun makeMove(move: Move, robot: Robot): Robot {
             //specially parsed that case
             shouldMove = false
         }
-        else -> throw IllegalStateException("Unknown move: $move")
+        else -> throw IllegalStateException("Unknown cell: ${oldMine[newX, newY]}")
     }
     val newMoveCount = robot.moveCount + 1
     if (oldMine[newX, newY].isPassable() && shouldMove) {

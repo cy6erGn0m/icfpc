@@ -137,4 +137,8 @@ class MovesTest : TestCase() {
     fun testEatLambdaAndWin() {
         doTest()
     }
+
+    fun testRockKills() {
+        doTest()
+    }
 }
