@@ -21,12 +21,12 @@ val validTargetCells = arrayList(MineCell.EMPTY, MineCell.EARTH, MineCell.LAMBDA
 
 fun makeMove(move: Move, robot: Robot): Robot {
     if (move == Move.ABORT) {
-        return Robot(robot.mine, robot.moveCount, robot.lambdas, RobotStatus.ABORTED)
+        return Robot(robot.mine, robot.moveCount, robot.collectedLambdas, RobotStatus.ABORTED)
     }
     val oldMine = robot.mine
     var newX = robot.x + move.deltaX
     var newY = robot.y + move.deltaY
-    var lambdas = robot.lambdas
+    var lambdas = robot.collectedLambdas
     var resultingStatus: RobotStatus = RobotStatus.LIVE
     var shouldMove = true
     when (oldMine[newX, newY]) {
@@ -78,9 +78,9 @@ fun makeMove(move: Move, robot: Robot): Robot {
 fun countScore(robot: Robot): Int {
     return when (robot.status) {
         RobotStatus.DEAD -> -robot.moveCount
-        RobotStatus.LIVE -> 25 * robot.lambdas - robot.moveCount
-        RobotStatus.ABORTED -> 50 * robot.lambdas - robot.moveCount
-        RobotStatus.WON -> 75 * robot.lambdas - robot.moveCount
+        RobotStatus.LIVE -> 25 * robot.collectedLambdas - robot.moveCount
+        RobotStatus.ABORTED -> 50 * robot.collectedLambdas - robot.moveCount
+        RobotStatus.WON -> 75 * robot.collectedLambdas - robot.moveCount
         else -> throw IllegalStateException("Unknown state: ${robot.status}")
     }
 }
