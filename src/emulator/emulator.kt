@@ -14,7 +14,12 @@ import model.Mine
 import evaluator.countScore
 
 fun main(args: Array<String>) {
-    val file = File("mines/default/horock/horock2.map")
+    val pathToMap = if (args.size == 0) {
+        print("Enter path to map: ")
+        System.`in`.reader().buffered().readLine()!!.trim()
+    } else args[0]
+
+    val file = File(pathToMap)
     val initialMine = readMine(file)
     var resMine: Mine = initialMine
     var robot = Robot(initialMine.copy(), 0, 0, RobotStatus.LIVE, 10)
