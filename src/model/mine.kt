@@ -4,6 +4,8 @@ import java.util.HashMap
 import util._assert
 import sun.net.www.content.audio.x_aiff
 import java.util.Set
+import java.util.Collection
+import com.sun.org.apache.bcel.internal.generic.PopInstruction
 
 public val validCells: Set<MineCell> = hashSet(
         MineCell.ROBOT,
@@ -193,6 +195,18 @@ public class Mine(private val matrix: CellMatrix) {
 //        result.waterproof = waterproof
 //        result.lambdaCount = lambdaCount
 
+        return result
+    }
+
+    public fun getPointsOfType(mineCell: MineCell): Collection<Point> {
+        val result = arrayList<Point>()
+        for (y in 0..height - 1) {
+            for (x in 0..width - 1) {
+                if (this[x, y] == mineCell) {
+                    result.add(Point(x, y))
+                }
+            }
+        }
         return result
     }
 }
