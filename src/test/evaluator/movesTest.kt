@@ -220,4 +220,8 @@ class MovesTest : UsefulTestCase() {
     fun testMultipleTrampolines() {
         doTest()
     }
+
+    fun testHorockBecomesLambda() {
+        doTest()
+    }
 }

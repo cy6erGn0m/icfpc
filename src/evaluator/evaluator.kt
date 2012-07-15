@@ -10,6 +10,7 @@ import model.MineCell.WALL
 import model.MineCell.LAMBDA
 import model.MineCell.OPEN_LIFT
 import model.MineCell.EMPTY
+import model.MineCell.LAMBDA_ROCK
 import util._assert
 import model.DeltaCellMatrix
 import model.ArrayCellMatrix
@@ -63,13 +64,13 @@ fun mapUpdateAt(cur: Mine, x: Int, y: Int, res: Mine) {
         atRock && bottomCell == EMPTY
         -> {
             res[x, y] = EMPTY
-            res[x, y - 1] = curCell
+            rockFalls(cur, res, x, y - 1, curCell)
         }
 
         rockOverRock && canSlideRight
         -> {
             res[x, y] = EMPTY
-            res[x + 1, y - 1] = curCell
+            rockFalls(cur, res, x + 1, y - 1, curCell)
         }
 
         rockOverRock && canSlideLeft
@@ -77,7 +78,7 @@ fun mapUpdateAt(cur: Mine, x: Int, y: Int, res: Mine) {
         -> {
             _assert(!canSlideRight, "when is not working")
             res[x, y] = EMPTY
-            res[x - 1, y - 1] = curCell
+            rockFalls(cur, res, x - 1, y - 1, curCell)
         }
 
         atRock
@@ -85,7 +86,7 @@ fun mapUpdateAt(cur: Mine, x: Int, y: Int, res: Mine) {
         && canSlideRight
         -> {
             res[x, y] = EMPTY
-            res[x + 1, y - 1] = curCell
+            rockFalls(cur, res, x + 1, y - 1, curCell)
         }
 
         curCell == CLOSED_LIFT
@@ -97,5 +98,13 @@ fun mapUpdateAt(cur: Mine, x: Int, y: Int, res: Mine) {
         else -> {
             res[x, y] = curCell
         }
+    }
+}
+
+fun rockFalls(cur: Mine, res: Mine, whereX: Int, whereY: Int, rockType: MineCell) {
+    if (rockType == LAMBDA_ROCK && cur[whereX, whereY - 1] != EMPTY) {
+        res[whereX, whereY] = LAMBDA
+    } else {
+        res[whereX, whereY] = rockType
     }
 }
