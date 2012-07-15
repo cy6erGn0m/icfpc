@@ -1,0 +1,33 @@
+RRRRRRRRRRRRLLLLLLLLLLUUUURRRRRRRRLLLLLLDULLLUUURRRRRRLLLLLLLLLRLLLLRRLLULLLDULLLLLLLDDDDDD
+#################
+#A       .@@@@@@#
+#  ..    #*...*1#
+#  .##########*##
+#  ..@   \\\\#* #
+#  ..#   #####*.#
+#   .#####    * #
+#LR .......   . #
+#################
+
+Water 0
+Flooding 10
+Waterproof 10
+Trampoline A targets 1
+
+-END MINE
+734
+WON
+#################
+#               #
+#   .    #*     #
+#   ########## ##
+#            #  #
+#  . #   #####*.#
+#    #####    * #
+#O           ***#
+#################
+
+Water 9
+Flooding 10/9
+Waterproof 10
+-END MINE

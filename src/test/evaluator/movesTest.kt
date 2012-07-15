@@ -254,4 +254,12 @@ class MovesTest : UsefulTestCase() {
     fun testBeard1RockFallsIntoGrowingBeardLowerRightCorner() {
         doTest()
     }
+
+    fun testHorock2JustAbort() {
+        doTest()
+    }
+
+    fun testHorock2win() {
+        doTest()
+    }
 }

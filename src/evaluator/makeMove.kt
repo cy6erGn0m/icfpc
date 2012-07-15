@@ -26,7 +26,7 @@ val validTargetCells = arrayList(MineCell.EMPTY, MineCell.EARTH, MineCell.LAMBDA
 
 fun makeMove(move: Move, robot: Robot, update: (Mine) -> Mine): Robot {
     if (robot.status != RobotStatus.LIVE) {
-        throw IllegalArgumentException("Only live robots can move")
+        throw IllegalArgumentException("Only live robots can move: robot is ${robot.status}")
     }
     if (move == Move.ABORT) {
         return Robot(robot.mine, robot.moveCount, robot.collectedLambdas, RobotStatus.ABORTED, -1)

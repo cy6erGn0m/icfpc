@@ -17,7 +17,7 @@ fun main(args: Array<String>) {
     val file = File("mines/default/horock/horock2.map")
     val initialMine = readMine(file)
     var resMine: Mine = initialMine
-    var robot = Robot(initialMine, 0, 0, RobotStatus.LIVE, 10)
+    var robot = Robot(initialMine.copy(), 0, 0, RobotStatus.LIVE, 10)
     println(initialMine.serialize())
     val path = StringBuilder()
     while (true) {
