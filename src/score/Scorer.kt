@@ -12,7 +12,7 @@ abstract class Scorer {
     open fun initialize(mine: Mine) {}
 }
 
-class OwnLambdasScorer: Scorer() {
+class CollectedLambdasScorer: Scorer() {
     override fun score(state: RobotState): Double {
         var ans = 50 * state.robot.collectedLambdas - state.robot.moveCount
         if (state.robot.status == RobotStatus.WON) {

@@ -12,6 +12,7 @@ import util.Logger
 import evaluator.makeMove
 import model.Move
 import model.RobotStatus
+import score.CollectedLambdasScorer
 
 val logger = Logger("test_log")
 
@@ -23,7 +24,7 @@ class SolverTest : TestCase() {
     }
 
     fun doTest(filename: String): RobotState {
-        val solver = Solver(readMine(FileInputStream(filename)))
+        val solver = Solver(readMine(FileInputStream(filename)), CollectedLambdasScorer())
 
         val startTime = System.nanoTime()
         solver.start()
