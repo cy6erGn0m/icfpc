@@ -9,6 +9,7 @@ import model.MineCell.CLOSED_LIFT
 import model.MineCell.EARTH
 import model.MineCell.WALL
 import model.MineCell.LAMBDA
+import model.MineCell.LAMBDA_ROCK
 import model.MineCell.OPEN_LIFT
 import model.MineCell.EMPTY
 import model.MineCell.INVALID
@@ -53,10 +54,10 @@ fun makeMove(move: Move, robot: Robot, update: (Mine) -> Mine): Robot {
         OPEN_LIFT -> {
             resultingStatus = RobotStatus.WON
         }
-        ROCK -> {
+        ROCK, LAMBDA_ROCK -> {
             if (move == Move.LEFT || move == Move.RIGHT) {
                 _assert(robot.y == newPos.y, "Move to the side only")
-                oldMine.tryMoveRock(rockX = newPos.x, rockY = robot.y, left = (move == Move.LEFT))
+                oldMine.tryMoveRock(rockX = newPos.x, rockY = robot.y, left = (move == Move.LEFT), rockType = oldMine[newPos])
             }
         }
         else -> throw IllegalStateException("Unknown cell: ${oldMine[newPos]}")
@@ -89,8 +90,8 @@ fun isDead(robot: Robot, newMine: Mine, newOxygen: Int): Boolean {
 
 fun isRobotSmashedByRock(oldMine: Mine, newMine: Mine): Boolean {
     val aboveNewRobotPos = newMine.robotPos.above()
-    val isRockAbove = newMine[aboveNewRobotPos] == ROCK
-    val wasRockAbove = oldMine[aboveNewRobotPos] == ROCK
+    val isRockAbove = newMine[aboveNewRobotPos].isRock()
+    val wasRockAbove = oldMine[aboveNewRobotPos].isRock()
     return isRockAbove && !wasRockAbove
 }
 

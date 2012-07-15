@@ -188,10 +188,11 @@ public class Mine(private val matrix: CellMatrix, public val trampolinesMap: Tra
         }
     }
 
-    public fun tryMoveRock(rockX: Int, rockY: Int, left: Boolean) {
+    public fun tryMoveRock(rockX: Int, rockY: Int, left: Boolean, rockType: MineCell) {
+        _assert(rockType.isRock())
         val behindTheRockX = rockX + (if (left) -1 else 1)
         if (matrix[behindTheRockX, rockY] == MineCell.EMPTY) {
-            matrix[behindTheRockX, rockY] = MineCell.ROCK
+            matrix[behindTheRockX, rockY] = rockType
             matrix[rockX, rockY] = MineCell.EMPTY
         }
     }
