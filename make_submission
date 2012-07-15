@@ -1,6 +1,8 @@
 rm submission/kotlin.zip
 rm icfp-95007384.tgz
-zip -0r -0r submission/kotlin.zip src mines/ lib/
+rm -rf submission/src
+mkdir submission/src
+zip -0r -0r submission/src/kotlin.zip src mines/ lib/
 cp out/artifacts/icfpc_jar/*.jar submission
 cd submission
 tar czf ../icfp-95007384.tgz *

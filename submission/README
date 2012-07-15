@@ -1,8 +1,14 @@
 Kotlin Team:
 
-Andrey Breslav
-Evgeny Gerashchenko
-Svetlana Isakova
-Alexander Udalov
-Pavel Talanov
-Natalia Ukhorskaya
+* Andrey Breslav
+* Evgeny Gerashchenko
+* Svetlana Isakova
+* Nikolay Krasko
+* Pavel Talanov
+* Alexander Udalov
+* Natalia Ukhorskaya
+
+We are working on a new JVM/JS-targeted language named Kotlin (http://kotlin.jetbrains.org),
+and our submission uses the JVM version of this language. It's been a lot of fun, thanks!
+
+Project source code is included into the submission, also available at http://github.com/abreslav/icfpc
