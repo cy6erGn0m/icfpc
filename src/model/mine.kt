@@ -15,7 +15,10 @@ public val validCells: Set<MineCell> = hashSet(
         MineCell.WALL,
         MineCell.LAMBDA,
         MineCell.OPEN_LIFT,
-        MineCell.EMPTY
+        MineCell.EMPTY,
+        MineCell.TRAMPOLINE,
+        MineCell.TARGET
+
 )
 
 val allCells: Set<MineCell> = run {
