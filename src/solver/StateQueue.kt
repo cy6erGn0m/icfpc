@@ -12,23 +12,12 @@ class StateQueue {
         visited.add(RobotHash.calculate(state.robot))
     }
 
-    fun pop(): RobotState {
-        return queue.poll()!!
-    }
+    fun pop() = queue.poll()!!
+    fun peek() = queue.peekFirst()!!
+    fun isEmpty() = queue.isEmpty()
 
-    fun peek(): RobotState {
-        return queue.peekFirst()!!
-    }
+    fun clearQueue() = queue.clear()
 
-    fun isEmpty(): Boolean {
-        return queue.isEmpty()
-    }
-
-    fun clearQueue() {
-        queue.clear()
-    }
-
-    fun containsSimilar(state: RobotState): Boolean {
-        return visited.contains(RobotHash.calculate(state.robot))
-    }
+    fun containsSimilar(state: RobotState) =
+        visited.contains(RobotHash.calculate(state.robot))
 }
