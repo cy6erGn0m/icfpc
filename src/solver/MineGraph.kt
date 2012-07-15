@@ -66,6 +66,15 @@ private class PathSearchQueue(val initialCapacity: Int = 10) {
 }
 
 
+fun edgeCost(begin: MineCell, end: MineCell): Int {
+    var ans = 1
+    if (begin.isRock())
+        ans += ROCK_COST
+    if (end.isRock())
+        ans += ROCK_COST
+    return ans
+}
+
 class MineGraph(val mine: Mine) {
     val vertices = PointSet()
     val edges = PointMap<List<Edge>>();
@@ -87,15 +96,6 @@ class MineGraph(val mine: Mine) {
     }
 
     private fun isPassable(cell: MineCell) = cell.isPassable() || cell.isRock() || cell == MineCell.ROBOT
-
-    private fun edgeCost(begin: MineCell, end: MineCell): Int {
-        var ans = 1
-        if (begin.isRock())
-            ans += ROCK_COST
-        if (end.isRock())
-            ans += ROCK_COST
-        return ans
-    }
 
     private fun getNeighbors(point: Point): List<Edge> {
         val neighbors = ArrayList<Edge>(4) // average number of edges from any vertex
