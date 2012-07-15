@@ -19,6 +19,7 @@ import model.MineCell
 import evaluator.mineUpdateWithFullCopy
 import score.Scorer
 import model.Point
+import evaluator.countScore
 
 public val solverUpdate: (Mine) -> Mine = {m -> mineUpdateWithFullCopy(m)}
 
@@ -42,8 +43,12 @@ public class Solver(val initialMine: Mine, val scorer: Scorer) {
 
 
     fun updateAnswer(state: RobotState) {
-        if (answer == null || state.score > answer!!.score) {
-            answer = state
+        var newState = state
+        if (state.robot.status == RobotStatus.LIVE) {
+            newState = makeMove(state, Move.ABORT)
+        }
+        if (answer == null || countScore(newState.robot) > countScore(answer!!.robot)) {
+            answer = newState
         }
     }
 
