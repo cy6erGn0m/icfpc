@@ -274,4 +274,12 @@ class MovesTest : UsefulTestCase() {
     fun testBeard2LongRouteSuffocated() {
         doTest()
     }
+
+    fun testPickUpRazor() {
+        doTest()
+    }
+
+    fun testPickUpRazorAndUseItImmediately() {
+        doTest()
+    }
 }
