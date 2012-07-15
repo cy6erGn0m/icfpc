@@ -65,14 +65,25 @@ fun makeMove(move: Move, robot: Robot, update: (Mine) -> Mine): Robot {
     if (resultingStatus == RobotStatus.WON) {
         return Robot(newMine, newMoveCount, lambdas, RobotStatus.WON, -1, true)
     }
-    val isRockAbove = newMine[newX, newY + 1] == ROCK
-    val wasRockAbove = oldMine[newX, newY + 1] == ROCK
+    var isDead = false
+    if (isRobotSmashedByRock(robot.mine, newMine)) {
+        isDead = true
+    }
     val newOxygen = if (newY <= oldMine.water) robot.oxygen - 1 else oldMine.waterproof
-    val severelySmashedByRock = isRockAbove && !wasRockAbove
-    if (severelySmashedByRock || newOxygen < 0) {
+    if (newOxygen < 0) {
+        isDead = true
+    }
+    if (isDead) {
         return Robot(newMine, newMoveCount, lambdas, RobotStatus.DEAD, -1)
     }
     return Robot(newMine, newMoveCount, lambdas, RobotStatus.LIVE, newOxygen)
+}
+
+fun isRobotSmashedByRock(oldMine: Mine, newMine: Mine): Boolean {
+    val aboveNewRobotPos = newMine.robotPos.above()
+    val isRockAbove = newMine[aboveNewRobotPos] == ROCK
+    val wasRockAbove = oldMine[aboveNewRobotPos] == ROCK
+    return isRockAbove && !wasRockAbove
 }
 
 fun countScore(robot: Robot): Int {

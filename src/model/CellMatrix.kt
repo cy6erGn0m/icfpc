@@ -22,6 +22,10 @@ class Point(val x: Int, val y: Int) {
         return x + 13 * y;
     }
 
+    public fun above(): Point {
+        return Point(x, y + 1)
+    }
+
     public fun toString(): String {
         return "($x, $y)"
     }

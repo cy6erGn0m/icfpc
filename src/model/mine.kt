@@ -129,12 +129,17 @@ public class Mine(private val matrix: CellMatrix, public val trampolinesMap: Tra
             $robotY = v
         }
 
+    public val robotPos: Point
+        get() = Point(robotX, robotY)
+
     public fun get(x: Int, y: Int): MineCell {
         if (!inRange(x, y)) {
             return MineCell.INVALID
         }
         return matrix[x, y]
     }
+
+    public fun get(pos: Point): MineCell = get(pos.x, pos.y)
 
     public fun set(x: Int, y: Int, v: MineCell) {
         if (!inRange(x, y)) {
