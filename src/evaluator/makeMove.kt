@@ -52,7 +52,7 @@ fun makeMove(move: Move, robot: Robot, update: (Mine) -> Mine): Robot {
         ROCK -> {
             if (move == Move.LEFT || move == Move.RIGHT) {
                 _assert(robot.y == newY, "Move to the side only")
-               oldMine.tryMoveRock(rockX = newX, rockY = robot.y, left = (move == Move.LEFT))
+                oldMine.tryMoveRock(rockX = newX, rockY = robot.y, left = (move == Move.LEFT))
             }
         }
         else -> throw IllegalStateException("Unknown cell: ${oldMine[newX, newY]}")
@@ -65,18 +65,22 @@ fun makeMove(move: Move, robot: Robot, update: (Mine) -> Mine): Robot {
     if (resultingStatus == RobotStatus.WON) {
         return Robot(newMine, newMoveCount, lambdas, RobotStatus.WON, -1, true)
     }
+    val newOxygen = if (newY <= oldMine.water) robot.oxygen - 1 else oldMine.waterproof
+    if (isDead(robot, newMine, newOxygen)) {
+        return Robot(newMine, newMoveCount, lambdas, RobotStatus.DEAD, -1)
+    }
+    return Robot(newMine, newMoveCount, lambdas, RobotStatus.LIVE, newOxygen)
+}
+
+fun isDead(robot: Robot, newMine: Mine, newOxygen: Int): Boolean {
     var isDead = false
     if (isRobotSmashedByRock(robot.mine, newMine)) {
         isDead = true
     }
-    val newOxygen = if (newY <= oldMine.water) robot.oxygen - 1 else oldMine.waterproof
     if (newOxygen < 0) {
         isDead = true
     }
-    if (isDead) {
-        return Robot(newMine, newMoveCount, lambdas, RobotStatus.DEAD, -1)
-    }
-    return Robot(newMine, newMoveCount, lambdas, RobotStatus.LIVE, newOxygen)
+    return isDead
 }
 
 fun isRobotSmashedByRock(oldMine: Mine, newMine: Mine): Boolean {
