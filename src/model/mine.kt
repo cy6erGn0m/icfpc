@@ -59,7 +59,12 @@ public fun Char.toMineCell(): MineCell {
     return cell
 }
 
-public fun Mine(width: Int, height: Int): Mine = Mine(ArrayCellMatrix(width, height))
+val trackedCells: (Int) -> Boolean = {
+    i ->
+    i == MineCell.LAMBDA.index
+}
+
+public fun Mine(width: Int, height: Int): Mine = Mine(ArrayCellMatrix(width, height, trackedCells))
 
 public class Mine(private val matrix: CellMatrix) {
 

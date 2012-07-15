@@ -2,6 +2,11 @@ package model
 
 import java.util.Map
 import java.util.HashMap
+import util._assert
+import java.util.List
+import java.util.Collection
+import java.util.HashSet
+import util.DumbSet
 
 class Point(val x: Int, val y: Int) {
     public fun equals(other: Any?): Boolean {
@@ -20,24 +25,72 @@ class Point(val x: Int, val y: Int) {
     }
 }
 
-public abstract class CellMatrix(val width: Int, val height: Int) {
+public abstract class CellMatrix(
+        val width: Int,
+        val height: Int,
+        val cellIndicesToTrack: (Int) -> Boolean
+) {
+
     public abstract fun get(x: Int, y: Int): MineCell
-    public abstract fun set(x: Int, y: Int, v: MineCell)
+    public abstract fun positions(cell: MineCell): Collection<Point>
+    protected abstract fun replace(x: Int, y: Int, oldValue: MineCell, newValue: MineCell)
+
+    public fun set(x: Int, y: Int, v: MineCell) {
+        val oldValue = get(x, y)
+        replace(x, y, oldValue, v)
+    }
 }
 
-public class ArrayCellMatrix(width: Int, height: Int) : CellMatrix(width, height) {
-    private val map: Array<MineCell> = Array(width * height) { MineCell.INVALID }
+public abstract class AbstractCellMatrix(
+        width: Int, height: Int,
+        cellIndicesToTrack: (Int) -> Boolean
+    ) : CellMatrix(width, height, cellIndicesToTrack) {
+
+    private val positions = Array(allCells.size) {
+        cellIndex ->
+        if (cellIndicesToTrack(cellIndex)) {
+            HashSet<Point>()
+        }
+        else {
+            DumbSet
+        }
+    }
+
+    protected final override fun replace(x: Int, y: Int, oldValue: MineCell, newValue: MineCell) {
+        val p = Point(x, y)
+        positions[oldValue.index].remove(p)
+        positions[newValue.index].add(p)
+        doSet(x, y, newValue)
+    }
+
+    protected abstract fun doSet(x: Int, y: Int, newValue: MineCell)
+
+    public override fun positions(cell: MineCell): Collection<Point> {
+        _assert(cellIndicesToTrack(cell.index), "Not tracked: $cell")
+        return positions[cell.index]
+    }
+}
+
+public class ArrayCellMatrix(
+        width: Int, height: Int,
+        cellIndicesToTrack: (Int) -> Boolean
+    ) : AbstractCellMatrix(width, height, cellIndicesToTrack) {
+
+    private val map = Array<MineCell>(width * height) { MineCell.INVALID }
 
     public override fun get(x: Int, y: Int): MineCell {
         return map[x + y * width]
     }
 
-    public override fun set(x: Int, y: Int, v: MineCell) {
-        map[x + y * width] = v
+    protected override fun doSet(x: Int, y: Int, newValue: MineCell) {
+        map[x + y * width] = newValue
     }
 }
 
-public class DeltaCellMatrix internal(private val baseline: CellMatrix) : CellMatrix(baseline.width, baseline.height) {
+public class DeltaCellMatrix internal(
+        private val baseline: CellMatrix
+    ) : AbstractCellMatrix(baseline.width, baseline.height, baseline.cellIndicesToTrack) {
+
     class object {
         fun create(baseline: CellMatrix): DeltaCellMatrix {
             if (baseline is DeltaCellMatrix) {
@@ -63,7 +116,7 @@ public class DeltaCellMatrix internal(private val baseline: CellMatrix) : CellMa
         return value
     }
 
-    public override fun set(x: Int, y: Int, v: MineCell) {
+    protected override fun doSet(x: Int, y: Int, v: MineCell) {
         if (this[x, y] != v) {
 //            println("($x, $y) [${this[x, y]}]= $v")
             map[Point(x, y)] = v

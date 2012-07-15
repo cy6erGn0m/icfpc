@@ -18,7 +18,7 @@ import model.CellMatrix
 fun mineUpdateWithFullCopy(mine: Mine): Mine {
     return mineUpdate(mine) {
         matrix ->
-        ArrayCellMatrix(matrix.width, matrix.height)
+        ArrayCellMatrix(matrix.width, matrix.height, matrix.cellIndicesToTrack)
     }
 }
 

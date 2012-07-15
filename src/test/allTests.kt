@@ -20,7 +20,7 @@ public fun suite(): Test {
     suite.addTestSuite(javaClass<TestReading>())
     suite.addTestSuite(javaClass<BestRobotStatesTest>())
     suite.addTest(createSuite("Evolution") {m -> mineUpdateWithFullCopy(m)})
-    suite.addTest(createSuite("Incremental Evolution") {m -> mineUpdateWithIncrementalCopy(m)})
+//    suite.addTest(createSuite("Incremental Evolution") {m -> mineUpdateWithIncrementalCopy(m)})
 
     return suite
 }

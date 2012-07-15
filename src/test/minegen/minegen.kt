@@ -117,7 +117,7 @@ class MineGenerator(private val seed: Long = 1234567) {
         val effectiveW = pieceW * widthInPieces + 2 // for the border of walls
         val effectiveH = pieceH * heightInPieces + 2
 
-        val matrix = ArrayCellMatrix(effectiveW, effectiveH)
+        val matrix = ArrayCellMatrix(effectiveW, effectiveH, {false}) // todo
         for (x in 0..effectiveW - 1) {
             matrix[x, 0] = MineCell.WALL
             matrix[x, effectiveH - 1] = MineCell.WALL
@@ -149,7 +149,7 @@ class MineGenerator(private val seed: Long = 1234567) {
 
 fun main(args: Array<String>) {
     fun piece(cell: MineCell): CellMatrix {
-        val r = ArrayCellMatrix(1, 1)
+        val r = ArrayCellMatrix(1, 1, {false}) //todo
         r[0, 0] = cell
         return r
     }
