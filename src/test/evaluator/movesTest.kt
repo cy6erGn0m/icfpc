@@ -294,4 +294,8 @@ class MovesTest : UsefulTestCase() {
     fun testShavingBeardNotWall() {
         doTest()
     }
+
+    fun testBeard1ShaveAndGrowBeardSimultaneously() {
+        doTest()
+    }
 }
