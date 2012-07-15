@@ -156,7 +156,7 @@ class SolverTest : TestCase() {
         SolverTestData.logger.log("Expected: (${expected.length()}) ${expected} \nActual:   (${path.length()}) ${path}")
         SolverTestData.logger.log("High score: ${highScore} Previous expected score: ${SolverTestData.expectedScores.get(testName)} Current score: ${ourScore}")
 
-        assertTrue(ourExpectedScore <= ourScore, "The actual score is too small, expected at least: ${ourExpectedScore} actual: ${ourScore}")
+        assertTrue(ourExpectedScore <= ourScore, "The actual score is too small, high score: ${highScore} expected at least: ${ourExpectedScore} actual: ${ourScore}")
     }
 }
 

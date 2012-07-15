@@ -43,7 +43,7 @@ class MineGraphTest : TestCase() {
 
     fun testFindPathLengthsToLambda() {
         val graph = createSimpleGraph()
-        val dist = graph.findPathLengthsToLambda(graph.mine.robotPos)
+        val dist = graph.findPathLengthsToLambdaAndOpenLift(graph.mine.robotPos)
         assertEquals(3, dist.size)
         assertTrue(3 in dist)
         assertTrue(5 in dist)
@@ -52,7 +52,7 @@ class MineGraphTest : TestCase() {
 
     fun testMinPathToLambda() {
         val graph = createSimpleGraph()
-        assertEquals(3, graph.findMinPathToLambda(graph.mine.robotPos))
+        assertEquals(3, graph.findMinPathToLambdaOrOpenLift(graph.mine.robotPos))
     }
 
 

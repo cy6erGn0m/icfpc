@@ -126,21 +126,21 @@ class MineGraph(val mine: Mine) {
         return queue.distance
     }
 
-    fun findPathLengthsToLambda(start: Point): List<Int> {
-        val lengths = findPathLengths(start)
+    fun findPathLengthsToLambdaAndOpenLift(start: Point): List<Int> {
+        val dist = findPathLengths(start)
         val answer = ArrayList<Int>()
-        for (entry in lengths) {
-            if (mine[entry.key] == MineCell.LAMBDA) {
+        for (entry in dist) {
+            if (mine[entry.key] == MineCell.LAMBDA || mine[entry.key] == MineCell.OPEN_LIFT) {
                 answer.add(entry.value)
             }
         }
         return answer
     }
 
-    fun findMinPathToLambda(start: Point): Int {
-        val lengths = findPathLengthsToLambda(start)
+    fun findMinPathToLambdaOrOpenLift(start: Point): Int {
+        val dist = findPathLengthsToLambdaAndOpenLift(start)
         var min = Integer.MAX_VALUE
-        for (length in lengths)
+        for (length in dist)
             min = Math.min(min, length)
         return min
     }
