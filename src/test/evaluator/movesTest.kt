@@ -298,4 +298,8 @@ class MovesTest : UsefulTestCase() {
     fun testBeard1ShaveAndGrowBeardSimultaneously() {
         doTest()
     }
+
+    fun testBeard5FromTwitter() {
+        doTest()
+    }
 }
