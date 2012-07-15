@@ -103,6 +103,15 @@ public fun readMine(lines: List<String>): Mine {
                 val targetLocation = idToLocation[targetId]
                 trampolinesMap.addLink(trampolineLocation!!, targetLocation!!)
             }
+            else if (line.startsWith("Growth ")) {
+                val growthInfos = line.trimLeading("Growth ").split('/')
+                _assert(growthInfos.size <= 2, "only one slash is allowed")
+                mine.beardGrowthPeriod = Integer.parseInt(growthInfos[0])
+                mine.nextBeardGrowth = if (growthInfos.size == 2) Integer.parseInt(growthInfos[1]) else mine.beardGrowthPeriod
+            }
+            else if (line.startsWith("Razors ")) {
+                mine.razors = Integer.parseInt(line.trimLeading("Razors "))
+            }
             else {
                 throw IllegalArgumentException("Don't know how to parse line: " + line)
             }

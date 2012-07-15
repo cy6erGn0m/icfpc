@@ -17,7 +17,9 @@ public val validCells: Set<MineCell> = hashSet(
         MineCell.OPEN_LIFT,
         MineCell.EMPTY,
         MineCell.TRAMPOLINE,
-        MineCell.TARGET
+        MineCell.TARGET,
+        MineCell.BEARD,
+        MineCell.RAZOR
 
 )
 
@@ -57,9 +59,11 @@ enum class MineCell(
     LAMBDA: MineCell('\\', 5)
     OPEN_LIFT: MineCell('O', 6)
     EMPTY: MineCell(' ', 7)
+    INVALID: MineCell('?', 8)
     TRAMPOLINE: MineCell('T', 9)
     TARGET: MineCell('t', 10)
-    INVALID: MineCell('?', 8)
+    BEARD: MineCell('W', 11)
+    RAZOR: MineCell('!', 12)
 
     fun isPassable(): Boolean {
         return this == EARTH || this == EMPTY || this == LAMBDA || this == OPEN_LIFT
@@ -97,6 +101,10 @@ public class Mine(private val matrix: CellMatrix, public val trampolinesMap: Tra
     public var floodPeriod: Int = 0
     public var nextFlood: Int = 0
     public var waterproof: Int = 10
+
+    public var beardGrowthPeriod: Int = 25
+    public var nextBeardGrowth: Int = 25
+    public var razors: Int = 0
 
     public val lambdaCount: Int
         get() = matrix.positions(MineCell.LAMBDA).size()
@@ -205,15 +213,21 @@ public class Mine(private val matrix: CellMatrix, public val trampolinesMap: Tra
             sb.append("\n")
         }
 
-        if (!(water == 0 && floodPeriod == 0 && waterproof == 10)) {
+        val waterMetadataPresent = !(water == 0 && floodPeriod == 0 && waterproof == 10)
+        val trampolinesMetadataPresent = !unresolvedTrampolinesToLocations.isEmpty()
+        val beardMetadataPresent = !(beardGrowthPeriod == 25 && razors == 0)
+
+        if (waterMetadataPresent || trampolinesMetadataPresent || beardMetadataPresent) {
             sb.append("\n")
+        }
+
+        if (waterMetadataPresent) {
             sb.append("Water ${water + 1}\n")
             sb.append("Flooding $floodPeriod${ if (floodPeriod != nextFlood) "/" + nextFlood else "" }\n")
             sb.append("Waterproof $waterproof\n")
         }
 
-        if (!unresolvedTrampolinesToLocations.isEmpty()) {
-            sb.append("\n")
+        if (trampolinesMetadataPresent) {
             for (trampolineId in 'A'..'I') {
                 val trampolineLocation = unresolvedTrampolinesToLocations[trampolineId]
                 if (trampolineLocation == null) continue
@@ -222,6 +236,12 @@ public class Mine(private val matrix: CellMatrix, public val trampolinesMap: Tra
                 sb.append("Trampoline $trampolineId targets $targetId\n")
             }
         }
+
+        if (beardMetadataPresent) {
+            sb.append("Growth $beardGrowthPeriod${ if (beardGrowthPeriod != nextBeardGrowth) "/" + nextBeardGrowth else "" }\n")
+            sb.append("Razors $razors\n")
+        }
+
         return sb.toString()!!
     }
 
@@ -236,6 +256,9 @@ public class Mine(private val matrix: CellMatrix, public val trampolinesMap: Tra
         copy.floodPeriod = floodPeriod
         copy.nextFlood = nextFlood
         copy.waterproof = waterproof
+        copy.beardGrowthPeriod = beardGrowthPeriod
+        copy.nextBeardGrowth = nextBeardGrowth
+        copy.razors = razors
         return copy
     }
 
