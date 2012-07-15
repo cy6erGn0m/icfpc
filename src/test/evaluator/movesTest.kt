@@ -310,4 +310,8 @@ class MovesTest : UsefulTestCase() {
     fun testShavingOnTheEdge() {
         doTest()
     }
+
+    fun testTeleportsIntoWater() {
+        doTest()
+    }
 }
