@@ -69,9 +69,9 @@ private class PathSearchQueue(val initialCapacity: Int = 10) {
 fun edgeCost(begin: MineCell, end: MineCell): Int {
     var ans = 1
     if (begin.isRock())
-        ans += ROCK_COST
+        ans += MineGraph.ROCK_COST
     if (end.isRock())
-        ans += ROCK_COST
+        ans += MineGraph.ROCK_COST
     return ans
 }
 
