@@ -1,9 +1,12 @@
 package model
 
-import java.util.Map
+import java.util.ArrayList
 import java.util.HashMap
 import java.util.List
-import java.util.ArrayList
+import java.util.Map
+
+val Char.isTrampolineId: Boolean get() = this in 'A'..'I'
+val Char.isTargetId: Boolean get() = this in '0'..'9'
 
 public class TrampolinesMap() {
     private val trampolineToTarget: Map<Point, Point> = HashMap<Point, Point>()
@@ -54,13 +57,13 @@ public class TrampolinesMap() {
         for (locationAndId in locationToId) {
             val location = locationAndId.getKey()
             val id = locationAndId.getValue()
-            if (id in TRAMPOLINE_IDS) {
-                if (location !in trampolineToTarget.keySet()) {
+            if (id.isTrampolineId) {
+                if (!(location in trampolineToTarget.keySet())) {
                     throw IllegalStateException("No target for trampoline $id")
                 }
             }
-            else if (id in TARGET_IDS) {
-                if (location !in targetToTrampoline.keySet()) {
+            else if (id.isTargetId) {
+                if (!(location in targetToTrampoline.keySet())) {
                     throw IllegalStateException("No trampoline for target $id")
                 }
             }

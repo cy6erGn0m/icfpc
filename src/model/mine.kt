@@ -27,9 +27,6 @@ val charToState: java.util.Map<Char, MineCell> = run {
     map
 }
 
-val TRAMPOLINE_IDS = 'A'..'I'
-val TARGET_IDS = '0'..'9'
-
 enum class MineCell(
         private val representation: Char,
         public val index: Int
@@ -170,17 +167,42 @@ public class Mine(private val matrix: CellMatrix, public val trampolinesMap: Tra
 
     public fun toString(): String {
         val sb = StringBuilder()
-        for (y in 0..height - 1) {
+        var unresolvedTrampolinesToLocations = HashMap<Char, Point>()
+        for (yy in 0..height - 1) {
+            val y = height - yy - 1
             for (x in 0..width - 1) {
-                sb.append(this[x, height - y - 1])
+                val cell = this[x, y]
+                if (cell == MineCell.TRAMPOLINE || cell == MineCell.TARGET) {
+                    val location = Point(x, y)
+                    val id = trampolinesMap.getId(location)
+                    if (cell == MineCell.TRAMPOLINE) {
+                        unresolvedTrampolinesToLocations[id] = location
+                    }
+                    sb.append(id)
+                }
+                else {
+                    sb.append(cell)
+                }
             }
             sb.append("\n")
         }
+
         if (!(water == 0 && floodPeriod == 0 && waterproof == 10)) {
             sb.append("\n")
             sb.append("Water ${water + 1}\n")
             sb.append("Flooding $floodPeriod${ if (floodPeriod != nextFlood) "/" + nextFlood else "" }\n")
             sb.append("Waterproof $waterproof\n")
+        }
+
+        if (!unresolvedTrampolinesToLocations.isEmpty()) {
+            sb.append("\n")
+            for (trampolineId in 'A'..'I') {
+                val trampolineLocation = unresolvedTrampolinesToLocations[trampolineId]
+                if (trampolineLocation == null) continue
+                val targetLocation = trampolinesMap.getTarget(trampolineLocation)
+                val targetId = trampolinesMap.getId(targetLocation)
+                sb.append("Trampoline $trampolineId targets $targetId\n")
+            }
         }
         return sb.toString()!!
     }

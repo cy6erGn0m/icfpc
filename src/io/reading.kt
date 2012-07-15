@@ -1,14 +1,12 @@
 package io
 
-import java.io.InputStream
-import java.util.List
-import model.Mine
-import model.MineCell
-import model.toMineCell
-import util._assert
-import java.io.FileInputStream
 import java.io.File
-import model.TrampolinesMap
+import java.io.FileInputStream
+import java.io.InputStream
+import java.util.HashMap
+import java.util.List
+import model.*
+import util._assert
 
 public fun readMine(input: InputStream): Mine {
     return readMine(streamToLines(input))
@@ -36,14 +34,18 @@ private fun textToLines(text: String): List<String> {
     return lines
 }
 
+private val validMetadataKeywords = hashSet("Water", "Flooding", "Waterproof", "Trampoline", "Growth", "Razors")
+
 private fun findSeparatorLine(lines: List<String>) : Int {
-    val lastBlankLine = lines.indexOf("")
+    val lastBlankLine = lines.lastIndexOf("")
     if (lastBlankLine == -1) {
         return -1
     }
     else {
         for (i in lastBlankLine + 1 .. lines.size() - 1) {
-            if (!lines[i].matches("\\w+\\s+[0-9/]+\\s*")) {
+            val line = lines[i]
+            val space = line.substring(0, Math.min(15, line.length)).indexOf(" ")
+            if (!(line[0].isUpperCase() && space != -1 && validMetadataKeywords.contains(line.substring(0, space)))) {
                 return -1
             }
         }
@@ -58,11 +60,24 @@ public fun readMine(lines: List<String>): Mine {
     val lengths: List<Int> = lines.map { it -> it.length }
     val width = lengths.fold(0, { x, y -> Math.max(x, y) })
 
-    val mine = Mine(width, height, TrampolinesMap())
+    val trampolinesMap = TrampolinesMap()
+    val idToLocation = HashMap<Char, Point>()
+    val mine = Mine(width, height, trampolinesMap)
     for (y in 0..(height - 1)) {
         val line = lines[height - y - 1]
         for (x in 0..(width - 1)) {
-            mine[x, y] = if (x < line.length()) line[x].toMineCell() else MineCell.EMPTY
+            if (x < line.length()) {
+                val c = line[x]
+                val point = Point(x, y)
+                if (c.isTrampolineId || c.isTargetId) {
+                    idToLocation[c] = point
+                    trampolinesMap.addId(c, point)
+                    mine[x, y] = if (c.isTrampolineId) MineCell.TRAMPOLINE else MineCell.TARGET
+                } else {
+                    mine[x, y] = c.toMineCell()
+                }
+            }
+            else mine[x, y] = MineCell.EMPTY
         }
     }
 
@@ -81,11 +96,20 @@ public fun readMine(lines: List<String>): Mine {
             else if (line.startsWith("Waterproof ")) {
                 mine.waterproof = Integer.parseInt(line.trimLeading("Waterproof "))
             }
+            else if (line.startsWith("Trampoline ")) {
+                val trampolineId = line.trimLeading("Trampoline ")[0]
+                val targetId = line.trimLeading("Trampoline $trampolineId targets ")[0]
+                val trampolineLocation = idToLocation[trampolineId]
+                val targetLocation = idToLocation[targetId]
+                trampolinesMap.addLink(trampolineLocation!!, targetLocation!!)
+            }
             else {
                 throw IllegalArgumentException("Don't know how to parse line: " + line)
             }
         }
     }
+
+    trampolinesMap.checkForOrphanTrampolinesAndTargets()
 
     return mine
 }
