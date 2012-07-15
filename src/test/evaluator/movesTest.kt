@@ -216,4 +216,8 @@ class MovesTest : UsefulTestCase() {
     fun testTrampoline1StealAllLambdasAndTheirWomen() {
         doTest()
     }
+
+    fun testMultipleTrampolines() {
+        doTest()
+    }
 }

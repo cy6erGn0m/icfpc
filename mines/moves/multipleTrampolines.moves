@@ -1,0 +1,29 @@
+DLL
+############
+#D.*.R..*..#
+#3.A....B..######
+#E...2.. ..#\\\C#
+#F.....* *.#\\\1#
+########L########
+
+Trampoline A targets 1
+Trampoline B targets 1
+Trampoline C targets 2
+Trampoline D targets 3
+Trampoline E targets 3
+Trampoline F targets 3
+-END MINE
+-3
+LIVE
+############
+#D. . .. ..#
+#3.*  ..*..######
+#E...2.. ..#\\\C#
+#F.....* *.#\\\R#
+########L########
+
+Trampoline C targets 2
+Trampoline D targets 3
+Trampoline E targets 3
+Trampoline F targets 3
+-END MINE
