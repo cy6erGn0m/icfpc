@@ -23,21 +23,24 @@ val allCells = validCells + MineCell.INVALID
 val charToState: java.util.Map<Char, MineCell> = run {
     val map = HashMap<Char, MineCell>()
     for (cs in validCells) {
-        map[cs.representation] = cs
+        map[cs.toChar()] = cs
     }
     map
 }
 
-enum class MineCell(val representation: Char) {
-    ROBOT: MineCell('R')
-    ROCK: MineCell('*')
-    CLOSED_LIFT: MineCell('L')
-    EARTH: MineCell('.')
-    WALL: MineCell('#')
-    LAMBDA: MineCell('\\')
-    OPEN_LIFT: MineCell('O')
-    EMPTY: MineCell(' ')
-    INVALID: MineCell('!')
+enum class MineCell(
+        private val representation: Char,
+        public val index: Int
+) {
+    ROBOT: MineCell('R', 0)
+    ROCK: MineCell('*', 1)
+    CLOSED_LIFT: MineCell('L', 2)
+    EARTH: MineCell('.', 3)
+    WALL: MineCell('#', 4)
+    LAMBDA: MineCell('\\', 5)
+    OPEN_LIFT: MineCell('O', 6)
+    EMPTY: MineCell(' ', 7)
+    INVALID: MineCell('!', 8)
 
     fun isPassable(): Boolean {
         return this == EARTH || this == EMPTY || this == LAMBDA || this == OPEN_LIFT;
