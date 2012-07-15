@@ -255,6 +255,10 @@ class MovesTest : UsefulTestCase() {
         doTest()
     }
 
+    fun testBeard3RobotPushesRockIntoBeardToAnnihilate() {
+        doTest()
+    }
+    
     fun testHorock2JustAbort() {
         doTest()
     }
