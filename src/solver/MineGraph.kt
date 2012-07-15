@@ -9,6 +9,7 @@ import model.MineCell
 import java.util.HashSet
 import java.util.LinkedList
 import util._assert
+import java.util.AbstractQueue
 
 private class Edge(
         val begin: Point,
@@ -38,6 +39,22 @@ private val DY = array(0, 1, 0, -1)
 //TODO make more efficient
 class PointSet : HashSet<Point>()
 class PointMap<T> : HashMap<Point, T>()
+
+private class PathSearchQueue {
+    val queue = LinkedList<Point>()
+    val distance = PointMap<Int>()
+
+    fun push(point: Point, dist: Int) {
+        queue.offer(point)
+        distance[point] = dist
+    }
+
+    fun pop() = queue.poll()!!
+    fun isEmpty() = queue.isEmpty()
+    fun isVisited(point: Point) = distance[point] != null
+    fun distanceTo(point: Point) = distance[point]!!
+}
+
 
 class MineGraph(val mine: Mine) {
     val vertices = PointSet()
@@ -70,26 +87,23 @@ class MineGraph(val mine: Mine) {
     }
 
     fun findPathLengths(start: Point): PointMap<Int> {
-        val queue = LinkedList<Point>()
-        val distance = PointMap<Int>()
-        queue.add(start)
-        distance[start] = 0
+        val queue = PathSearchQueue()
+        queue.push(start, 0)
 
         while (!queue.isEmpty()) {
-            val vertex = queue.poll()!!
-            _assert(isPassable(mine[vertex]))
-            _assert(edges[vertex] != null)
-            val newDistance = distance[vertex]!! + 1
+            val vertex = queue.pop()
+            // _assert(isPassable(mine[vertex]))
+            // _assert(edges[vertex] != null)
+            val newDistance = queue.distanceTo(vertex) + 1
             for (edge in edges[vertex]) {
-                if (distance[edge.end] == null) {
-                    distance[edge.end] = newDistance
-                    queue.offer(edge.end)
+                if (!queue.isVisited(edge.end)) {
+                    queue.push(edge.end, newDistance)
                 }
                 2 + 2
             }
         }
 
-        return distance
+        return queue.distance
     }
 
     fun findPathLengthsToLambda(start: Point): List<Int> {
