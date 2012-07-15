@@ -1,5 +1,7 @@
 package evaluator
 
+import model.ArrayCellMatrix
+import model.CellMatrix
 import model.Mine
 import model.MineCell
 import model.MineCell.ROBOT
@@ -11,10 +13,8 @@ import model.MineCell.LAMBDA
 import model.MineCell.OPEN_LIFT
 import model.MineCell.EMPTY
 import model.MineCell.LAMBDA_ROCK
+import model.MineCell.BEARD
 import util._assert
-import model.DeltaCellMatrix
-import model.ArrayCellMatrix
-import model.CellMatrix
 
 fun mineUpdateWithFullCopy(mine: Mine): Mine {
     return mineUpdate(mine) {
@@ -31,6 +31,7 @@ fun mineUpdate(mine: Mine, copyMatrix: (CellMatrix) -> CellMatrix): Mine {
         }
     }
     updateFlood(mine, r)
+    updateBeard(mine, r)
     return r
 }
 
@@ -47,6 +48,12 @@ fun updateFlood(mine: Mine, r: Mine) {
     }
 }
 
+fun updateBeard(mine: Mine, r: Mine) {
+    r.beardGrowthPeriod = mine.beardGrowthPeriod
+    r.nextBeardGrowth = if (mine.nextBeardGrowth == 1) mine.beardGrowthPeriod else mine.nextBeardGrowth - 1
+    r.razors = mine.razors
+}
+
 fun mapUpdateAt(cur: Mine, x: Int, y: Int, res: Mine) {
     val curCell = cur[x, y]
     val bottomCell = cur[x, y - 1]
@@ -59,6 +66,12 @@ fun mapUpdateAt(cur: Mine, x: Int, y: Int, res: Mine) {
     val rockOverRock = atRock && bottomCell.isRock()
     val canSlideRight = rightCell == EMPTY && bottomRightCell == EMPTY
     val canSlideLeft = leftCell == EMPTY && bottomLeftCell == EMPTY
+
+    fun growBeard(x: Int, y: Int) {
+        if (cur[x, y] == EMPTY) {
+            res[x, y] = BEARD
+        }
+    }
 
     when {
         atRock && bottomCell == EMPTY
@@ -95,8 +108,26 @@ fun mapUpdateAt(cur: Mine, x: Int, y: Int, res: Mine) {
             res[x, y] = OPEN_LIFT
         }
 
+        curCell == BEARD
+            && cur.nextBeardGrowth == 1
+        -> {
+            growBeard(x - 1, y - 1)
+            growBeard(x - 1, y)
+            growBeard(x - 1, y + 1)
+
+            growBeard(x, y - 1)
+            res[x, y] = BEARD
+            growBeard(x, y + 1)
+
+            growBeard(x + 1, y - 1)
+            growBeard(x + 1, y)
+            growBeard(x + 1, y + 1)
+        }
+
         else -> {
-            res[x, y] = curCell
+            if (res[x, y] != BEARD) {
+                res[x, y] = curCell
+            }
         }
     }
 }

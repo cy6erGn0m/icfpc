@@ -1,5 +1,7 @@
 package evaluator
 
+import model.Mine
+import model.MineCell
 import model.Move
 import model.Robot
 import model.MineCell
@@ -15,10 +17,9 @@ import model.MineCell.EMPTY
 import model.MineCell.INVALID
 import model.MineCell.TARGET
 import model.MineCell.TRAMPOLINE
+import model.MineCell.BEARD
 import model.RobotStatus
 import util._assert
-import model.Mine
-
 
 val validTargetCells = arrayList(MineCell.EMPTY, MineCell.EARTH, MineCell.LAMBDA, MineCell.OPEN_LIFT)
 
