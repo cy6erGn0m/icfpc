@@ -28,7 +28,7 @@ import java.util.TimerTask
 
 
 object SolverTestData {
-    val updateExpectedResults = true
+    val updateExpectedResults = false
 
     val testScores = LinkedHashMap<String, Int>()
 
@@ -63,6 +63,10 @@ class SolverTest : TestCase() {
         doTest("mines/default/trampoline/trampoline${n}.map", "trampoline${n}", expected, highScore, ourExpectedScore)
     }
 
+    fun doHorockTest(n: Int, expected: String, highScore: Int, ourExpectedScore: Int) {
+        doTest("mines/default/horock/horock${n}.map", "horock${n}", expected, highScore, ourExpectedScore)
+    }
+
     fun doRandomTest() {
         doTest("mines/random/mine199_100x100.map", "mine199_100x100", "", 0, 3000)
     }
@@ -91,6 +95,10 @@ class SolverTest : TestCase() {
     fun testTrampoline1() = doTrampolineTest(1, "DLLLLLURR", 426, 280)
     fun testTrampoline2() = doTrampolineTest(2, "", 1742, 1730)
     fun testTrampoline3() = doTrampolineTest(3, "RRRLLDDDDDDDLDDRRRRDRRRRRRUUUUURRRRRRUUWRRDDRRRRRRRRRRRA", 5477, 940)
+
+    fun testHorock1() = doHorockTest(1, "", 758, 450) //!!! find exit
+    fun testHorock2() = doHorockTest(2, "", 747, 230)
+//    fun testHorock3() = doHorockTest(3, "", 2406, 2406)
 
 //    fun testRandom199() = doRandomTest()
 
