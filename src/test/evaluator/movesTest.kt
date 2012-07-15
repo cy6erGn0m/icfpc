@@ -224,4 +224,12 @@ class MovesTest : UsefulTestCase() {
     fun testHorockBecomesLambda() {
         doTest()
     }
+
+    fun testHorocksBecomeLambdasWhenSlide() {
+        doTest()
+    }
+
+    fun testHorocksCollide() {
+        doTest()
+    }
 }
