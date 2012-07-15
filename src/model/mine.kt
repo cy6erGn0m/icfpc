@@ -19,7 +19,8 @@ public val validCells: Set<MineCell> = hashSet(
         MineCell.TRAMPOLINE,
         MineCell.TARGET,
         MineCell.BEARD,
-        MineCell.RAZOR
+        MineCell.RAZOR,
+        MineCell.LAMBDA_ROCK
 
 )
 
@@ -64,6 +65,7 @@ enum class MineCell(
     TARGET: MineCell('t', 10)
     BEARD: MineCell('W', 11)
     RAZOR: MineCell('!', 12)
+    LAMBDA_ROCK: MineCell('@', 13)
 
     fun isPassable(): Boolean {
         return this == EARTH || this == EMPTY || this == LAMBDA || this == OPEN_LIFT || this == TRAMPOLINE
