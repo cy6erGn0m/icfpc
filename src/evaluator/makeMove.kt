@@ -46,7 +46,7 @@ fun makeMove(move: Move, robot: Robot, update: (Mine) -> Mine): Robot {
             oldMine[target] = EMPTY
             newPos = target
         }
-        WALL, CLOSED_LIFT, INVALID, TRAMPOLINE, EARTH, EMPTY, ROBOT -> {
+        WALL, CLOSED_LIFT, INVALID, TARGET, EARTH, EMPTY, ROBOT -> {
             //nothing to do here
         }
         LAMBDA -> {
