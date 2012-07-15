@@ -86,8 +86,8 @@ public abstract class AbstractCellMatrixWithStupidCellTracking(
     public override fun positions(cell: MineCell): Collection<Point> {
         _assert(cellIndicesToTrack(cell.index), "Not tracked: $cell")
         val list = ArrayList<Point>()
-        for (x in 0..width - 1)
-            for (y in 0..height - 1)
+        for (y in 0..height - 1)
+            for (x in 0..width - 1)
                 if (this[x, y] == cell) {
                     list.add(Point(x, y))
                 }
