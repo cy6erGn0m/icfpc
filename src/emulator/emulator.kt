@@ -14,11 +14,11 @@ import model.Mine
 import evaluator.countScore
 
 fun main(args: Array<String>) {
-    val file = File("mines/emulator/map.map")
-    val mine = readMine(file)
-    var resMine: Mine = mine
-    var robot = Robot(mine, 0, 0, RobotStatus.LIVE, 10)
-    println(mine.serialize())
+    val file = File("mines/default/horock/horock2.map")
+    val initialMine = readMine(file)
+    var resMine: Mine = initialMine
+    var robot = Robot(initialMine, 0, 0, RobotStatus.LIVE, 10)
+    println(initialMine.serialize())
     val path = StringBuilder()
     while (true) {
         print("> ")
@@ -32,6 +32,18 @@ fun main(args: Array<String>) {
         for (move in moves) {
             robot = makeMove(move, robot, solverUpdate)
             if (robot.status != RobotStatus.LIVE) {
+                println(
+                        """
+TEST
+$path
+${initialMine.serialize()}
+-END MINE
+${countScore(robot)}
+${robot.status}
+${resMine.serialize()}
+-END MINE
+END TEST
+""")
                 println(resMine.serialize())
                 println("Robot is ${robot.status}")
                 println("Score: ${countScore(robot)}")
