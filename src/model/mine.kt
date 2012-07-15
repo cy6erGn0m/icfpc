@@ -59,7 +59,7 @@ enum class MineCell(
     EMPTY: MineCell(' ', 7)
     TRAMPOLINE: MineCell('T', 9)
     TARGET: MineCell('t', 10)
-    INVALID: MineCell('!', 8)
+    INVALID: MineCell('?', 8)
 
     fun isPassable(): Boolean {
         return this == EARTH || this == EMPTY || this == LAMBDA || this == OPEN_LIFT
