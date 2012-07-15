@@ -19,7 +19,7 @@ public class TestReading : TestCase() {
                 input.close()
                 totalFiles++
                 try {
-                    assertSameLines(f.toString()!!, f.readText(), mine.toString())
+                    assertSameLines(f.toString()!!, f.readText(), mine.serialize())
                 } catch (e : ComparisonFailure) {
                     ex = e
                     errorFiles++

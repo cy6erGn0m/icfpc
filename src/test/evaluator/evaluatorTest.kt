@@ -1,10 +1,10 @@
 package evaluator
 
-import model.Mine
-import java.io.FileInputStream
 import io.readMine
+import io.serialize
+import java.io.FileInputStream
+import model.Mine
 import org.junit.Assert.assertEquals
-import junit.framework.TestCase
 import testUtil.UsefulTestCase
 
 class EvaluatorTest : UsefulTestCase() {
@@ -17,7 +17,7 @@ class EvaluatorTest : UsefulTestCase() {
         val input = loadMine(inFile)
         val expected = loadMine(outFile)
         val actual = mineUpdateWithFullCopy(input)
-        assertEquals(expected.toString(), actual.toString())
+        assertEquals(expected.serialize(), actual.serialize())
     }
 
     private fun doEvaluatorTest() {

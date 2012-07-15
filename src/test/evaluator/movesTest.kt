@@ -15,6 +15,7 @@ import junit.framework.TestCase
 import model.Robot
 import testUtil.UsefulTestCase
 import solver.solverUpdate
+import io.serialize
 
 class MovesTest : UsefulTestCase() {
 
@@ -78,7 +79,7 @@ class MovesTest : UsefulTestCase() {
         assertEquals(expected, actual)
     }
 
-    fun makeString(score: Int, status: RobotStatus, mine: Mine) = "" + score + "\n" + status + "\n" + mine
+    fun makeString(score: Int, status: RobotStatus, mine: Mine) = "" + score + "\n" + status + "\n" + mine.serialize()
 
     fun testSimple() {
         doTest()

@@ -5,7 +5,7 @@ import model.Point
 import model.MineCell
 import model.Mine
 
-public fun Mine.toString() : String {
+public fun Mine.serialize() : String {
     val sb = StringBuilder()
     var unresolvedTrampolinesToLocations = HashMap<Char, Point>()
     for (yy in 0..height - 1) {

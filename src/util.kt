@@ -1,11 +1,11 @@
 package util
 
+import io.serialize
 import java.io.PrintWriter
-import java.io.FileWriter
-import solver.StateQueue
-import solver.RobotState
 import model.Move
 import solver.RobotHash
+import solver.RobotState
+import solver.StateQueue
 
 fun _assert(c: Boolean, message: String) {
     if (!c) {
@@ -59,6 +59,6 @@ class Logger(val fileName: String) {
         log("status: ${newState.robot.status}")
         log("move: ${move.repr}")
         log("hash: ${RobotHash.calculate(newState.robot)}")
-        log(newState.robot.mine.toString())
+        log(newState.robot.mine.serialize())
     }
 }

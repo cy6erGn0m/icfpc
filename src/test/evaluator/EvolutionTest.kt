@@ -13,6 +13,7 @@ import junit.framework.Test
 import junit.framework.TestSuite
 import evaluator.mineUpdate
 import evaluator.mineUpdateWithFullCopy
+import io.serialize
 
 val END_MINE = "-END MINE"
 val ROOT_DIR = File("mines")
@@ -47,7 +48,7 @@ public fun createSuite(name: String, update: (Mine) -> Mine): Test {
 }
 
 fun evolution(mine: Mine, update: (Mine) -> Mine): String {
-    val result = StringBuilder(mine.toString())
+    val result = StringBuilder(mine.serialize())
     result.append(END_MINE + "\n")
     var current = mine
     while (true) {
@@ -55,7 +56,7 @@ fun evolution(mine: Mine, update: (Mine) -> Mine): String {
         if (new equalsTo current) {
             break;
         }
-        result.append(new)
+        result.append(new.serialize())
         result.append(END_MINE + "\n")
         current = new
     }

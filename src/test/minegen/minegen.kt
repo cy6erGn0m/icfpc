@@ -14,6 +14,7 @@ import model.count
 import model.contains
 import java.io.File
 import model.TrampolinesMap
+import io.serialize
 
 val DEBUG = false
 
@@ -176,7 +177,7 @@ fun main(args: Array<String>) {
             val matrix = mineGenerator.generateMineMatrix(littlePieces, N, N)
             if (matrix != null) {
                 val file = File("mines/random/mine${k}_${N}x${N}.map")
-                file.writeText(Mine(matrix, TrampolinesMap()).toString())
+                file.writeText(Mine(matrix, TrampolinesMap()).serialize())
                 println("Done: $file")
                 i++
                 k++
