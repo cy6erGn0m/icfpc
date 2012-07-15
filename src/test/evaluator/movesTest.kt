@@ -286,4 +286,12 @@ class MovesTest : UsefulTestCase() {
     fun testCantShaveWithoutRazor() {
         doTest()
     }
+
+    fun testShavingAllCellsAround() {
+        doTest()
+    }
+
+    fun testShavingBeardNotWall() {
+        doTest()
+    }
 }
