@@ -18,6 +18,7 @@ import util.Logger
 import model.MineCell
 import evaluator.mineUpdateWithFullCopy
 import score.Scorer
+import model.Point
 
 public val solverUpdate: (Mine) -> Mine = {m -> mineUpdateWithFullCopy(m)}
 
@@ -29,7 +30,7 @@ public class Solver(val initialMine: Mine, val scorer: Scorer) {
     private val logger = Logger("process_log")
 
     public var answer: RobotState? = null
-    public var needToTerminateFlag: Boolean = false
+    public volatile var needToTerminateFlag: Boolean = false
 
     fun makeMove(state: RobotState, move: Move): RobotState {
         val robot = state.robot
