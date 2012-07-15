@@ -28,7 +28,7 @@ private val DEPTH = 10
 
 public class Solver(val initialMine: Mine, val scorer: Scorer) {
     private val workerThread = Thread.currentThread()!!;
-    private val logger = Logger("process_log")
+    private val logger = Logger("process_log", false)
 
     public var answer: RobotState? = null
     private volatile var needToTerminateFlag: Boolean = false

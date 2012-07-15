@@ -37,10 +37,11 @@ fun String.trimTrailingSpaces() : String {
     return ""
 }
 
-class Logger(val fileName: String) {
+class Logger(val fileName: String, val isActive: Boolean = true) {
     val logFile = PrintWriter(fileName)
 
     fun log(s: String) {
+        if (!isActive) return
         logFile.println(s)
         flush()
     }
