@@ -92,4 +92,8 @@ class EvaluatorTest : UsefulTestCase() {
     fun testWaterFloodsLevelIncreases() {
         doEvaluatorTest()
     }
+
+    fun testLambdaRockBehavesLikeARock() {
+        doEvaluatorTest()
+    }
 }
