@@ -22,5 +22,7 @@ object DumbSet : AbstractSet<Point>() {
     public override fun remove(o: Any?): Boolean {
         return false
     }
+
+    public override fun toString(): String = "DumbSet"
 }
 

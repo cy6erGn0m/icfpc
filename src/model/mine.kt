@@ -5,6 +5,7 @@ import java.util.HashMap
 import java.util.Map
 import java.util.Set
 import util._assert
+import java.util.HashSet
 
 public val validCells: Set<MineCell> = hashSet(
         MineCell.ROBOT,
@@ -17,7 +18,11 @@ public val validCells: Set<MineCell> = hashSet(
         MineCell.EMPTY
 )
 
-val allCells = validCells + MineCell.INVALID
+val allCells: Set<MineCell> = run {
+    val r = HashSet(validCells)
+    r.add(MineCell.INVALID)
+    r
+}
 
 val charToState: java.util.Map<Char, MineCell> = run {
     val map = HashMap<Char, MineCell>()
@@ -25,6 +30,16 @@ val charToState: java.util.Map<Char, MineCell> = run {
         map[cs.toChar()] = cs
     }
     map
+}
+
+val indexToCell = run {
+    val r = Array<MineCell>(allCells.size) {
+        i -> MineCell.INVALID
+    }
+    for (c in allCells) {
+        r[c.index] = c
+    }
+    r
 }
 
 enum class MineCell(
