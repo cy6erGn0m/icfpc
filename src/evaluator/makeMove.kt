@@ -28,16 +28,14 @@ fun makeMove(move: Move, robot: Robot, update: (Mine) -> Mine): Robot {
         return Robot(robot.mine, robot.moveCount, robot.collectedLambdas, RobotStatus.ABORTED, -1)
     }
     val oldMine = robot.mine
-    var newX = robot.x + move.deltaX
-    var newY = robot.y + move.deltaY
+    var newPos = move.nextPosition(robot.pos)
     var lambdas = robot.collectedLambdas
     var resultingStatus: RobotStatus = RobotStatus.LIVE
     var shouldMove = true
-    when (oldMine[newX, newY]) {
+    when (oldMine[newPos]) {
         WALL, CLOSED_LIFT, INVALID -> {
             //impassable
-            newX = robot.x
-            newY = robot.y
+            newPos = robot.pos
             shouldMove = false
         }
         EARTH, EMPTY, ROBOT -> {
@@ -51,21 +49,21 @@ fun makeMove(move: Move, robot: Robot, update: (Mine) -> Mine): Robot {
         }
         ROCK -> {
             if (move == Move.LEFT || move == Move.RIGHT) {
-                _assert(robot.y == newY, "Move to the side only")
-                oldMine.tryMoveRock(rockX = newX, rockY = robot.y, left = (move == Move.LEFT))
+                _assert(robot.y == newPos.y, "Move to the side only")
+                oldMine.tryMoveRock(rockX = newPos.x, rockY = robot.y, left = (move == Move.LEFT))
             }
         }
-        else -> throw IllegalStateException("Unknown cell: ${oldMine[newX, newY]}")
+        else -> throw IllegalStateException("Unknown cell: ${oldMine[newPos]}")
     }
     val newMoveCount = robot.moveCount + 1
-    if (oldMine[newX, newY].isPassable() && shouldMove) {
-        oldMine.moveRobot(robot.x, robot.y, newX, newY)
+    if (oldMine[newPos].isPassable() && shouldMove) {
+        oldMine.moveRobot(robot.pos, newPos)
     }
     val newMine = update(oldMine)
     if (resultingStatus == RobotStatus.WON) {
         return Robot(newMine, newMoveCount, lambdas, RobotStatus.WON, -1, true)
     }
-    val newOxygen = if (newY <= oldMine.water) robot.oxygen - 1 else oldMine.waterproof
+    val newOxygen = if (newPos.y <= oldMine.water) robot.oxygen - 1 else oldMine.waterproof
     if (isDead(robot, newMine, newOxygen)) {
         return Robot(newMine, newMoveCount, lambdas, RobotStatus.DEAD, -1)
     }

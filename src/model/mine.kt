@@ -169,20 +169,17 @@ public class Mine(private val matrix: CellMatrix, public val trampolinesMap: Tra
         matrix[x, y] = v
     }
 
-    public fun moveRobot(oldX: Int, oldY: Int, newX: Int, newY: Int) {
-        if (matrix[oldX, oldY] != MineCell.ROBOT) {
-            throw IllegalStateException("No robot at ($oldX, $oldY)")
+    public fun moveRobot(oldPos: Point, newPos: Point) {
+        if (matrix[oldPos.x, oldPos.y] != MineCell.ROBOT) {
+            throw IllegalStateException("No robot at $oldPos")
         }
-        if (!matrix[newX, newY].isPassable()) {
-            throw IllegalStateException("Map is not passable at ($newX, $newY)")
+        if (!matrix[newPos.x, newPos.y].isPassable()) {
+            throw IllegalStateException("Map is not passable at $newPos")
         }
-        matrix[oldX, oldY] = MineCell.EMPTY
-//        if (matrix[newX, newY] == MineCell.LAMBDA) {
-//            lambdaCount--
-//        }
+        matrix[oldPos.x, oldPos.y] = MineCell.EMPTY
         //if robot enters lift it just disappears
-        if (matrix[newX, newY] != MineCell.OPEN_LIFT) {
-            matrix[newX, newY] = MineCell.ROBOT
+        if (matrix[newPos.x, newPos.y] != MineCell.OPEN_LIFT) {
+            matrix[newPos.x, newPos.y] = MineCell.ROBOT
         }
     }
 

@@ -6,11 +6,13 @@ public enum class Move(val repr: Char, val deltaX: Int = 0, val deltaY: Int = 0)
     WAIT: Move('W')
     ABORT: Move('A')
     UP: Move('U', 0, 1)
-    DOWN: Move('D', 0 , -1)
+    DOWN: Move('D', 0, -1)
     LEFT: Move('L', -1, 0)
     RIGHT: Move('R', 1, 0)
 
     public fun toString(): String = "${repr}"
+    public fun nextPosition(curPos: Point): Point = if (this != ABORT) Point(curPos.x + deltaX, curPos.y + deltaY)
+                                                    else throw IllegalStateException("Can't call nextPosition for ABORT command")
 }
 
 val possibleMoves = arrayList(
@@ -38,4 +40,7 @@ public class Robot(val mine: Mine, val moveCount: Int, val collectedLambdas: Int
     public fun toString(): String {
         return "Robot[moveCount=${moveCount},collectedLambdas=${collectedLambdas},status=${status},oxygen=${oxygen}]"
     }
+
+    public val pos: Point
+        get() = Point(x, y)
 }
