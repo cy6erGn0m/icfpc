@@ -15,7 +15,7 @@ public enum class Move(val repr: Char, val deltaX: Int = 0, val deltaY: Int = 0)
                                                     else throw IllegalStateException("Can't call nextPosition for ABORT command")
 }
 
-val possibleMoves = arrayList(
+val possibleMoves = array(
         Move.DOWN,
         Move.LEFT,
         Move.RIGHT,
