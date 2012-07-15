@@ -6,7 +6,7 @@ import java.util.List
 import java.util.Map
 
 val Char.isTrampolineId: Boolean get() = this in 'A'..'I'
-val Char.isTargetId: Boolean get() = this in '0'..'9'
+val Char.isTargetId: Boolean get() = this in '1'..'9'
 
 public class TrampolinesMap() {
     private val trampolineToTarget: Map<Point, Point> = HashMap<Point, Point>()

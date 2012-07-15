@@ -84,4 +84,15 @@ class MineGraphTest : TestCase() {
         assertFalse(dist.containsKey(Point(8, 6)))
     }
 
+
+    fun testTrampolineDijkstra() {
+        val graph = MineGraph(readMine(arrayList(
+                """#R.A#1.O#""",
+                """""",
+                """Trampoline A targets 1"""
+        )))
+        val dist = graph.findPathLengths(graph.mine.robotPos)
+        assertEquals(3, dist[Point(6, 0)])
+    }
+
 }

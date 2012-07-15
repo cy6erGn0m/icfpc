@@ -31,10 +31,14 @@ class CollectedLambdasScorer: Scorer() {
         */
         val graph = MineGraph(state.robot.mine)
         var minDist = graph.findMinPathToLambdaOrOpenLift(state.robot.pos)
-        if (graph.mine.getPointsOfType(MineCell.LAMBDA).isEmpty()) {
-            //TODO check that there exists a path to 'O'
+        if (minDist == null) {
+            minDist = 1e9.toInt()
         }
 
-        return 100 * ans.toDouble() - minDist
+        if (graph.mine.shouldOpenLift()) {
+            ans += 1e7
+        }
+
+        return 100 * ans.toDouble() - minDist!!
     }
 }

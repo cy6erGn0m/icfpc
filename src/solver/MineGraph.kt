@@ -75,14 +75,19 @@ fun edgeCost(begin: MineCell, end: MineCell): Int {
     return ans
 }
 
-class MineGraph(val mine: Mine) {
+fun isRoughlyPassable(cell: MineCell) = cell.isPassable() || cell.isRock() || cell == MineCell.ROBOT || cell == MineCell.TARGET
+
+class MineGraph(
+    val mine: Mine,
+    val passableCells: (MineCell) -> Boolean = { cell -> isRoughlyPassable(cell) }
+) {
     val vertices = PointSet()
     val edges = PointMap<List<Edge>>();
 
     {
         val cells = mine.width * mine.height
         for (point in mine) {
-            if (isPassable(mine[point])) {
+            if (isRoughlyPassable(mine[point])) {
                 vertices.add(point)
                 edges[point] = getNeighbors(point)
             }
@@ -95,15 +100,16 @@ class MineGraph(val mine: Mine) {
         val ROCK_COST = 3
     }
 
-    private fun isPassable(cell: MineCell) = cell.isPassable() || cell.isRock() || cell == MineCell.ROBOT
-
     private fun getNeighbors(point: Point): List<Edge> {
         val neighbors = ArrayList<Edge>(4) // average number of edges from any vertex
         for (d in 0..DX.size-1) {
             val newPoint = Point(point.x + DX[d], point.y + DY[d])
-            if (mine[newPoint] != MineCell.INVALID && isPassable(mine[newPoint])) {
+            if (mine[newPoint] != MineCell.INVALID && isRoughlyPassable(mine[newPoint])) {
                 neighbors.add(Edge(point, newPoint, edgeCost(mine[point], mine[newPoint])))
             }
+        }
+        if (mine[point] == MineCell.TRAMPOLINE) {
+            neighbors.add(Edge(point, mine.trampolinesMap.getTarget(point), 0))
         }
         return neighbors
     }
@@ -137,11 +143,11 @@ class MineGraph(val mine: Mine) {
         return answer
     }
 
-    fun findMinPathToLambdaOrOpenLift(start: Point): Int {
+    fun findMinPathToLambdaOrOpenLift(start: Point): Int? {
         val dist = findPathLengthsToLambdaAndOpenLift(start)
-        var min = Integer.MAX_VALUE
+        var min: Int? = null
         for (length in dist)
-            min = Math.min(min, length)
+            min = if (min == null) length else Math.min(min!!, length)
         return min
     }
 }
