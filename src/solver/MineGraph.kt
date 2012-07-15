@@ -10,6 +10,8 @@ import java.util.HashSet
 import java.util.LinkedList
 import util._assert
 import java.util.AbstractQueue
+import java.util.PriorityQueue
+import java.util.Comparator
 
 private class Edge(
         val begin: Point,
@@ -40,13 +42,21 @@ private val DY = array(0, 1, 0, -1)
 class PointSet : HashSet<Point>()
 class PointMap<T> : HashMap<Point, T>()
 
-private class PathSearchQueue {
-    val queue = LinkedList<Point>()
+private class PathSearchQueue(val initialCapacity: Int = 10) {
+    val queue = PriorityQueue<Point>(initialCapacity, object : Comparator<Point> {
+        public override fun compare(o1: Point?, o2: Point?): Int = distanceTo(o1!!) - distanceTo(o2!!)
+        public override fun equals(obj: Any?): Boolean = this === obj
+    })
     val distance = PointMap<Int>()
 
-    fun push(point: Point, dist: Int) {
-        queue.offer(point)
-        distance[point] = dist
+    fun add(point: Point, dist: Int) {
+        val d = distance[point]
+        if (d == null) {
+            distance[point] = dist
+            queue.offer(point)
+        } else if (d > dist) {
+            distance[point] = dist
+        }
     }
 
     fun pop() = queue.poll()!!
@@ -72,14 +82,18 @@ class MineGraph(val mine: Mine) {
         // for (entry in edges) for (e in entry.value) println("${entry.key} -> ${e.end}")
     }
 
+    class object {
+        val ROCK_COST = 3
+    }
+
     private fun isPassable(cell: MineCell) = cell.isPassable() || cell.isRock() || cell == MineCell.ROBOT
 
     private fun edgeCost(begin: MineCell, end: MineCell): Int {
         var ans = 1
         if (begin.isRock())
-            ans += 5
+            ans += ROCK_COST
         if (end.isRock())
-            ans += 5
+            ans += ROCK_COST
         return ans
     }
 
@@ -96,7 +110,7 @@ class MineGraph(val mine: Mine) {
 
     fun findPathLengths(start: Point): PointMap<Int> {
         val queue = PathSearchQueue()
-        queue.push(start, 0)
+        queue.add(start, 0)
 
         while (!queue.isEmpty()) {
             val vertex = queue.pop()
@@ -104,9 +118,7 @@ class MineGraph(val mine: Mine) {
             // _assert(edges[vertex] != null)
             val oldDistance = queue.distanceTo(vertex)
             for (edge in edges[vertex]) {
-                if (!queue.isVisited(edge.end)) {
-                    queue.push(edge.end, oldDistance + edge.length)
-                }
+                queue.add(edge.end, oldDistance + edge.length)
                 2 + 2
             }
         }
