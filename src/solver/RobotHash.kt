@@ -13,7 +13,7 @@ class RobotHash(val hash1: Int, val hash2: Int) {
             for (y in 0..mine.height - 1) {
                 for (x in 0..mine.width - 1) {
                     var cell = mine[x,y]
-                    if (cell == MineCell.EMPTY && (!mine[x - 1,y].isRock()) && (!mine[x + 1,y].isRock()) && (!mine[x,y + 1].isRock())) {
+                    if (cell == MineCell.EMPTY && !(mine[x - 1,y].isRock() || mine[x + 1,y].isRock() || mine[x,y + 1].isRock())) {
                         cell = MineCell.EARTH
                     }
                     hash1 = hash1 * 239 + cell.toChar()

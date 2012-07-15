@@ -9,6 +9,7 @@ import io.readMine
 import model.RobotStatus
 import kotlin.test.assertEquals
 import score.Scorer
+import kotlin.test.assertTrue
 
 class BestRobotStatesTest : TestCase() {
 
@@ -70,6 +71,10 @@ class BestRobotStatesTest : TestCase() {
         for (state in states) {
             s.add(state)
         }
-        assertEquals(hashSet(states[3], states[2], states[0]), s.getBestStates())
+
+        val bestStates = s.getBestStates()
+        assertTrue(bestStates.contains(states[0]))
+        assertTrue(bestStates.contains(states[2]))
+        assertTrue(bestStates.contains(states[3]))
     }
 }
