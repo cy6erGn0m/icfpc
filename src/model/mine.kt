@@ -6,6 +6,7 @@ import java.util.Map
 import java.util.Set
 import util._assert
 import java.util.HashSet
+import io.serialize
 
 public val validCells: Set<MineCell> = hashSet(
         MineCell.ROBOT,
@@ -232,6 +233,10 @@ public class Mine(private val matrix: CellMatrix, public val trampolinesMap: Tra
 
     public fun getPointsOfType(mineCell: MineCell): Collection<Point> {
         return matrix.positions(mineCell)
+    }
+
+    public fun toString(): String {
+        return serialize()
     }
 }
 
