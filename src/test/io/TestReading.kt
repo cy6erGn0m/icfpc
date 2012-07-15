@@ -6,6 +6,8 @@ import junit.framework.ComparisonFailure
 import junit.framework.TestCase
 import kotlin.test.assertTrue
 import testUtil.assertSameLines
+import kotlin.test.assertEquals
+import junit.framework.Assert
 
 public class TestReading : TestCase() {
     public fun testReadAllMines() {
@@ -34,5 +36,33 @@ public class TestReading : TestCase() {
             println("Read $totalFiles files, $errorFiles with errors, last error is the following")
             throw ex!!
         }
+    }
+
+    public fun testReadInNonStandardFormat() {
+        val toRead = """A#1
+###
+
+ $
+
+
+Trampoline   A   targets$1
+         Razors  $7777$$
+
+Water$$$$$$$$$$$$$$$$$1
+$$
+Growth 55
+
+        """.replace("$", "\t")
+        val toCheck = """A#1
+###
+
+Water 1
+Flooding 0
+Waterproof 10
+Trampoline A targets 1
+Growth 55
+Razors 7777
+"""
+        Assert.assertEquals(toCheck, readMine(toRead).serialize())
     }
 }

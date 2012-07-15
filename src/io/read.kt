@@ -50,17 +50,11 @@ private fun findSeparatorLine(lines: List<String>) : Int {
     for (i in 0..lines.size() - 1) {
         val index = lines.size() - i - 1
         val line = lines[index]
-        if (line.isBlankLine()) {
-            // blank line, okay
+        if (line.isBlankLine() || validMetadataKeywords.contains(line.trim().split("\\s")[0])) {
+            // blank line, metadata line, okay
         }
         else {
-            val space = line.substring(0, Math.min(15, line.length)).indexOf(" ")
-            if (line[0].isUpperCase() && space != -1 && validMetadataKeywords.contains(line.substring(0, space))) {
-                // metadata line, okay
-            }
-            else {
-                return if (index == lines.size() - 1) - 1 else index + 1
-            }
+            return if (index == lines.size() - 1) - 1 else index + 1
         }
     }
     return -1
@@ -97,36 +91,40 @@ public fun readMine(lines: List<String>): Mine {
     if (separatorLine != -1) { // have metadata
         for (i in separatorLine + 1..(lines.size() - 1)) {
             val line = lines[i].trim()
-            if (line.startsWith("Water ")) {
-                mine.water = Integer.parseInt(line.trimLeading("Water ")) - 1 // we count from 0
+            if (line.startsWith("Waterproof")) {
+                mine.waterproof = Integer.parseInt(line.trimLeading("Waterproof").trim())
             }
-            else if (line.startsWith("Flooding ")) {
-                val floodInfos = line.trimLeading("Flooding ").split('/')
+            else if (line.startsWith("Water")) {
+                mine.water = Integer.parseInt(line.trimLeading("Water").trim()) - 1 // we count from 0
+            }
+            else if (line.startsWith("Flooding")) {
+                val floodInfos = line.trimLeading("Flooding").trim().split('/')
                 _assert(floodInfos.size <= 2, "only one slash is allowed")
                 mine.floodPeriod = Integer.parseInt(floodInfos[0])
                 mine.nextFlood = if (floodInfos.size == 2) Integer.parseInt(floodInfos[1]) else mine.floodPeriod
             }
-            else if (line.startsWith("Waterproof ")) {
-                mine.waterproof = Integer.parseInt(line.trimLeading("Waterproof "))
-            }
-            else if (line.startsWith("Trampoline ")) {
-                val trampolineId = line.trimLeading("Trampoline ")[0]
-                val targetId = line.trimLeading("Trampoline $trampolineId targets ")[0]
+            else if (line.startsWith("Trampoline")) {
+                val trimmed = line.trimLeading("Trampoline").trim() // e.g., "A targets 1"
+                val trampolineId = trimmed[0]
+                val targetId = trimmed[trimmed.length() - 1]
                 val trampolineLocation = idToLocation[trampolineId]
                 if (trampolineLocation == null) {
                     throw IllegalStateException("Could not find trampoline for id: $trampolineId")
                 }
                 val targetLocation = idToLocation[targetId]
-                trampolinesMap.addLink(trampolineLocation, targetLocation!!)
+                if (targetLocation == null) {
+                    throw IllegalStateException("Could not find target for id: $targetId")
+                }
+                trampolinesMap.addLink(trampolineLocation, targetLocation)
             }
-            else if (line.startsWith("Growth ")) {
-                val growthInfos = line.trimLeading("Growth ").split('/')
+            else if (line.startsWith("Growth")) {
+                val growthInfos = line.trimLeading("Growth").trim().split('/')
                 _assert(growthInfos.size <= 2, "only one slash is allowed")
                 mine.beardGrowthPeriod = Integer.parseInt(growthInfos[0])
                 mine.nextBeardGrowth = if (growthInfos.size == 2) Integer.parseInt(growthInfos[1]) else mine.beardGrowthPeriod
             }
-            else if (line.startsWith("Razors ")) {
-                mine.razors = Integer.parseInt(line.trimLeading("Razors "))
+            else if (line.startsWith("Razors")) {
+                mine.razors = Integer.parseInt(line.trimLeading("Razors").trim())
             }
         }
     }
