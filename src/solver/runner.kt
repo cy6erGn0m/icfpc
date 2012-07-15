@@ -8,7 +8,7 @@ fun main(args: Array<String>) {
 
     Runtime.getRuntime()!!.addShutdownHook(object : Thread() {
         public override fun run() {
-            solver.interruptAndWriteResult()
+            solver.needToTerminateFlag = true
         }
     })
 
