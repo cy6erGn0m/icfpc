@@ -79,7 +79,7 @@ class MovesTest : UsefulTestCase() {
         assertEquals(expected, actual)
     }
 
-    fun makeString(score: Int, status: RobotStatus, mine: Mine) = "" + score + "\n" + status + "\n" + mine.serialize()
+    fun makeString(score: Int, status: RobotStatus, mine: Mine) = "$score\n$status${mine.serialize()}"
 
     fun testSimple() {
         doTest()
