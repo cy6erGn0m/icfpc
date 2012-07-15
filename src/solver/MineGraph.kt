@@ -72,15 +72,23 @@ class MineGraph(val mine: Mine) {
         // for (entry in edges) for (e in entry.value) println("${entry.key} -> ${e.end}")
     }
 
-    private fun isPassable(cell: MineCell): Boolean =
-        cell == MineCell.EARTH || cell == MineCell.EMPTY || cell == MineCell.ROBOT || cell == MineCell.LAMBDA
+    private fun isPassable(cell: MineCell) = cell.isPassable() || cell.isRock() || cell == MineCell.ROBOT
+
+    private fun edgeCost(begin: MineCell, end: MineCell): Int {
+        var ans = 1
+        if (begin.isRock())
+            ans += 5
+        if (end.isRock())
+            ans += 5
+        return ans
+    }
 
     private fun getNeighbors(point: Point): List<Edge> {
         val neighbors = ArrayList<Edge>(4) // average number of edges from any vertex
         for (d in 0..DX.size-1) {
             val newPoint = Point(point.x + DX[d], point.y + DY[d])
             if (mine[newPoint] != MineCell.INVALID && isPassable(mine[newPoint])) {
-                neighbors.add(Edge(point, newPoint, 1))
+                neighbors.add(Edge(point, newPoint, edgeCost(mine[point], mine[newPoint])))
             }
         }
         return neighbors
@@ -94,10 +102,10 @@ class MineGraph(val mine: Mine) {
             val vertex = queue.pop()
             // _assert(isPassable(mine[vertex]))
             // _assert(edges[vertex] != null)
-            val newDistance = queue.distanceTo(vertex) + 1
+            val oldDistance = queue.distanceTo(vertex)
             for (edge in edges[vertex]) {
                 if (!queue.isVisited(edge.end)) {
-                    queue.push(edge.end, newDistance)
+                    queue.push(edge.end, oldDistance + edge.length)
                 }
                 2 + 2
             }
