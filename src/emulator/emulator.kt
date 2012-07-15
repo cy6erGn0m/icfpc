@@ -33,7 +33,12 @@ fun main(args: Array<String>) {
             return
         }
         path.append(line)
-        val moves = readMovesFromString(line)
+        val moves = try {
+            readMovesFromString(line)
+        } catch (e: IllegalArgumentException) {
+            println(e.getMessage())
+            continue
+        }
         for (move in moves) {
             robot = makeMove(move, robot, solverUpdate)
             if (robot.status != RobotStatus.LIVE) {
