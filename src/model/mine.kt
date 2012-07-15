@@ -40,7 +40,7 @@ val charToState: java.util.Map<Char, MineCell> = run {
 
 val indexToCell = run {
     val r = Array<MineCell>(allCells.size) {
-        i -> MineCell.INVALID
+    i -> MineCell.INVALID
     }
     for (c in allCells) {
         r[c.index] = c
@@ -85,9 +85,8 @@ public fun Char.toMineCell(): MineCell {
     return cell
 }
 
-val trackedCells: (Int) -> Boolean = {
-    i ->
-    i == MineCell.LAMBDA.index
+val trackedCells: (Int) -> Boolean = { i ->
+    i == MineCell.LAMBDA.index || i == MineCell.LAMBDA_ROCK.index
 }
 
 public fun Mine(width: Int, height: Int, public val trampolinesMap: TrampolinesMap): Mine
@@ -109,8 +108,9 @@ public class Mine(private val matrix: CellMatrix, public val trampolinesMap: Tra
     public var nextBeardGrowth: Int = 25
     public var razors: Int = 0
 
-    public val lambdaCount: Int
-        get() = matrix.positions(MineCell.LAMBDA).size()
+    fun shouldOpenLift(): Boolean {
+        return matrix.positions(MineCell.LAMBDA).size() + matrix.positions(MineCell.LAMBDA_ROCK).size() == 0
+    }
 
     public var robotX: Int = -1
         get() {
@@ -154,14 +154,14 @@ public class Mine(private val matrix: CellMatrix, public val trampolinesMap: Tra
         val oldValue = matrix[x, y]
         if (oldValue == v) return
 
-//        if (oldValue != MineCell.INVALID) {
-//            // We can write rocks over empties and other rocks
-//            if (v != MineCell.ROCK || oldValue != MineCell.EMPTY && oldValue != MineCell.ROCK) {
-//                throw IllegalArgumentException("The cell was not invalid before write: map[$x, $y] = ${oldValue}. When trying to write '$v'")
-//            }
-//        }
+        //        if (oldValue != MineCell.INVALID) {
+        //            // We can write rocks over empties and other rocks
+        //            if (v != MineCell.ROCK || oldValue != MineCell.EMPTY && oldValue != MineCell.ROCK) {
+        //                throw IllegalArgumentException("The cell was not invalid before write: map[$x, $y] = ${oldValue}. When trying to write '$v'")
+        //            }
+        //        }
         when (v) {
-//            MineCell.LAMBDA -> lambdaCount++
+        //            MineCell.LAMBDA -> lambdaCount++
             MineCell.ROBOT -> {
                 robotX = x
                 robotY = y
@@ -218,14 +218,14 @@ public class Mine(private val matrix: CellMatrix, public val trampolinesMap: Tra
 
     public fun copyMapAsDeltaNoCountersSet(copyMatrix: (CellMatrix) -> CellMatrix): Mine {
         val result = Mine(copyMatrix(matrix), trampolinesMap)
-//        val result = Mine(DeltaCellMatrix.create(matrix))
-//        result.robotX = $robotX
-//        result.robotY = $robotY
-//        result.water = water
-//        result.floodPeriod = floodPeriod
-//        result.nextFlood = nextFlood
-//        result.waterproof = waterproof
-//        result.lambdaCount = lambdaCount
+        //        val result = Mine(DeltaCellMatrix.create(matrix))
+        //        result.robotX = $robotX
+        //        result.robotY = $robotY
+        //        result.water = water
+        //        result.floodPeriod = floodPeriod
+        //        result.nextFlood = nextFlood
+        //        result.waterproof = waterproof
+        //        result.lambdaCount = lambdaCount
 
         return result
     }

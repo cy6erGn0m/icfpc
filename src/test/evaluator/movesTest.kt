@@ -240,4 +240,12 @@ class MovesTest : UsefulTestCase() {
     fun testHorockSlidesAndKills() {
         doTest()
     }
+
+    fun testLiftWontOpenWhileHorocksAreThere() {
+        doTest()
+    }
+
+    fun testLiftOpensWhenWeEatLambdasFromHorock() {
+        doTest()
+    }
 }

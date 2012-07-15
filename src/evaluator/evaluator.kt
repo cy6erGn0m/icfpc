@@ -90,7 +90,7 @@ fun mapUpdateAt(cur: Mine, x: Int, y: Int, res: Mine) {
         }
 
         curCell == CLOSED_LIFT
-        && cur.lambdaCount == 0
+        && cur.shouldOpenLift()
         -> {
             res[x, y] = OPEN_LIFT
         }
