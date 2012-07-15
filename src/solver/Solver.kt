@@ -26,7 +26,7 @@ public val solverUpdate: (Mine) -> Mine = {m -> mineUpdateWithFullCopy(m)}
 private val RESULT_LIMIT = 20
 private val DEPTH = 10
 
-public class Solver(val initialMine: Mine, val scorer: Scorer) {
+public class Solver(val initialMine: Mine, val scorer: Scorer, val highScore: Int? = null) {
     private val workerThread = Thread.currentThread()!!;
     private val logger = Logger("process_log", false)
 
@@ -61,10 +61,11 @@ public class Solver(val initialMine: Mine, val scorer: Scorer) {
             return true
         if (answer == null)
             return false
-        if (answer!!.robot.status == RobotStatus.WON)
-            return true
         if (answer!!.robot.moveCount == answer!!.robot.mine.maxMoveCount)
             return true
+        if (highScore != null && countScore(answer!!.robot) >= highScore) {
+            return true
+        }
         return false
     }
 
@@ -82,6 +83,8 @@ public class Solver(val initialMine: Mine, val scorer: Scorer) {
                 return states
             }
             val robotState = queue.pop()
+
+            if (robotState.robot.status.terminated) continue
 
             for (move in model.possibleMoves) {
                 val newState = makeMove(robotState, move)

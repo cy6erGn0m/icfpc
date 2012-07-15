@@ -129,7 +129,7 @@ class SolverTest : TestCase() {
     }
 
     fun doTest(fileName: String, testName: String, expected: String, highScore: Int, ourExpectedScore: Int) {
-        val solver = Solver(readMine(FileInputStream(fileName)), CollectedLambdasScorer())
+        val solver = Solver(readMine(FileInputStream(fileName)), CollectedLambdasScorer(), highScore)
 
         val timer = Timer()
         timer.schedule(object : TimerTask() {
