@@ -306,4 +306,8 @@ class MovesTest : UsefulTestCase() {
     fun testTrampoline1cantStepOnTargets() {
         doTest()
     }
+
+    fun testShavingOnTheEdge() {
+        doTest()
+    }
 }

@@ -108,4 +108,8 @@ class EvaluatorTest : UsefulTestCase() {
     fun testBeardGrowsQuickly() {
         doEvaluatorTest()
     }
+
+    fun testBeardGrowsOnTheEdge() {
+        doEvaluatorTest()
+    }
 }
