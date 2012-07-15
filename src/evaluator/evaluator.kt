@@ -29,6 +29,11 @@ fun mineUpdate(mine: Mine, copyMatrix: (CellMatrix) -> CellMatrix): Mine {
             mapUpdateAt(mine, x, y, r)
         }
     }
+    updateFlood(mine, r)
+    return r
+}
+
+fun updateFlood(mine: Mine, r: Mine) {
     r.floodPeriod = mine.floodPeriod
     r.waterproof = mine.waterproof
     if (mine.nextFlood == 1) {
@@ -39,7 +44,6 @@ fun mineUpdate(mine: Mine, copyMatrix: (CellMatrix) -> CellMatrix): Mine {
         r.water = mine.water
         r.nextFlood = mine.nextFlood - 1
     }
-    return r
 }
 
 fun mapUpdateAt(cur: Mine, x: Int, y: Int, res: Mine) {
