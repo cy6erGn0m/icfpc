@@ -41,6 +41,7 @@ fun main(args: Array<String>) {
         }
         for (move in moves) {
             robot = makeMove(move, robot, solverUpdate)
+            resMine = robot.mine
             if (robot.status != RobotStatus.LIVE) {
                 println(
                         """
@@ -60,7 +61,6 @@ END TEST
                 println("Path: $path")
                 return
             }
-            resMine = robot.mine
         }
         println(resMine.serialize())
     }
