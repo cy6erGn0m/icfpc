@@ -314,4 +314,12 @@ class MovesTest : UsefulTestCase() {
     fun testTeleportsIntoWater() {
         doTest()
     }
+
+    fun testSmashedByARockOverTarget() {
+        doTest()
+    }
+
+    fun testEscapesRockIntoTrampoline() {
+        doTest()
+    }
 }
