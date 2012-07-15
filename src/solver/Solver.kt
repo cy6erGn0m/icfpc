@@ -30,7 +30,7 @@ public class Solver(val initialMine: Mine, val scorer: Scorer) {
     private val logger = Logger("process_log")
 
     public var answer: RobotState? = null
-    public volatile var needToTerminateFlag: Boolean = false
+    private volatile var needToTerminateFlag: Boolean = false
 
     fun makeMove(state: RobotState, move: Move): RobotState {
         val robot = state.robot
@@ -41,12 +41,14 @@ public class Solver(val initialMine: Mine, val scorer: Scorer) {
     }
 
 
-
-
     fun updateAnswer(state: RobotState) {
         if (answer == null || state.score > answer!!.score) {
             answer = state
         }
+    }
+
+    fun terminate() {
+        needToTerminateFlag = true
     }
 
     fun needToTerminate(): Boolean {
@@ -68,6 +70,12 @@ public class Solver(val initialMine: Mine, val scorer: Scorer) {
         val states = BestRobotStates(resultsLimit)
         val initialMoves = queue.peek().robot.moveCount
         while (!queue.isEmpty()) {
+            if (needToTerminateFlag) {
+                for (state in queue) {
+                    states.add(state)
+                }
+                return states
+            }
             val robotState = queue.pop()
 
             for (move in model.possibleMoves) {

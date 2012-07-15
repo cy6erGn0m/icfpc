@@ -23,6 +23,8 @@ import model.MineCell
 import score.CollectedLambdasScorer
 import java.util.LinkedHashMap
 import java.util.HashMap
+import java.util.Timer
+import java.util.TimerTask
 
 
 object SolverTestData {
@@ -39,6 +41,8 @@ object SolverTestData {
 
     val propertiesFile = "src/test/solver/expectedResults.properties"
     val logger = Logger("test_log")
+
+    val delay = 30000.toLong()
 }
 
 class SolverTest : TestCase() {
@@ -53,6 +57,10 @@ class SolverTest : TestCase() {
 
     fun doFloodTest(n: Int, expected: String, highScore: Int, ourExpectedScore: Int) {
         doTest("mines/default/flood/flood${n}.map", "flood${n}", expected, highScore, ourExpectedScore)
+    }
+
+    fun doRandomTest() {
+        doTest("mines/random/mine199_100x100.map", "mine199_100x100", "", 0, 3000)
     }
 
     fun testUp() = doSolverTest("up", "UU", 73, 73)
@@ -70,6 +78,8 @@ class SolverTest : TestCase() {
     fun testContest9() = doContestTest(9, "", 3093, 1500)
     fun testContest10() = doContestTest(10, "", 3634, 1500)
     fun testFlood2() = doFloodTest(2, "RRRRDLRULURULLLDDLDL", 281, 120)
+
+//    fun testRandom199() = doRandomTest()
 
     fun testProgress() {
         var currentSum = 0
@@ -100,6 +110,12 @@ class SolverTest : TestCase() {
     fun doTest(fileName: String, testName: String, expected: String, highScore: Int, ourExpectedScore: Int) {
         val solver = Solver(readMine(FileInputStream(fileName)), CollectedLambdasScorer())
 
+        val timer = Timer()
+        timer.schedule(object : TimerTask() {
+            public override fun run() {
+                solver.terminate()
+            }
+        }, SolverTestData.delay)
         val startTime = System.nanoTime()
         solver.start()
         val endTime = System.nanoTime()

@@ -9,7 +9,7 @@ fun main(args: Array<String>) {
 
     Runtime.getRuntime()!!.addShutdownHook(object : Thread() {
         public override fun run() {
-            solver.needToTerminateFlag = true
+            solver.terminate()
         }
     })
 
