@@ -270,4 +270,8 @@ class MovesTest : UsefulTestCase() {
     fun testHorock2win() {
         doTest()
     }
+
+    fun testBeard2LongRouteSuffocated() {
+        doTest()
+    }
 }
