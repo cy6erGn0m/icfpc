@@ -203,4 +203,16 @@ class MovesTest : UsefulTestCase() {
     fun testSimpleTrampoline() {
         doTest()
     }
+
+    fun allTrampolinesDisappear() {
+        doTest()
+    }
+
+    fun testTrampoline1EnterTheVault() {
+        doTest()
+    }
+
+    fun testTrampoline1StealAllLambdasAndTheirWomen() {
+        doTest()
+    }
 }
