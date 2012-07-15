@@ -27,7 +27,7 @@ public fun Mine.serialize() : String {
         sb.append("\n")
     }
 
-    val waterMetadataPresent = !(water == 0 && floodPeriod == 0 && waterproof == 10)
+    val waterMetadataPresent = !(water == -1 && floodPeriod == 0 && waterproof == 10)
     val trampolinesMetadataPresent = !unresolvedTrampolinesToLocations.isEmpty()
     val beardMetadataPresent = !(beardGrowthPeriod == 25 && razors == 0)
 
