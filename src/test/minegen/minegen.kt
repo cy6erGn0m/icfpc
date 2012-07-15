@@ -13,6 +13,7 @@ import model.Mine
 import model.count
 import model.contains
 import java.io.File
+import model.TrampolinesMap
 
 val DEBUG = false
 
@@ -84,7 +85,7 @@ class MineGenerator(private val seed: Long = 1234567) {
                 if (DEBUG) {
                     println("===================================")
                     println("Generated:")
-                    println(Mine(matrix))
+                    println(Mine(matrix, TrampolinesMap()))
                     println("No lambdas")
                     println("Closed lifts: $closedLifts")
                     println("!!!!!!!!!!! Rejected")
@@ -98,7 +99,7 @@ class MineGenerator(private val seed: Long = 1234567) {
                 if (DEBUG) {
                     println("===================================")
                     println("Generated:")
-                    println(Mine(matrix))
+                    println(Mine(matrix, TrampolinesMap()))
                     println("$lambdas lambdas")
                     println("Open lifts: $openLifts")
                     println("!!!!!!!!!!! Rejected")
@@ -175,7 +176,7 @@ fun main(args: Array<String>) {
             val matrix = mineGenerator.generateMineMatrix(littlePieces, N, N)
             if (matrix != null) {
                 val file = File("mines/random/mine${k}_${N}x${N}.map")
-                file.writeText(Mine(matrix).toString())
+                file.writeText(Mine(matrix, TrampolinesMap()).toString())
                 println("Done: $file")
                 i++
                 k++

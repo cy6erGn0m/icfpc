@@ -1,11 +1,10 @@
 package model
 
-import java.util.HashMap
-import util._assert
-import sun.net.www.content.audio.x_aiff
-import java.util.Set
 import java.util.Collection
-import com.sun.org.apache.bcel.internal.generic.PopInstruction
+import java.util.HashMap
+import java.util.Map
+import java.util.Set
+import util._assert
 
 public val validCells: Set<MineCell> = hashSet(
         MineCell.ROBOT,
@@ -28,6 +27,9 @@ val charToState: java.util.Map<Char, MineCell> = run {
     map
 }
 
+val TRAMPOLINE_IDS = 'A'..'I'
+val TARGET_IDS = '0'..'9'
+
 enum class MineCell(
         private val representation: Char,
         public val index: Int
@@ -40,6 +42,8 @@ enum class MineCell(
     LAMBDA: MineCell('\\', 5)
     OPEN_LIFT: MineCell('O', 6)
     EMPTY: MineCell(' ', 7)
+    TRAMPOLINE: MineCell('T', 9)
+    TARGET: MineCell('t', 10)
     INVALID: MineCell('!', 8)
 
     fun isPassable(): Boolean {
@@ -64,9 +68,10 @@ val trackedCells: (Int) -> Boolean = {
     i == MineCell.LAMBDA.index
 }
 
-public fun Mine(width: Int, height: Int): Mine = Mine(ArrayCellMatrix(width, height, trackedCells))
+public fun Mine(width: Int, height: Int, public val trampolinesMap: TrampolinesMap): Mine
+        = Mine(ArrayCellMatrix(width, height, trackedCells), trampolinesMap)
 
-public class Mine(private val matrix: CellMatrix) {
+public class Mine(private val matrix: CellMatrix, public val trampolinesMap: TrampolinesMap) {
 
     public val width: Int = matrix.width
     public val height: Int = matrix.height
@@ -179,7 +184,7 @@ public class Mine(private val matrix: CellMatrix) {
     }
 
     public fun copy(): Mine {
-        val copy = Mine(width, height)
+        val copy = Mine(width, height, trampolinesMap)
         for (x in 0..width - 1) {
             for (y in 0..height - 1) {
                 copy[x, y] = this[x, y]
@@ -193,7 +198,7 @@ public class Mine(private val matrix: CellMatrix) {
     }
 
     public fun copyMapAsDeltaNoCountersSet(copyMatrix: (CellMatrix) -> CellMatrix): Mine {
-        val result = Mine(copyMatrix(matrix))
+        val result = Mine(copyMatrix(matrix), trampolinesMap)
 //        val result = Mine(DeltaCellMatrix.create(matrix))
 //        result.robotX = $robotX
 //        result.robotY = $robotY
