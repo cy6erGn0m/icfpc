@@ -8,6 +8,7 @@ import model.toMineCell
 import util._assert
 import java.io.FileInputStream
 import java.io.File
+import model.TrampolinesMap
 
 public fun readMine(input: InputStream): Mine {
     return readMine(streamToLines(input))
@@ -57,7 +58,7 @@ public fun readMine(lines: List<String>): Mine {
     val lengths: List<Int> = lines.map { it -> it.length }
     val width = lengths.fold(0, { x, y -> Math.max(x, y) })
 
-    val mine = Mine(width, height)
+    val mine = Mine(width, height, TrampolinesMap())
     for (y in 0..(height - 1)) {
         val line = lines[height - y - 1]
         for (x in 0..(width - 1)) {
