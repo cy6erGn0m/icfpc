@@ -3,29 +3,37 @@ package solver
 import java.util.List
 import java.util.TreeSet
 import java.util.ArrayList
+import java.util.Comparator
+import java.util.Collection
 
-class BestRobotStates(val scoring: (RobotState) -> Int, val limit: Int) {
-    class RobotStateCandidate(val score: Int, val state: RobotState) : Comparable<RobotStateCandidate> {
-        public override fun compareTo(other: RobotStateCandidate): Int {
-            if (score < other.score) return 1
-            if (score > other.score) return -1
+class BestRobotStates(val limit: Int) {
+    val bestStates = TreeSet<RobotState>(object : Comparator<RobotState> {
+        public override fun equals(obj: Any?): Boolean {
+            return obj == this
+        }
+
+        public override fun compare(r1: RobotState?, r2: RobotState?): Int {
+            val score1 = r1!!.score
+            val score2 = r2!!.score
+            if (score1 < score2) return 1
+            if (score1 > score2) return -1
             return 0
         }
-    }
-    val bestStates = TreeSet<RobotStateCandidate>()
+
+    })
 
     fun add(state: RobotState) {
-        val score = scoring(state)
+        val score = state.score
         if (bestStates.size() > limit && bestStates.last()!!.score >= score) return
-        bestStates.add(RobotStateCandidate(score, state))
+        bestStates.add(state)
         if (bestStates.size > limit) {
             bestStates.pollLast()
         }
     }
 
-    fun getBestStates() : List<RobotState> {
-        return bestStates.map { it.state }
+    fun getBestStates() : Collection<RobotState> {
+        return bestStates
     }
 
-    fun getBestState() = bestStates.first()!!.state
+    fun getBestState() = bestStates.first()!!
 }
