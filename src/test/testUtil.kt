@@ -3,6 +3,9 @@ package testUtil
 import junit.framework.ComparisonFailure
 import junit.framework.TestCase
 import util.trimTrailingSpaces
+import java.util.ArrayList
+import model.Move
+import java.util.List
 
 public fun assertSameLines(message: String, expectedText: String, actualText: String) {
     val expectedLines = expectedText.split('\n')
@@ -17,8 +20,8 @@ public fun assertSameLines(message: String, expectedText: String, actualText: St
     }
 }
 
-public abstract class UsefulTestCase : TestCase() {
-    protected fun getTestName() : String {
+public abstract class UsefulTestCase: TestCase() {
+    protected fun getTestName(): String {
         val name = getName()
         if (name == null) {
             return ""
@@ -26,4 +29,20 @@ public abstract class UsefulTestCase : TestCase() {
         return name.trim("test").decapitalize()
     }
 
+}
+
+public fun readMovesFromString(s: String): List<Move> {
+    val moves = ArrayList<Move>()
+    for (c in s) {
+        moves.add(when(c) {
+            'A' -> Move.ABORT
+            'W' -> Move.WAIT
+            'L' -> Move.LEFT
+            'R' -> Move.RIGHT
+            'U' -> Move.UP
+            'D' -> Move.DOWN
+            else -> throw IllegalArgumentException("Unknown character: $c")
+        })
+    }
+    return moves
 }

@@ -16,6 +16,7 @@ import model.Robot
 import testUtil.UsefulTestCase
 import solver.solverUpdate
 import io.serialize
+import testUtil.readMovesFromString
 
 class MovesTest : UsefulTestCase() {
 
@@ -34,18 +35,7 @@ class MovesTest : UsefulTestCase() {
     fun loadTestData(name: String): TestData {
         val lines = streamToLines(FileInputStream("mines/moves/$name.moves"))
 
-        val moves = ArrayList<Move>()
-        for (c in lines[0]) {
-            moves.add(when(c) {
-                'A' -> Move.ABORT
-                'W' -> Move.WAIT
-                'L' -> Move.LEFT
-                'R' -> Move.RIGHT
-                'U' -> Move.UP
-                'D' -> Move.DOWN
-                else -> throw IllegalArgumentException("Unknown character: $c")
-            })
-        }
+        val moves = readMovesFromString(lines[0])
 
         val startMine = loadMine(lines.subList(1, lines.size()))
         val scoreString =  lines[lines.indexOf("-END MINE") + 1]
@@ -246,6 +236,10 @@ class MovesTest : UsefulTestCase() {
     }
 
     fun testLiftOpensWhenWeEatLambdasFromHorock() {
+        doTest()
+    }
+
+    fun testHorock1Win() {
         doTest()
     }
 }
