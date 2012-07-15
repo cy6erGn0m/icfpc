@@ -12,6 +12,8 @@ import model.MineCell.LAMBDA
 import model.MineCell.OPEN_LIFT
 import model.MineCell.EMPTY
 import model.MineCell.INVALID
+import model.MineCell.TARGET
+import model.MineCell.TRAMPOLINE
 import model.RobotStatus
 import util._assert
 import model.Mine
@@ -33,7 +35,17 @@ fun makeMove(move: Move, robot: Robot, update: (Mine) -> Mine): Robot {
     var resultingStatus: RobotStatus = RobotStatus.LIVE
     var shouldMove = true
     when (oldMine[newPos]) {
-        WALL, CLOSED_LIFT, INVALID -> {
+        TRAMPOLINE -> {
+            val trampolinesMap = robot.mine.trampolinesMap
+            val target = trampolinesMap.getTarget(newPos)
+            for (trampoline in trampolinesMap.getTrampolines(target)) {
+                oldMine[trampoline] = EMPTY
+            }
+            //make it passable
+            oldMine[target] = EMPTY
+            newPos = target
+        }
+        WALL, CLOSED_LIFT, INVALID, TRAMPOLINE -> {
             //impassable
             newPos = robot.pos
             shouldMove = false
@@ -56,7 +68,7 @@ fun makeMove(move: Move, robot: Robot, update: (Mine) -> Mine): Robot {
         else -> throw IllegalStateException("Unknown cell: ${oldMine[newPos]}")
     }
     val newMoveCount = robot.moveCount + 1
-    if (oldMine[newPos].isPassable() && shouldMove) {
+    if ((oldMine[newPos].isPassable()) && shouldMove) {
         oldMine.moveRobot(robot.pos, newPos)
     }
     val newMine = update(oldMine)

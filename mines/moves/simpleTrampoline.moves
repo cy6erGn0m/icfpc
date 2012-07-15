@@ -1,0 +1,19 @@
+D
+###
+#R#
+#A#
+###
+#1#
+###
+
+Trampoline A targets 1
+-END MINE
+-1
+LIVE
+###
+# #
+# #
+###
+#R#
+###
+-END MINE

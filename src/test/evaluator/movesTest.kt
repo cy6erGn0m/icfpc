@@ -199,4 +199,8 @@ class MovesTest : UsefulTestCase() {
     fun testFlood3JumpsFromWaterAndDiesBecauseTooSlow() {
         doTest()
     }
+
+    fun testSimpleTrampoline() {
+        doTest()
+    }
 }

@@ -66,7 +66,7 @@ enum class MineCell(
     RAZOR: MineCell('!', 12)
 
     fun isPassable(): Boolean {
-        return this == EARTH || this == EMPTY || this == LAMBDA || this == OPEN_LIFT
+        return this == EARTH || this == EMPTY || this == LAMBDA || this == OPEN_LIFT || this == TRAMPOLINE
     }
 
     public fun toChar(): Char = representation
@@ -168,6 +168,8 @@ public class Mine(private val matrix: CellMatrix, public val trampolinesMap: Tra
         }
         matrix[x, y] = v
     }
+
+    public fun set(pos: Point, v: MineCell): Unit = set(pos.x, pos.y, v)
 
     public fun moveRobot(oldPos: Point, newPos: Point) {
         if (matrix[oldPos] != MineCell.ROBOT) {

@@ -57,7 +57,7 @@ public fun readMine(lines: List<String>): Mine {
     val separatorLine = findSeparatorLine(lines)
 
     val height = if (separatorLine == -1) lines.size() else separatorLine
-    val lengths: List<Int> = lines.map { it -> it.length }
+    val lengths: List<Int> = lines.subList(0, height).map { it -> it.length }
     val width = lengths.fold(0, { x, y -> Math.max(x, y) })
 
     val trampolinesMap = TrampolinesMap()
@@ -100,8 +100,11 @@ public fun readMine(lines: List<String>): Mine {
                 val trampolineId = line.trimLeading("Trampoline ")[0]
                 val targetId = line.trimLeading("Trampoline $trampolineId targets ")[0]
                 val trampolineLocation = idToLocation[trampolineId]
+                if (trampolineLocation == null) {
+                    throw IllegalStateException("Could not find trampoline for id: $trampolineId")
+                }
                 val targetLocation = idToLocation[targetId]
-                trampolinesMap.addLink(trampolineLocation!!, targetLocation!!)
+                trampolinesMap.addLink(trampolineLocation, targetLocation!!)
             }
             else if (line.startsWith("Growth ")) {
                 val growthInfos = line.trimLeading("Growth ").split('/')
