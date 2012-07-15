@@ -1,0 +1,31 @@
+RRDDDDRRUUUWWWWWWWWWWWWWWWWWUW
+##########
+#**  \\\\#
+#.R..    #
+# \  ..*\#
+#!   ..*!#
+####   # #
+#\\... # L
+#\\.W... #
+#\\.     #
+##########
+
+Growth 15
+Razors 0
+-END MINE
+-30
+LIVE
+##########
+#*   \\\\#
+#.    R  #
+# \  .  \#
+#! * . *!#
+####WW*# #
+#\\.WWW# L
+#\\.W... #
+#\\.WWW  #
+##########
+
+Growth 15
+Razors 0
+-END MINE
