@@ -100,10 +100,10 @@ class SolverTest : TestCase() {
     fun doTest(fileName: String, testName: String, expected: String, highScore: Int, ourExpectedScore: Int) {
         val solver = Solver(readMine(FileInputStream(fileName)), CollectedLambdasScorer())
 
-//        val startTime = System.nanoTime()
+        val startTime = System.nanoTime()
         solver.start()
-//        val endTime = System.nanoTime()
-//        val time = (endTime - startTime) / 1e9
+        val endTime = System.nanoTime()
+        val time = (endTime - startTime) / 1e9
 
         val answer = solver.answer!!
 
@@ -115,7 +115,7 @@ class SolverTest : TestCase() {
         val ourScore = countScore(robot)
 
         SolverTestData.testScores.put(testName, ourScore)
-        SolverTestData.logger.log("\nTest: " + testName)
+        SolverTestData.logger.log("\nTest: ${testName} time: ${time}")
         SolverTestData.logger.log("Expected: (${expected.length()}) ${expected} \nActual:   (${path.length()}) ${path}")
         SolverTestData.logger.log("High score: ${highScore} Previous expected score: ${SolverTestData.expectedScores.get(testName)} Current score: ${ourScore}")
 
