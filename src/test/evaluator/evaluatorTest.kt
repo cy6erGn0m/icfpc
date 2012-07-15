@@ -96,4 +96,16 @@ class EvaluatorTest : UsefulTestCase() {
     fun testLambdaRockBehavesLikeARock() {
         doEvaluatorTest()
     }
+
+    fun testBeardGrowsSimple() {
+        doEvaluatorTest()
+    }
+
+    fun testBeardGrowsAndFills() {
+        doEvaluatorTest()
+    }
+
+    fun testBeardGrowsQuickly() {
+        doEvaluatorTest()
+    }
 }
