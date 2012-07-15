@@ -27,8 +27,8 @@ public fun streamToLines(input: InputStream): List<String> {
 private fun textToLines(text: String): List<String> {
     val lines = text.replace("\r\n", "\n").split('\n').toList()
 
-    // remove last empty lines
-    while (lines[lines.size() - 1].isEmpty()) {
+    // remove last blank lines
+    while (lines[lines.size() - 1].isBlankLine()) {
         lines.remove(lines.size() - 1)
     }
     return lines
@@ -36,21 +36,34 @@ private fun textToLines(text: String): List<String> {
 
 private val validMetadataKeywords = hashSet("Water", "Flooding", "Waterproof", "Trampoline", "Growth", "Razors")
 
-private fun findSeparatorLine(lines: List<String>) : Int {
-    val lastBlankLine = lines.lastIndexOf("")
-    if (lastBlankLine == -1) {
-        return -1
+private fun String.isBlankLine(): Boolean {
+    for (c in this) {
+        if (!Character.isWhitespace(c)) {
+            return false
+        }
     }
-    else {
-        for (i in lastBlankLine + 1 .. lines.size() - 1) {
-            val line = lines[i]
+    return true
+}
+
+private fun findSeparatorLine(lines: List<String>) : Int {
+    // we need to cut all blank and metadata lines from the end
+    for (i in 0..lines.size() - 1) {
+        val index = lines.size() - i - 1
+        val line = lines[index]
+        if (line.isBlankLine()) {
+            // blank line, okay
+        }
+        else {
             val space = line.substring(0, Math.min(15, line.length)).indexOf(" ")
-            if (!(line[0].isUpperCase() && space != -1 && validMetadataKeywords.contains(line.substring(0, space)))) {
-                return -1
+            if (line[0].isUpperCase() && space != -1 && validMetadataKeywords.contains(line.substring(0, space))) {
+                // metadata line, okay
+            }
+            else {
+                return if (index == lines.size() - 1) - 1 else index + 1
             }
         }
     }
-    return lastBlankLine
+    return -1
 }
 
 public fun readMine(lines: List<String>): Mine {
@@ -114,9 +127,6 @@ public fun readMine(lines: List<String>): Mine {
             }
             else if (line.startsWith("Razors ")) {
                 mine.razors = Integer.parseInt(line.trimLeading("Razors "))
-            }
-            else {
-                throw IllegalArgumentException("Don't know how to parse line: " + line)
             }
         }
     }

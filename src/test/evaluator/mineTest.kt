@@ -1,12 +1,10 @@
 package evaluator
 
-import model.Mine
-import java.io.FileInputStream
 import io.readMine
-import org.junit.Assert.assertEquals
 import junit.framework.TestCase
 import model.MineCell
 import model.Point
+import org.junit.Assert.assertEquals
 
 class MineTest : TestCase() {
 
@@ -23,7 +21,7 @@ class MineTest : TestCase() {
 ....#
         """)
         assertEquals(2, robotAtZero.robotX)
-        assertEquals(2, robotAtZero.robotY)
+        assertEquals(1, robotAtZero.robotY)
     }
 
     fun testGetPointsOfType() {
