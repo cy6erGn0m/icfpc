@@ -42,6 +42,7 @@ class Logger(val fileName: String) {
 
     fun log(s: String) {
         logFile.println(s)
+        flush()
     }
 
     fun flush() {
@@ -59,6 +60,5 @@ class Logger(val fileName: String) {
         log("move: ${move.repr}")
         log("hash: ${RobotHash.calculate(newState.robot)}")
         log(newState.robot.mine.toString())
-        flush()
     }
 }

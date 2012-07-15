@@ -75,6 +75,8 @@ public class Mine(private val matrix: CellMatrix, public val trampolinesMap: Tra
 
     public val width: Int = matrix.width
     public val height: Int = matrix.height
+    public val maxMoveCount: Int
+        get() = width * height
 
     public var water: Int = 0
     public var floodPeriod: Int = 0
