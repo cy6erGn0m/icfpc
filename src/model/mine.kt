@@ -43,7 +43,7 @@ enum class MineCell(
     INVALID: MineCell('!', 8)
 
     fun isPassable(): Boolean {
-        return this == EARTH || this == EMPTY || this == LAMBDA || this == OPEN_LIFT;
+        return this == EARTH || this == EMPTY || this == LAMBDA || this == OPEN_LIFT
     }
 
     public fun toChar(): Char = representation
@@ -76,8 +76,8 @@ public class Mine(private val matrix: CellMatrix) {
     public var nextFlood: Int = 0
     public var waterproof: Int = 10
 
-    public var lambdaCount: Int = 0
-        private set
+    public val lambdaCount: Int
+        get() = matrix.positions(MineCell.LAMBDA).size()
 
     public var robotX: Int = -1
         get() {
@@ -123,7 +123,7 @@ public class Mine(private val matrix: CellMatrix) {
 //            }
 //        }
         when (v) {
-            MineCell.LAMBDA -> lambdaCount++
+//            MineCell.LAMBDA -> lambdaCount++
             MineCell.ROBOT -> {
                 robotX = x
                 robotY = y
@@ -142,9 +142,9 @@ public class Mine(private val matrix: CellMatrix) {
             throw IllegalStateException("Map is not passable at ($newX, $newY)")
         }
         matrix[oldX, oldY] = MineCell.EMPTY
-        if (matrix[newX, newY] == MineCell.LAMBDA) {
-            lambdaCount--
-        }
+//        if (matrix[newX, newY] == MineCell.LAMBDA) {
+//            lambdaCount--
+//        }
         //if robot enters lift it just disappears
         if (matrix[newX, newY] != MineCell.OPEN_LIFT) {
             matrix[newX, newY] = MineCell.ROBOT
