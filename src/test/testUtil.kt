@@ -41,6 +41,7 @@ public fun readMovesFromString(s: String): List<Move> {
             'R' -> Move.RIGHT
             'U' -> Move.UP
             'D' -> Move.DOWN
+            'S' -> Move.SHAVE
             else -> throw IllegalArgumentException("Unknown character: $c")
         })
     }

@@ -5,6 +5,7 @@ import java.util.Arrays
 public enum class Move(val repr: Char, val deltaX: Int = 0, val deltaY: Int = 0) {
     WAIT: Move('W')
     ABORT: Move('A')
+    SHAVE: Move('S')
     UP: Move('U', 0, 1)
     DOWN: Move('D', 0, -1)
     LEFT: Move('L', -1, 0)
@@ -20,7 +21,8 @@ val possibleMoves = array(
         Move.LEFT,
         Move.RIGHT,
         Move.WAIT,
-        Move.UP
+        Move.UP,
+        Move.SHAVE
 )
 
 public enum class RobotStatus(val terminated: Boolean, val name: String) {

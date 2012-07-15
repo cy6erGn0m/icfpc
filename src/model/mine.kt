@@ -69,7 +69,7 @@ enum class MineCell(
     LAMBDA_ROCK: MineCell('@', 13)
 
     fun isPassable(): Boolean {
-        return this == EARTH || this == EMPTY || this == LAMBDA || this == OPEN_LIFT || this == TRAMPOLINE
+        return this == EARTH || this == EMPTY || this == LAMBDA || this == OPEN_LIFT || this == TRAMPOLINE || this == RAZOR
     }
     public fun isRock(): Boolean = this == ROCK || this == LAMBDA_ROCK
 

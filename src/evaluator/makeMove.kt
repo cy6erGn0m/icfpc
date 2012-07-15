@@ -18,11 +18,31 @@ import model.MineCell.INVALID
 import model.MineCell.TARGET
 import model.MineCell.TRAMPOLINE
 import model.MineCell.BEARD
+import model.MineCell.RAZOR
 import model.RobotStatus
 import util._assert
+import model.Point
 
 val validTargetCells = arrayList(MineCell.EMPTY, MineCell.EARTH, MineCell.LAMBDA, MineCell.OPEN_LIFT)
 
+fun shavePoint(mine: Mine, x: Int, y: Int) {
+    if (mine[x, y] == MineCell.BEARD) {
+        mine[x, y] = MineCell.EMPTY
+    }
+}
+
+fun shaveAround(mine: Mine, point: Point) {
+    shavePoint(mine, point.x - 1, point.y - 1)
+    shavePoint(mine, point.x - 1, point.y)
+    shavePoint(mine, point.x - 1, point.y + 1)
+
+    shavePoint(mine, point.x, point.y - 1)
+    shavePoint(mine, point.x, point.y + 1)
+
+    shavePoint(mine, point.x + 1, point.y - 1)
+    shavePoint(mine, point.x + 1, point.y)
+    shavePoint(mine, point.x + 1, point.y + 1)
+}
 
 fun makeMove(move: Move, robot: Robot, update: (Mine) -> Mine): Robot {
     if (robot.status != RobotStatus.LIVE) {
@@ -32,6 +52,11 @@ fun makeMove(move: Move, robot: Robot, update: (Mine) -> Mine): Robot {
         return Robot(robot.mine, robot.moveCount, robot.collectedLambdas, RobotStatus.ABORTED, -1)
     }
     val oldMine = robot.mine
+    var razors = oldMine.razors
+    if (move == Move.SHAVE) {
+        shaveAround(oldMine, robot.pos)
+        razors--
+    }
     var newPos = move.nextPosition(robot.pos)
     var lambdas = robot.collectedLambdas
     var resultingStatus: RobotStatus = RobotStatus.LIVE
@@ -52,6 +77,9 @@ fun makeMove(move: Move, robot: Robot, update: (Mine) -> Mine): Robot {
         LAMBDA -> {
             lambdas++
         }
+        RAZOR -> {
+            razors++
+        }
         OPEN_LIFT -> {
             resultingStatus = RobotStatus.WON
         }
@@ -68,6 +96,7 @@ fun makeMove(move: Move, robot: Robot, update: (Mine) -> Mine): Robot {
         oldMine.moveRobot(robot.pos, newPos)
     }
     val newMine = update(oldMine)
+    newMine.razors = razors
     if (resultingStatus == RobotStatus.WON) {
         return Robot(newMine, newMoveCount, lambdas, RobotStatus.WON, -1, true)
     }
