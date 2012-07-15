@@ -28,7 +28,7 @@ import java.util.TimerTask
 
 
 object SolverTestData {
-    val updateExpectedResults = false
+    val updateExpectedResults = true
 
     val testScores = LinkedHashMap<String, Int>()
 
@@ -59,6 +59,10 @@ class SolverTest : TestCase() {
         doTest("mines/default/flood/flood${n}.map", "flood${n}", expected, highScore, ourExpectedScore)
     }
 
+    fun doTrampolineTest(n: Int, expected: String, highScore: Int, ourExpectedScore: Int) {
+        doTest("mines/default/trampoline/trampoline${n}.map", "trampoline${n}", expected, highScore, ourExpectedScore)
+    }
+
     fun doRandomTest() {
         doTest("mines/random/mine199_100x100.map", "mine199_100x100", "", 0, 3000)
     }
@@ -76,8 +80,17 @@ class SolverTest : TestCase() {
     fun testContest7() = doContestTest(7, "RDRRRDDLRDRDRRRLLLULULLDLDLLRRURR*", 869, 700)
     fun testContest8() = doContestTest(8, "", 1973, 1000)
     fun testContest9() = doContestTest(9, "", 3093, 1500)
-    fun testContest10() = doContestTest(10, "", 3634, 1500)
+    fun testContest10() = doContestTest(10, "", 3634, 1600)
+
+    fun testFlood1() = doFloodTest(1, "LLLLDDRRRRLDRDLRDRDULURRRULLLDD", 945, 550)
     fun testFlood2() = doFloodTest(2, "RRRRDLRULURULLLDDLDL", 281, 120)
+    fun testFlood3() = doFloodTest(3, "", 1303, 700)
+    fun testFlood4() = doFloodTest(4, "", 1592, 950)
+    fun testFlood5() = doFloodTest(5, "DDRDRDRRRLULLLLUUUULDDRRRRRRULULUDRR", 575, 550)
+
+    fun testTrampoline1() = doTrampolineTest(1, "DLLLLLURR", 426, 280)
+    fun testTrampoline2() = doTrampolineTest(2, "", 1742, 1730)
+    fun testTrampoline3() = doTrampolineTest(3, "RRRLLDDDDDDDLDDRRRRDRRRRRRUUUUURRRRRRUUWRRDDRRRRRRRRRRRA", 5477, 940)
 
 //    fun testRandom199() = doRandomTest()
 
@@ -125,7 +138,7 @@ class SolverTest : TestCase() {
 
         val path = answer.path.toString()
         var robot = answer.robot
-        if (answer.robot.status != RobotStatus.WON && answer.robot.status != RobotStatus.ABORTED) {
+        if (answer.robot.status == RobotStatus.LIVE) {
             robot = makeMove(Move.ABORT, answer.robot, solverPackage.solverUpdate)
         }
         val ourScore = countScore(robot)
