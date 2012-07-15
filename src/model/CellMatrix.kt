@@ -45,6 +45,9 @@ public abstract class CellMatrix(
         val oldValue = get(x, y)
         replace(x, y, oldValue, v)
     }
+
+    public fun get(pos: Point): MineCell = get(pos.x, pos.y)
+    public fun set(pos: Point, v: MineCell): Unit = set(pos.x, pos.y, v)
 }
 
 public abstract class AbstractCellTrackingMatrix(
