@@ -1,1 +1,1 @@
-java -server -Xmx900M -jar icfpc.jar
+java -server -Xmx900m -jar icfpc.jar
