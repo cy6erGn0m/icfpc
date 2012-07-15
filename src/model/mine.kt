@@ -70,6 +70,7 @@ enum class MineCell(
     fun isPassable(): Boolean {
         return this == EARTH || this == EMPTY || this == LAMBDA || this == OPEN_LIFT || this == TRAMPOLINE
     }
+    public fun isRock(): Boolean = this == ROCK || this == LAMBDA_ROCK
 
     public fun toChar(): Char = representation
     public fun toString(): String = representation.toString()

@@ -17,7 +17,7 @@ import model.CellMatrix
 
 fun mineUpdateWithFullCopy(mine: Mine): Mine {
     return mineUpdate(mine) {
-        matrix ->
+    matrix ->
         ArrayCellMatrix(matrix.width, matrix.height, matrix.cellIndicesToTrack)
     }
 }
@@ -43,52 +43,55 @@ fun mineUpdate(mine: Mine, copyMatrix: (CellMatrix) -> CellMatrix): Mine {
 }
 
 fun mapUpdateAt(cur: Mine, x: Int, y: Int, res: Mine) {
-    fun at(cell: MineCell) = cur[x, y] == cell
-    val atRock = at(ROCK)
-    val rockOverRock = atRock && cur[x, y - 1] == ROCK
-    val canSlideRight = cur[x + 1, y] == EMPTY && cur[x + 1, y - 1] == EMPTY
-    val canSlideLeft = cur[x - 1, y] == EMPTY && cur[x - 1, y - 1] == EMPTY
+    val curCell = cur[x, y]
+    val bottomCell = cur[x, y - 1]
+    val leftCell = cur[x - 1, y]
+    val rightCell = cur[x + 1, y]
+    val bottomLeftCell = cur[x - 1, y - 1]
+    val bottomRightCell = cur[x + 1, y - 1]
+
+    val atRock = curCell.isRock()
+    val rockOverRock = atRock && bottomCell.isRock()
+    val canSlideRight = rightCell == EMPTY && bottomRightCell == EMPTY
+    val canSlideLeft = leftCell == EMPTY && bottomLeftCell == EMPTY
 
     when {
-        atRock
-            && cur[x, y - 1] == EMPTY
+        atRock && bottomCell == EMPTY
         -> {
             res[x, y] = EMPTY
-            res[x, y - 1] = ROCK
+            res[x, y - 1] = curCell
         }
 
-        rockOverRock
-            && canSlideRight
+        rockOverRock && canSlideRight
         -> {
             res[x, y] = EMPTY
-            res[x + 1, y - 1] = ROCK
+            res[x + 1, y - 1] = curCell
         }
 
-        rockOverRock
-            // we know we can't slide right
-            && canSlideLeft
+        rockOverRock && canSlideLeft
+        // we know we can't slide right
         -> {
             _assert(!canSlideRight, "when is not working")
             res[x, y] = EMPTY
-            res[x - 1, y - 1] = ROCK
+            res[x - 1, y - 1] = curCell
         }
 
         atRock
-            && cur[x, y - 1] == LAMBDA
-            && canSlideRight
+        && bottomCell == LAMBDA
+        && canSlideRight
         -> {
             res[x, y] = EMPTY
-            res[x + 1, y - 1] = ROCK
+            res[x + 1, y - 1] = curCell
         }
 
-        at(CLOSED_LIFT)
-            && cur.lambdaCount == 0
+        curCell == CLOSED_LIFT
+        && cur.lambdaCount == 0
         -> {
             res[x, y] = OPEN_LIFT
         }
 
         else -> {
-            res[x, y] = cur[x, y]
+            res[x, y] = curCell
         }
     }
 }
