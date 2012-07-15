@@ -33,7 +33,6 @@ fun makeMove(move: Move, robot: Robot, update: (Mine) -> Mine): Robot {
     var newPos = move.nextPosition(robot.pos)
     var lambdas = robot.collectedLambdas
     var resultingStatus: RobotStatus = RobotStatus.LIVE
-    var shouldMove = true
     when (oldMine[newPos]) {
         TRAMPOLINE -> {
             val trampolinesMap = robot.mine.trampolinesMap
@@ -46,9 +45,6 @@ fun makeMove(move: Move, robot: Robot, update: (Mine) -> Mine): Robot {
             newPos = target
         }
         WALL, CLOSED_LIFT, INVALID, TRAMPOLINE -> {
-            //impassable
-            newPos = robot.pos
-            shouldMove = false
         }
         EARTH, EMPTY, ROBOT -> {
             //nothing to do here
@@ -68,7 +64,7 @@ fun makeMove(move: Move, robot: Robot, update: (Mine) -> Mine): Robot {
         else -> throw IllegalStateException("Unknown cell: ${oldMine[newPos]}")
     }
     val newMoveCount = robot.moveCount + 1
-    if ((oldMine[newPos].isPassable()) && shouldMove) {
+    if ((oldMine[newPos].isPassable())) {
         oldMine.moveRobot(robot.pos, newPos)
     }
     val newMine = update(oldMine)
