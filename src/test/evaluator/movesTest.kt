@@ -302,4 +302,8 @@ class MovesTest : UsefulTestCase() {
     fun testBeard5FromTwitter() {
         doTest()
     }
+
+    fun testTrampoline1cantStepOnTargets() {
+        doTest()
+    }
 }
