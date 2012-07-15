@@ -53,7 +53,7 @@ fun makeMove(move: Move, robot: Robot, update: (Mine) -> Mine): Robot {
     }
     val oldMine = robot.mine
     var razors = oldMine.razors
-    if (move == Move.SHAVE) {
+    if (move == Move.SHAVE && razors > 0) {
         shaveAround(oldMine, robot.pos)
         razors--
     }

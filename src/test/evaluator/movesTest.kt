@@ -282,4 +282,8 @@ class MovesTest : UsefulTestCase() {
     fun testPickUpRazorAndUseItImmediately() {
         doTest()
     }
+
+    fun testCantShaveWithoutRazor() {
+        doTest()
+    }
 }
