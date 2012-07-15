@@ -7,6 +7,7 @@ import java.util.List
 import java.util.Collection
 import java.util.HashSet
 import util.DumbSet
+import java.util.ArrayList
 
 class Point(val x: Int, val y: Int) {
     public fun equals(other: Any?): Boolean {
@@ -41,7 +42,7 @@ public abstract class CellMatrix(
     }
 }
 
-public abstract class AbstractCellMatrix(
+public abstract class AbstractCellTrackingMatrix(
         width: Int, height: Int,
         cellIndicesToTrack: (Int) -> Boolean
     ) : CellMatrix(width, height, cellIndicesToTrack) {
@@ -71,10 +72,33 @@ public abstract class AbstractCellMatrix(
     }
 }
 
+public abstract class AbstractCellMatrixWithStupidCellTracking(
+        width: Int, height: Int,
+        cellIndicesToTrack: (Int) -> Boolean
+    ) : CellMatrix(width, height, cellIndicesToTrack) {
+
+    protected final override fun replace(x: Int, y: Int, oldValue: MineCell, newValue: MineCell) {
+        doSet(x, y, newValue)
+    }
+
+    protected abstract fun doSet(x: Int, y: Int, newValue: MineCell)
+
+    public override fun positions(cell: MineCell): Collection<Point> {
+        _assert(cellIndicesToTrack(cell.index), "Not tracked: $cell")
+        val list = ArrayList<Point>()
+        for (x in 0..width - 1)
+            for (y in 0..height - 1)
+                if (this[x, y] == cell) {
+                    list.add(Point(x, y))
+                }
+        return list
+    }
+}
+
 public class ArrayCellMatrix(
         width: Int, height: Int,
         cellIndicesToTrack: (Int) -> Boolean
-    ) : AbstractCellMatrix(width, height, cellIndicesToTrack) {
+    ) : AbstractCellMatrixWithStupidCellTracking(width, height, cellIndicesToTrack) {
 
     private val map = Array<MineCell>(width * height) { MineCell.INVALID }
 
@@ -89,7 +113,7 @@ public class ArrayCellMatrix(
 
 public class DeltaCellMatrix internal(
         private val baseline: CellMatrix
-    ) : AbstractCellMatrix(baseline.width, baseline.height, baseline.cellIndicesToTrack) {
+    ) : AbstractCellMatrixWithStupidCellTracking(baseline.width, baseline.height, baseline.cellIndicesToTrack) {
 
     class object {
         fun create(baseline: CellMatrix): DeltaCellMatrix {
