@@ -91,8 +91,9 @@ fun isDead(robot: Robot, newMine: Mine, newOxygen: Int): Boolean {
 fun isRobotSmashedByRock(oldMine: Mine, newMine: Mine): Boolean {
     val aboveNewRobotPos = newMine.robotPos.above()
     val isRockAbove = newMine[aboveNewRobotPos].isRock()
+    val isHorockAbove = newMine[aboveNewRobotPos] == LAMBDA && oldMine[aboveNewRobotPos] != LAMBDA
     val wasRockAbove = oldMine[aboveNewRobotPos].isRock()
-    return isRockAbove && !wasRockAbove
+    return (isRockAbove || isHorockAbove) && !wasRockAbove
 }
 
 fun countScore(robot: Robot): Int {

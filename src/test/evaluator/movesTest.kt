@@ -232,4 +232,12 @@ class MovesTest : UsefulTestCase() {
     fun testHorocksCollide() {
         doTest()
     }
+
+    fun testHorockKills() {
+        doTest()
+    }
+
+    fun testHorockSlidesAndKills() {
+        doTest()
+    }
 }
