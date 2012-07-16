@@ -25,6 +25,8 @@ import java.util.LinkedHashMap
 import java.util.HashMap
 import java.util.Timer
 import java.util.TimerTask
+import score.CollectedLambdasScorerWithDistToLambdas
+import util.Ref
 
 
 object SolverTestData {
@@ -41,6 +43,9 @@ object SolverTestData {
 
     val propertiesFile = "src/test/solver/expectedResults.properties"
     val logger = Logger("test_log")
+
+//    val scorer = CollectedLambdasScorerWithDistToLambdas()
+    val scorer = CollectedLambdasScorer()
 
     val delay = 30000.toLong()
 }
@@ -67,8 +72,16 @@ class SolverTest : TestCase() {
         doTest("mines/default/horock/horock${n}.map", "horock${n}", expected, highScore, ourExpectedScore)
     }
 
+    fun doBeardTest(n: Int, expected: String, highScore: Int, ourExpectedScore: Int) {
+        doTest("mines/default/beard/beard${n}.map", "beard${n}", expected, highScore, ourExpectedScore)
+    }
+
+    fun doCustomTest(n: String) {
+        checkWon("mines/custom/${n}.map", "custom${n}")
+    }
+
     fun doRandomTest() {
-        doTest("mines/random/mine199_100x100.map", "mine199_100x100", "", 0, 3000)
+        doTest("mines/random/mine199_100x100.map", "mine199_100x100", "", 1000, 3000)
     }
 
     fun testUp() = doSolverTest("up", "UU", 73, 73)
@@ -93,12 +106,25 @@ class SolverTest : TestCase() {
     fun testFlood5() = doFloodTest(5, "DDRDRDRRRLULLLLUUUULDDRRRRRRULULUDRR", 575, 550)
 
     fun testTrampoline1() = doTrampolineTest(1, "DLLLLLURR", 426, 280)
-    fun testTrampoline2() = doTrampolineTest(2, "", 1742, 1730)
-    fun testTrampoline3() = doTrampolineTest(3, "RRRLLDDDDDDDLDDRRRRDRRRRRRUUUUURRRRRRUUWRRDDRRRRRRRRRRRA", 5477, 940)
+    fun testTrampoline2() = doTrampolineTest(2, "", 1742, 1700)
+    fun testTrampoline3() = doTrampolineTest(3, "RRRLLDDDDDDDLDDRRRRDRRRRRRUUUUURRRRRRUUWRRDDRRRRRRRRRRRA", 5477, 1500)
 
     fun testHorock1() = doHorockTest(1, "", 758, 450) //!!! find exit
     fun testHorock2() = doHorockTest(2, "", 747, 230)
-//    fun testHorock3() = doHorockTest(3, "", 2406, 2406)
+    fun testHorock3() = doHorockTest(3, "", 2406, 2406)
+
+    fun testCustom0() = doCustomTest("00")
+    fun testCustom1() = doCustomTest("01")
+    fun testCustom2() = doCustomTest("02")
+    fun testCustom3() = doCustomTest("03")
+    fun testCustom5() = doCustomTest("05")
+    fun testCustom6() = doCustomTest("06")
+
+    fun testBeard1() = doBeardTest(1, "RRRURRRDDULLDDLDLDLLLRRRUUULLDLRRRRDDDRLSLLLDLUA", 860, 553)
+    fun testBeard2() = doBeardTest(2, "", 4522, 1703)
+    fun testBeard3() = doBeardTest(3, "", 1789, 681)
+    fun testBeard4() = doBeardTest(4, "", 3103, 677)
+    fun testBeard5() = doBeardTest(5, "ULULLRUUUULLURRRRRRDRRULUUUDDURRRRRRRA", 946, 663)
 
 //    fun testRandom199() = doRandomTest()
 
@@ -128,8 +154,8 @@ class SolverTest : TestCase() {
         }
     }
 
-    fun doTest(fileName: String, testName: String, expected: String, highScore: Int, ourExpectedScore: Int) {
-        val solver = Solver(readMine(FileInputStream(fileName)), CollectedLambdasScorer(), highScore)
+    fun solveTest(fileName: String, highScore: Int?, time: Ref<Double>) : RobotState {
+        val solver = Solver(readMine(FileInputStream(fileName)), SolverTestData.scorer, highScore)
 
         val timer = Timer()
         timer.schedule(object : TimerTask() {
@@ -140,9 +166,13 @@ class SolverTest : TestCase() {
         val startTime = System.nanoTime()
         solver.start()
         val endTime = System.nanoTime()
-        val time = (endTime - startTime) / 1e9
+        time.value = (endTime - startTime) / 1e9
+        return solver.answer!!
+    }
 
-        val answer = solver.answer!!
+    fun checkWon(fileName: String, testName: String) {
+        val time = Ref(0.0)
+        val answer = solveTest(fileName, null, time)
 
         val path = answer.path.toString()
         var robot = answer.robot
@@ -152,11 +182,31 @@ class SolverTest : TestCase() {
         val ourScore = countScore(robot)
 
         SolverTestData.testScores.put(testName, ourScore)
-        SolverTestData.logger.log("\nTest: ${testName} time: ${time}")
+        SolverTestData.logger.log("\nTest: ${testName} time: ${time.value}")
+        SolverTestData.logger.log("Actual path:   (${path.length()}) ${path}")
+        SolverTestData.logger.log("Previous expected score: ${SolverTestData.expectedScores.get(testName)} Current score: ${ourScore}")
+
+        assertTrue(answer.robot.status == RobotStatus.WON, "We wanted to win here!\n path: ${path} \nmine: ${answer.robot.mine}")
+
+    }
+
+    fun doTest(fileName: String, testName: String, expected: String, highScore: Int, ourExpectedScore: Int) {
+        val time = Ref(0.0)
+        val answer = solveTest(fileName, highScore, time)
+
+        val path = answer.path.toString()
+        var robot = answer.robot
+        if (answer.robot.status == RobotStatus.LIVE) {
+            robot = makeMove(Move.ABORT, answer.robot, solverPackage.solverUpdate)
+        }
+        val ourScore = countScore(robot)
+
+        SolverTestData.testScores.put(testName, ourScore)
+        SolverTestData.logger.log("\nTest: ${testName} time: ${time.value}")
         SolverTestData.logger.log("Expected: (${expected.length()}) ${expected} \nActual:   (${path.length()}) ${path}")
         SolverTestData.logger.log("High score: ${highScore} Previous expected score: ${SolverTestData.expectedScores.get(testName)} Current score: ${ourScore}")
 
-        assertTrue(ourExpectedScore <= ourScore, "The actual score is too small, high score: ${highScore} expected at least: ${ourExpectedScore} actual: ${ourScore}")
+        assertTrue(ourExpectedScore <= ourScore, "The actual score is too small, high score: ${highScore} expected at least: ${ourExpectedScore} actual: ${ourScore} \npath : ${path} \nmine: ${answer.robot.mine}")
     }
 }
 
