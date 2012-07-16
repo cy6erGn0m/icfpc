@@ -17,6 +17,13 @@ import model.TrampolinesMap
 import io.serialize
 
 val DEBUG = false
+val TRACKED_CELLS = hashSet(
+        MineCell.LAMBDA,
+        MineCell.ROBOT,
+        MineCell.OPEN_LIFT,
+        MineCell.CLOSED_LIFT
+)
+val trackedCellIndices = {(i: Int) -> model.indexToCell[i] in TRACKED_CELLS}
 
 class MineGenerator(private val seed: Long = 1234567) {
 
@@ -79,6 +86,20 @@ class MineGenerator(private val seed: Long = 1234567) {
         if (matrix.count(MineCell.ROBOT) == 1) {
             val lambdas = matrix.count(MineCell.LAMBDA)
             if (lambdas == 0) {
+                val openLifts = matrix.count(MineCell.OPEN_LIFT)
+                if (openLifts == 1) {
+                    return matrix
+                }
+                if (DEBUG) {
+                    println("===================================")
+                    println("Generated:")
+                    println(Mine(matrix, TrampolinesMap()).serialize())
+                    println("No lambdas")
+                    println("Closed lifts: $openLifts")
+                    println("!!!!!!!!!!! Rejected")
+                }
+            }
+            else {
                 val closedLifts = matrix.count(MineCell.CLOSED_LIFT)
                 if (closedLifts == 1) {
                     return matrix
@@ -86,23 +107,9 @@ class MineGenerator(private val seed: Long = 1234567) {
                 if (DEBUG) {
                     println("===================================")
                     println("Generated:")
-                    println(Mine(matrix, TrampolinesMap()))
-                    println("No lambdas")
-                    println("Closed lifts: $closedLifts")
-                    println("!!!!!!!!!!! Rejected")
-                }
-            }
-            else {
-                val openLifts = matrix.count(MineCell.CLOSED_LIFT)
-                if (openLifts == 1) {
-                    return matrix
-                }
-                if (DEBUG) {
-                    println("===================================")
-                    println("Generated:")
-                    println(Mine(matrix, TrampolinesMap()))
+                    println(Mine(matrix, TrampolinesMap()).serialize())
                     println("$lambdas lambdas")
-                    println("Open lifts: $openLifts")
+                    println("Open lifts: $closedLifts")
                     println("!!!!!!!!!!! Rejected")
                 }
             }
@@ -119,7 +126,7 @@ class MineGenerator(private val seed: Long = 1234567) {
         val effectiveW = pieceW * widthInPieces + 2 // for the border of walls
         val effectiveH = pieceH * heightInPieces + 2
 
-        val matrix = ArrayCellMatrix(effectiveW, effectiveH, {false}) // todo
+        val matrix = ArrayCellMatrix(effectiveW, effectiveH, trackedCellIndices)
         for (x in 0..effectiveW - 1) {
             matrix[x, 0] = MineCell.WALL
             matrix[x, effectiveH - 1] = MineCell.WALL
@@ -151,17 +158,23 @@ class MineGenerator(private val seed: Long = 1234567) {
 
 fun main(args: Array<String>) {
     fun piece(cell: MineCell): CellMatrix {
-        val r = ArrayCellMatrix(1, 1, {false}) //todo
+        val r = ArrayCellMatrix(1, 1, trackedCellIndices)
         r[0, 0] = cell
         return r
     }
 
     val cells = ArrayList(model.validCells)
     cells.remove(MineCell.OPEN_LIFT)
+    cells.remove(MineCell.TRAMPOLINE)
+    cells.remove(MineCell.TARGET)
+    cells.remove(MineCell.BEARD)
+    cells.remove(MineCell.RAZOR)
+    cells.remove(MineCell.LAMBDA_ROCK)
     cells.add(MineCell.EMPTY)
     cells.add(MineCell.EMPTY)
     cells.add(MineCell.EMPTY)
-    cells.add(MineCell.EMPTY)
+    cells.add(MineCell.EARTH)
+    cells.add(MineCell.EARTH)
 
     val littlePieces = cells.map<MineCell, CellMatrix> {
         cell -> piece(cell)
@@ -169,14 +182,14 @@ fun main(args: Array<String>) {
 
 
     val mineGenerator = MineGenerator()
-    var k = 0
-    for (N in 5..100 step 5) {
+    var k = 210
+    for (N in 1000..1000) {
         var i = 0
 
         while (i < 10) {
             val matrix = mineGenerator.generateMineMatrix(littlePieces, N, N)
             if (matrix != null) {
-                val file = File("mines/random/mine${k}_${N}x${N}.map")
+                val file = File("mines/random/mine${k}_${N}x${N}_simple.map")
                 file.writeText(Mine(matrix, TrampolinesMap()).serialize())
                 println("Done: $file")
                 i++

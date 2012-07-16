@@ -165,20 +165,22 @@ public class DeltaCellMatrix internal(
 }
 
 public fun CellMatrix.contains(cell: MineCell): Boolean {
-    for (px in 0..width - 1) {
-        for (py in 0..height - 1) {
-            if (this[px, py] == cell) return true
-        }
-    }
-    return false
+//    for (px in 0..width - 1) {
+//        for (py in 0..height - 1) {
+//            if (this[px, py] == cell) return true
+//        }
+//    }
+//    return false
+    return !positions(cell).isEmpty()
 }
 
 public fun CellMatrix.count(cell: MineCell): Int {
-    var result = 0
-    for (px in 0..width - 1) {
-        for (py in 0..height - 1) {
-            if (this[px, py] == cell) result++
-        }
-    }
-    return result
+//    var result = 0
+//    for (px in 0..width - 1) {
+//        for (py in 0..height - 1) {
+//            if (this[px, py] == cell) result++
+//        }
+//    }
+//    return result
+    return positions(cell).size()
 }
