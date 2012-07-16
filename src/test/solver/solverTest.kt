@@ -47,7 +47,7 @@ object SolverTestData {
 //    val scorer = CollectedLambdasScorerWithDistToLambdas()
     val scorer = CollectedLambdasScorer()
 
-    val delay = 30000.toLong()
+    val delay = 150000.toLong()
 }
 
 class SolverTest : TestCase() {
@@ -203,14 +203,14 @@ class SolverTest : TestCase() {
 
         SolverTestData.testScores.put(testName, ourScore)
         SolverTestData.logger.log("\nTest: ${testName} time: ${time.value}")
-        SolverTestData.logger.log("Expected: (${expected.length()}) ${expected} \nActual:   (${path.length()}) ${path}")
+//        SolverTestData.logger.log("Expected: (${expected.length()}) ${expected} \nActual:   (${path.length()}) ${path}")
         SolverTestData.logger.log("High score: ${highScore} Previous expected score: ${SolverTestData.expectedScores.get(testName)} Current score: ${ourScore}")
 
         if (ourExpectedScore <= ourScore) {
             println("Our result: high score: ${highScore} expected at least: ${ourExpectedScore} actual: ${ourScore} \npath : ${path} \nmine: \n${answer.robot.mine}")
             System.out.flush()
         }
-        assertTrue(ourExpectedScore <= ourScore, "The actual score is too small, high score: ${highScore} expected at least: ${ourExpectedScore} actual: ${ourScore} \npath : ${path} \nmine: \n${answer.robot.mine}")
+        assertTrue(ourExpectedScore <= ourScore, "The actual score is too small, high score: ${highScore} previous: ${SolverTestData.expectedScores.get(testName)} actual: ${ourScore} \npath : ${path} \nmine: \n${answer.robot.mine}")
     }
 }
 
