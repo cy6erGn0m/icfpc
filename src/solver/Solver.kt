@@ -35,7 +35,7 @@ trait SolverFramework {
 }
 
 public class Solver(val initialMine: Mine, val scorer: Scorer, val highScore: Int? = null) : SolverFramework {
-    private val workerThread = Thread.currentThread()!!;
+//    private val workerThread = Thread.currentThread()!!;
     override val logger = Logger("process_log", false)
 
     public var answer: RobotState? = null
@@ -189,9 +189,15 @@ public class Solver(val initialMine: Mine, val scorer: Scorer, val highScore: In
         logger.logNewState(queue, answer!!)
     }
 
+    private volatile var anwerWritten = false
     public fun interruptAndWriteResult() {
-        workerThread.interrupt()
-        println(answer?.path)
-        logger.close()
+        synchronized (this) {
+            if (!anwerWritten) {
+            //        workerThread.interrupt()
+                println(answer?.path)
+                logger.close()
+                anwerWritten = true
+            }
+        }
     }
 }
