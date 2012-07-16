@@ -8,3 +8,4 @@ cp out/artifacts/icfpc_jar/*.jar submission
 cp -r mines/default submission/mines
 cd submission
 tar czf ../icfp-95007384.tgz *
+md5 ../icfp-95007384.tgz
