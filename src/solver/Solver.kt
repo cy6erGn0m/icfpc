@@ -35,7 +35,7 @@ public class Solver(val initialMine: Mine, val scorer: Scorer, val highScore: In
 //    private val workerThread = Thread.currentThread()!!;
     override val logger = Logger("process_log", false)
     private val depth = 10
-    private val resultLimit = 5
+    private val resultLimit = 20
 
     public var answer: RobotState? = null
     override volatile var needToTerminateFlag: Boolean = false
