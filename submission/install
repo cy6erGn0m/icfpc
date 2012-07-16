@@ -11,7 +11,7 @@ cat README
 
 echo
 echo Required packages:
-car PACKAGES-TESTING
+cat PACKAGES-TESTING
 
 echo
 echo NOTE:
