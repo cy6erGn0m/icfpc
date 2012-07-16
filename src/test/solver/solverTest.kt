@@ -127,6 +127,9 @@ class SolverTest : TestCase() {
     fun testBeard4() = doBeardTest(4, "", 3103, 677)
     fun testBeard5() = doBeardTest(5, "ULULLRUUUULLURRRRRRDRRULUUUDDURRRRRRRA", 946, 663)
 
+    fun testIdentity() = doTest("mines/default/identity.map", "identity", "", null, 334)
+    fun testWetbeard() = doTest("mines/default/wetbeard.map", "wetbeard", "", null, 24)
+
 //    fun testRandom199() = doRandomTest()
 
     fun testProgress() {
@@ -191,7 +194,7 @@ class SolverTest : TestCase() {
 
     }
 
-    fun doTest(fileName: String, testName: String, expected: String, highScore: Int, ourExpectedScore: Int) {
+    fun doTest(fileName: String, testName: String, expected: String, highScore: Int?, ourExpectedScore: Int) {
         val time = Ref(0.0)
         val answer = solveTest(fileName, highScore, time)
 
