@@ -69,10 +69,14 @@ fun edgeCost(begin: MineCell, end: MineCell): Int {
         ans += MineGraph.ROCK_COST
     if (end.isRock())
         ans += MineGraph.ROCK_COST
+    if (begin == MineCell.BEARD)
+        ans += MineGraph.BEARD_COST
+    if (end == MineCell.BEARD)
+        ans += MineGraph.BEARD_COST
     return ans
 }
 
-fun isRoughlyPassable(cell: MineCell) = cell.isPassable() || cell.isRock() || cell == MineCell.ROBOT || cell == MineCell.TARGET
+fun isRoughlyPassable(cell: MineCell) = cell.isPassable() || cell.isRock() || cell == MineCell.ROBOT || cell == MineCell.TARGET || cell == MineCell.BEARD
 
 class MineGraph(
     val mine: Mine,
@@ -92,6 +96,7 @@ class MineGraph(
 
     class object {
         val ROCK_COST = 3
+        val BEARD_COST = 30
     }
 
     private fun getNeighbors(point: Point): List<Edge> {
