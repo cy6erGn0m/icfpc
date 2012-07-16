@@ -42,3 +42,47 @@ class CollectedLambdasScorer: Scorer() {
         return 100 * ans.toDouble() - minDist!!
     }
 }
+
+class CollectedLambdasScorerWithDistToLambdas: Scorer() {
+    val GUARANTEED_SCORE_COEFFICIENT = 1
+    val NEW_LAMBDAS_COEFFICIENT = 0.8
+    val LIFT_IS_REACHABLE_COEFFICIENT = 0.8
+
+    override fun score(state: RobotState): Double {
+
+        if (state.robot.mine.get(state.robot.pos) == MineCell.INVALID) {
+            return Double.MIN_VALUE
+        }
+
+        var total : Double = 0.toDouble()
+
+        // Guaranteed score
+        var guaranteedScore = 50 * state.robot.collectedLambdas - state.robot.moveCount
+
+        total += GUARANTEED_SCORE_COEFFICIENT * guaranteedScore
+
+        val graph = MineGraph(state.robot.mine)
+        val allDistLengths = graph.findPathLengths(state.robot.pos)
+
+        val lambdaPoints = graph.mine.getPointsOfType(MineCell.LAMBDA)
+        var weightedMovesToOtherLambdas : Double = 0.toDouble()
+
+        for (lambdaPoint in lambdaPoints) {
+            val distToLambda = allDistLengths.get(lambdaPoint)
+            if (distToLambda != null) {
+                weightedMovesToOtherLambdas = weightedMovesToOtherLambdas + (50 - distToLambda.toDouble())
+            }
+        }
+
+        total += weightedMovesToOtherLambdas * NEW_LAMBDAS_COEFFICIENT
+
+        val distToLift = allDistLengths.get(graph.mine.liftPos)
+
+        if (distToLift != null) {
+            val liftScore = 25 * (state.robot.collectedLambdas + (1 - NEW_LAMBDAS_COEFFICIENT) * lambdaPoints.size) - distToLift
+            total += liftScore * LIFT_IS_REACHABLE_COEFFICIENT
+        }
+
+        return total
+    }
+}

@@ -73,6 +73,8 @@ enum class MineCell(
     }
     public fun isRock(): Boolean = this == ROCK || this == LAMBDA_ROCK
 
+    public fun isLift(): Boolean = this == CLOSED_LIFT || this == OPEN_LIFT
+
     public fun toChar(): Char = representation
     public fun toString(): String = representation.toString()
 }
@@ -135,6 +137,19 @@ public class Mine(private val matrix: CellMatrix, public val trampolinesMap: Tra
 
     public val robotPos: Point
         get() = Point(robotX, robotY)
+
+    public val liftPos: Point
+        get() {
+            for (x in 0..width - 1) {
+                for (y in 0..height - 1) {
+                    if (matrix.get(x, y).isLift()) {
+                        return Point(x, y)
+                    }
+                }
+            }
+
+            throw IllegalStateException("No lift on the map")
+        }
 
     public fun get(x: Int, y: Int): MineCell {
         if (!inRange(x, y)) {
