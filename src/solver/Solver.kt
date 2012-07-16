@@ -37,7 +37,7 @@ public class Solver(val initialMine: Mine, val scorer: Scorer, val highScore: In
     private val depth = 10
     private val resultLimit = 20
 
-    public var answer: RobotState? = null
+    public volatile var answer: RobotState? = null
     override volatile var needToTerminateFlag: Boolean = false
     override var iteration = 0
 
