@@ -167,25 +167,30 @@ public class Solver(val initialMine: Mine, val scorer: Scorer, val highScore: In
     }
 
     public fun start() {
-        val startRobot = Robot(initialMine, 0, 0, RobotStatus.LIVE, initialMine.waterproof)
-        val startState = RobotState(startRobot, null, scorer)
-        updateAnswer(startState)
-        var currentStates : Collection<RobotState> = arrayList(startState)
-        val queue = StateQueue()
-        while (!needToTerminate() && !currentStates.isEmpty()) {
-            logger.log("Current: ${currentStates.size()} Answer: ${answer?.path}")
-//            for (state in currentStates) {
-//                queue.push(state)
-//            }
-            val robotStates = shortTermExplorer.processStates(currentStates, queue, resultLimit, depth)
-            iteration++
-            currentStates = robotStates.getBestStates()
-            logger.log("Current states: ${currentStates.size}")
-            queue.clearQueue()
-        }
+        try {
+            val startRobot = Robot(initialMine, 0, 0, RobotStatus.LIVE, initialMine.waterproof)
+            val startState = RobotState(startRobot, null, scorer)
+            updateAnswer(startState)
+            var currentStates : Collection<RobotState> = arrayList(startState)
+            val queue = StateQueue()
+            while (!needToTerminate() && !currentStates.isEmpty()) {
+                logger.log("Current: ${currentStates.size()} Answer: ${answer?.path}")
+    //            for (state in currentStates) {
+    //                queue.push(state)
+    //            }
+                val robotStates = shortTermExplorer.processStates(currentStates, queue, resultLimit, depth)
+                iteration++
+                currentStates = robotStates.getBestStates()
+                logger.log("Current states: ${currentStates.size}")
+                queue.clearQueue()
+            }
 
-        logger.log("Answer: ")
-        logger.logNewState(queue, answer!!)
+            logger.log("Answer: ")
+            logger.logNewState(queue, answer!!)
+        }
+        catch (e: Throwable) {
+            interruptAndWriteResult()
+        }
     }
 
     private volatile var answerWritten = false
