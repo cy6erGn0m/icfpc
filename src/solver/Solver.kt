@@ -24,9 +24,6 @@ import java.util.ArrayList
 
 public val solverUpdate: (Mine) -> Mine = {m -> mineUpdateWithFullCopy(m)}
 
-private val RESULT_LIMIT = 20
-private val DEPTH = 10
-
 trait SolverFramework {
     val needToTerminateFlag: Boolean
     val logger: Logger
@@ -37,6 +34,8 @@ trait SolverFramework {
 public class Solver(val initialMine: Mine, val scorer: Scorer, val highScore: Int? = null) : SolverFramework {
 //    private val workerThread = Thread.currentThread()!!;
     override val logger = Logger("process_log", false)
+    private val depth = 10
+    private val resultLimit = 5
 
     public var answer: RobotState? = null
     override volatile var needToTerminateFlag: Boolean = false
@@ -178,7 +177,7 @@ public class Solver(val initialMine: Mine, val scorer: Scorer, val highScore: In
 //            for (state in currentStates) {
 //                queue.push(state)
 //            }
-            val robotStates = shortTermExplorer.processStates(currentStates, queue, RESULT_LIMIT, DEPTH)
+            val robotStates = shortTermExplorer.processStates(currentStates, queue, resultLimit, depth)
             iteration++
             currentStates = robotStates.getBestStates()
             logger.log("Current states: ${currentStates.size}")
@@ -189,14 +188,14 @@ public class Solver(val initialMine: Mine, val scorer: Scorer, val highScore: In
         logger.logNewState(queue, answer!!)
     }
 
-    private volatile var anwerWritten = false
+    private volatile var answerWritten = false
     public fun interruptAndWriteResult() {
         synchronized (this) {
-            if (!anwerWritten) {
+            if (!answerWritten) {
             //        workerThread.interrupt()
                 println(answer?.path)
                 logger.close()
-                anwerWritten = true
+                answerWritten = true
             }
         }
     }
