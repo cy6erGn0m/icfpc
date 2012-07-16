@@ -34,18 +34,18 @@ object SolverTestData {
 
     val testScores = LinkedHashMap<String, Int>()
 
-    var expectedResultsWasRead = false
-    val expectedScores: HashMap<String, Int> = hashMap()
+    var previousResultsWasRead = false
+    val previousScores: HashMap<String, Int> = hashMap()
         get() {
-            if (!expectedResultsWasRead) readExpectedResults()
-            return $expectedScores
+            if (!previousResultsWasRead) readExpectedResults()
+            return $previousScores
         }
 
-    val propertiesFile = "src/test/solver/expectedResults.properties"
+    val propertiesFile = "src/test/solver/previousResults.properties"
     val logger = Logger("test_log")
 
-//    val scorer = CollectedLambdasScorerWithDistToLambdas()
-    val scorer = CollectedLambdasScorer()
+    val scorer = CollectedLambdasScorerWithDistToLambdas()
+//    val scorer = CollectedLambdasScorer()
 
     val delay = 150000.toLong()
 }
@@ -89,13 +89,13 @@ class SolverTest : TestCase() {
     fun testOneMoreLambda() = doSolverTest("oneMoreLambda", "DDRRR", 70, 70)
 
     fun testContest1() = doContestTest(1, "DLLDDRRLULLDL", 212, 200)
-    fun testContest2() = doContestTest(2, "RRRRDLRULURULLLDDLDL", 281, 250)
+    fun testContest2() = doContestTest(2, "RRRRDLRULURULLLDDLDL", 281, 210)
     fun testContest3() = doContestTest(3, "LDDDRRRRDDLLLDLLURRRRRUUR", 275, 250)
     fun testContest4() = doContestTest(4, "DUURDDDDRDRRRLUURUUULUDRR", 575, 550)
     fun testContest5() = doContestTest(5, "LLUURUURULUURRRRRDDRLLLLDRDRRRRDDDLLRRUUULLDLLDDD", 1303, 800)
     fun testContest6() = doContestTest(6, "", 1177, 700)
     fun testContest7() = doContestTest(7, "RDRRRDDLRDRDRRRLLLULULLDLDLLRRURR*", 869, 700)
-    fun testContest8() = doContestTest(8, "", 1973, 1000)
+    fun testContest8() = doContestTest(8, "", 1973, 600)
     fun testContest9() = doContestTest(9, "", 3093, 1500)
     fun testContest10() = doContestTest(10, "", 3634, 1600)
 
@@ -119,6 +119,7 @@ class SolverTest : TestCase() {
     fun testCustom3() = doCustomTest("03")
     fun testCustom5() = doCustomTest("05")
     fun testCustom6() = doCustomTest("06")
+    fun testCustom8() = doCustomTest("08")
 
     fun testBeard1() = doBeardTest(1, "RRRURRRDDULLDDLDLDLLLRRRUUULLDLRRRRDDDRLSLLLDLUA", 860, 553)
     fun testBeard2() = doBeardTest(2, "", 4522, 1703)
@@ -133,10 +134,10 @@ class SolverTest : TestCase() {
         var expectedSum = 0
         for (testName in SolverTestData.testScores.keySet()) {
             currentSum += SolverTestData.testScores.get(testName)!!
-            if (!SolverTestData.expectedScores.containsKey(testName)) {
+            if (!SolverTestData.previousScores.containsKey(testName)) {
                 println("Old ${SolverTestData.propertiesFile} Doesn't contain ${testName}")
             }
-            expectedSum += SolverTestData.expectedScores.get(testName) ?: 0
+            expectedSum += SolverTestData.previousScores.get(testName) ?: 0
         }
         SolverTestData.logger.log("\nCurrent sum: ${currentSum} Expected sum: ${expectedSum} \n")
 
@@ -148,7 +149,7 @@ class SolverTest : TestCase() {
             val message = StringBuilder()
             for (entry in SolverTestData.testScores.entrySet()) {
                 val testName = entry.getKey()
-                message.append("test: ${testName} expected: ${SolverTestData.expectedScores.get(testName)} actual: ${entry.getValue()}\n")
+                message.append("test: ${testName} expected: ${SolverTestData.previousScores.get(testName)} actual: ${entry.getValue()}\n")
             }
             fail("Progress is getting worse. Current sum: ${currentSum} Expected sum: ${expectedSum} \n${message}")
         }
@@ -184,7 +185,7 @@ class SolverTest : TestCase() {
         SolverTestData.testScores.put(testName, ourScore)
         SolverTestData.logger.log("\nTest: ${testName} time: ${time.value}")
         SolverTestData.logger.log("Actual path:   (${path.length()}) ${path}")
-        SolverTestData.logger.log("Previous expected score: ${SolverTestData.expectedScores.get(testName)} Current score: ${ourScore}")
+        SolverTestData.logger.log("Previous score: ${SolverTestData.previousScores.get(testName)} Current score: ${ourScore}")
 
         assertTrue(answer.robot.status == RobotStatus.WON, "We wanted to win here!\n path: ${path} \nmine: \n${answer.robot.mine}")
 
@@ -204,25 +205,25 @@ class SolverTest : TestCase() {
         SolverTestData.testScores.put(testName, ourScore)
         SolverTestData.logger.log("\nTest: ${testName} time: ${time.value}")
 //        SolverTestData.logger.log("Expected: (${expected.length()}) ${expected} \nActual:   (${path.length()}) ${path}")
-        SolverTestData.logger.log("High score: ${highScore} Previous expected score: ${SolverTestData.expectedScores.get(testName)} Current score: ${ourScore}")
+        SolverTestData.logger.log("High score: ${highScore} Previous score: ${SolverTestData.previousScores.get(testName)} Current score: ${ourScore}")
 
         if (ourExpectedScore <= ourScore) {
-            println("Our result: high score: ${highScore} expected at least: ${ourExpectedScore} actual: ${ourScore} \npath : ${path} \nmine: \n${answer.robot.mine}")
+            println("Test: ${testName} \nOur result: high score: ${highScore} previous: ${SolverTestData.previousScores.get(testName)} actual: ${ourScore} \npath : ${path} \nmine: \n${answer.robot.mine}")
             System.out.flush()
         }
-        assertTrue(ourExpectedScore <= ourScore, "The actual score is too small, high score: ${highScore} previous: ${SolverTestData.expectedScores.get(testName)} actual: ${ourScore} \npath : ${path} \nmine: \n${answer.robot.mine}")
+        assertTrue(ourExpectedScore <= ourScore, "The actual score is too small, high score: ${highScore} expected at least: ${ourExpectedScore} actual: ${ourScore} \npath : ${path} \nmine: \n${answer.robot.mine}")
     }
 }
 
 fun readExpectedResults() {
-    SolverTestData.expectedResultsWasRead = true
+    SolverTestData.previousResultsWasRead = true
     val properties = Properties()
     val fileInputStream = FileInputStream(SolverTestData.propertiesFile)
     properties.load(fileInputStream)
     fileInputStream.close()
     for (testName in properties.keySet()) {
         val score = properties.getProperty(testName.toString())
-        SolverTestData.expectedScores.put(testName.toString(), Integer.valueOf(score)!!)
+        SolverTestData.previousScores.put(testName.toString(), Integer.valueOf(score)!!)
     }
 }
 
