@@ -54,11 +54,12 @@ class Logger(val fileName: String, val isActive: Boolean = true) {
         logFile.close()
     }
 
-    fun logNewState(queue: StateQueue, newState: RobotState, move: Move) {
+    fun logNewState(queue: StateQueue, newState: RobotState) {
         log("path: ${newState.path}")
         log("visited: ${queue.visited.size()}")
         log("status: ${newState.robot.status}")
-        log("move: ${move.repr}")
+        log("score: ${newState.score}")
+        log("score fun: ${newState.scorer.scoreFunction(newState)}")
         log("hash: ${RobotHash.calculate(newState.robot)}")
         log(newState.robot.mine.serialize())
     }

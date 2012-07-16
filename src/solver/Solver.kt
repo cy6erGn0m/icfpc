@@ -69,13 +69,18 @@ public class Solver(val initialMine: Mine, val scorer: Scorer, val highScore: In
     }
 
     fun needToTerminate(): Boolean {
-        if (needToTerminateFlag)
+        if (needToTerminateFlag) {
+            logger.log("terminated because of terminateFlag")
             return true
+        }
         if (answer == null)
             return false
-        if (answer!!.robot.moveCount == answer!!.robot.mine.maxMoveCount)
+        if (answer!!.robot.moveCount == answer!!.robot.mine.maxMoveCount) {
+            logger.log("terminated because of move count: " + answer!!.robot.moveCount)
             return true
+        }
         if (highScore != null && countScore(answer!!.robot) >= highScore) {
+            logger.log("terminated because of high score: " + countScore(answer!!.robot))
             return true
         }
         return false
@@ -85,14 +90,16 @@ public class Solver(val initialMine: Mine, val scorer: Scorer, val highScore: In
         val initialMoves = queue.peek().robot.moveCount
         while (!queue.isEmpty()) {
             if (needToTerminateFlag) {
-                // Doesn't mater waht to return
+                logger.log("exit on terminated flag")
                 return
             }
             val robotState = queue.pop()
 
             if (robotState.robot.status.terminated) continue
 
-            for (move in model.possibleMoves) {
+            val moves = model.possibleMoves.toList()
+//            Collections.shuffle(moves)
+            for (move in moves) {
                 val newState = makeMove(robotState, move)
                 updateAnswer(newState)
                 if (newState.robot.status == RobotStatus.DEAD) {
@@ -103,6 +110,10 @@ public class Solver(val initialMine: Mine, val scorer: Scorer, val highScore: In
                     continue
                 }
                 if (newState.robot.status == RobotStatus.WON) {
+                    logger.log("WON!!!")
+                    logger.log("Count score: ${countScore(newState.robot)}")
+                    logger.log("Score: ${newState.score}")
+                    logger.log("Score fun: ${newState.scorer.scoreFunction(newState)}")
                     break
                 }
 
@@ -118,8 +129,9 @@ public class Solver(val initialMine: Mine, val scorer: Scorer, val highScore: In
 
     public fun start() {
         val startRobot = Robot(initialMine, 0, 0, RobotStatus.LIVE, initialMine.waterproof)
-
-        var currentStates : Collection<RobotState> = arrayList(RobotState(startRobot, null, scorer))
+        val startState = RobotState(startRobot, null, scorer)
+        updateAnswer(startState)
+        var currentStates : Collection<RobotState> = arrayList(startState)
         val queue = StateQueue()
         while (!needToTerminate() && !currentStates.isEmpty()) {
             logger.log("Current: ${currentStates.size()} Answer: ${answer?.path}")
