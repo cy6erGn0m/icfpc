@@ -13,9 +13,10 @@ abstract class Scorer {
 
     abstract fun score(state: RobotState): Double
 
-    open fun initialize(mine: Mine) {}
+    open fun initialize(mine: Mine) {
+    }
 
-    open fun scoreFunction(state: RobotState) : String = ""
+    open fun scoreFunction(state: RobotState): String = ""
 }
 
 class CollectedLambdasScorer: Scorer() {
@@ -36,47 +37,40 @@ class CollectedLambdasScorer: Scorer() {
         */
         val graph = MineGraph(state.robot.mine)
         var minDist = graph.findMinPathToLambdaOrOpenLift(state.robot.pos)
-//        if (minDist == null) {
-//            minDist = 1e9.toInt()
+        if (minDist == null) {
+            minDist = 1e9.toInt()
+        }
+
+        if (graph.mine.shouldOpenLift()) {
+            ans += 1e7
+        }
+
+        return 100 * ans.toDouble() - minDist!!
+//
+//        if (graph.mine.getPointsOfType(MineCell.LAMBDA).size() <= 1) {
+//            ans += 50 * state.robot.collectedLambdas
+//            return ans.toDouble() - MIN_DIST_WEIGHT * minDist!!
 //        }
 //
-//        if (graph.mine.shouldOpenLift()) {
-//            ans += 1e7
-//        }
-
-
-        if (graph.mine.getPointsOfType(MineCell.LAMBDA).size() <= 1) {
-            //TODO check that there exists a path to 'O'
-            ans += 50 * state.robot.collectedLambdas
-            return ans.toDouble() - MIN_DIST_WEIGHT * minDist
-        }
-
-        override fun scoreFunction(state: RobotState) : String {
-            var ans = 50 * state.robot.collectedLambdas - MOVE_COUNT_WEIGHT * state.robot.moveCount
-            if (state.robot.status == RobotStatus.WON) {
-                ans += 25 * state.robot.collectedLambdas
-                return "$ans + 1e9"
-            }
-
-            /*
-            var lambdas = state.robot.mine.getPointsOfType(MineCell.LAMBDA)
-            var minDist = Integer.MAX_VALUE
-            for (lambda in lambdas) {
-                minDist = Math.min(minDist,
-                        Math.abs(lambda.x - state.robot.x) + Math.abs(lambda.y - state.robot.y))
-            }
-            */
-            val graph = MineGraph(state.robot.mine)
-            var minDist = graph.findMinPathToLambdaOrOpenLift(state.robot.pos)
-            if (graph.mine.getPointsOfType(MineCell.LAMBDA).size() <= 1) {
-                //TODO check that there exists a path to 'O'
-                ans += 50 * state.robot.collectedLambdas
-                return "${ans} - ${MIN_DIST_WEIGHT} * ${minDist}"
-            }
-
-            return "100 * 50 * ${state.robot.collectedLambdas} - ${state.robot.moveCount} - ${MIN_DIST_WEIGHT} * ${minDist}"
-        }
+//        return 100 * 50.0 * state.robot.collectedLambdas - state.robot.moveCount - MIN_DIST_WEIGHT * minDist!!
     }
+
+    override fun scoreFunction(state: RobotState): String {
+        var ans = 50 * state.robot.collectedLambdas - MOVE_COUNT_WEIGHT * state.robot.moveCount
+        if (state.robot.status == RobotStatus.WON) {
+            ans += 25 * state.robot.collectedLambdas
+            return "$ans + 1e9"
+        }
+        val graph = MineGraph(state.robot.mine)
+        var minDist = graph.findMinPathToLambdaOrOpenLift(state.robot.pos)
+        if (graph.mine.getPointsOfType(MineCell.LAMBDA).size() <= 1) {
+            ans += 50 * state.robot.collectedLambdas
+            return "${ans} - ${MIN_DIST_WEIGHT} * ${minDist}"
+        }
+
+        return "100 * 50 * ${state.robot.collectedLambdas} - ${state.robot.moveCount} - ${MIN_DIST_WEIGHT} * ${minDist}"
+    }
+}
 
 class CollectedLambdasScorerWithDistToLambdas: Scorer() {
     val GUARANTEED_SCORE_COEFFICIENT = 1
@@ -89,7 +83,7 @@ class CollectedLambdasScorerWithDistToLambdas: Scorer() {
             return Double.MIN_VALUE
         }
 
-        var total : Double = 0.toDouble()
+        var total: Double = 0.toDouble()
 
         // Guaranteed score
         var guaranteedScore = 50 * state.robot.collectedLambdas - state.robot.moveCount
@@ -100,7 +94,7 @@ class CollectedLambdasScorerWithDistToLambdas: Scorer() {
         val allDistLengths = graph.findPathLengths(state.robot.pos)
 
         val lambdaPoints = graph.mine.getPointsOfType(MineCell.LAMBDA)
-        var weightedMovesToOtherLambdas : Double = 0.toDouble()
+        var weightedMovesToOtherLambdas: Double = 0.toDouble()
 
         for (lambdaPoint in lambdaPoints) {
             val distToLambda = allDistLengths.get(lambdaPoint)
