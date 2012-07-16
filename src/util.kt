@@ -64,3 +64,5 @@ class Logger(val fileName: String, val isActive: Boolean = true) {
         log(newState.robot.mine.serialize())
     }
 }
+
+class Ref<T>(var value : T)
