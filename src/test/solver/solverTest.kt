@@ -208,6 +208,7 @@ class SolverTest : TestCase() {
 
         if (ourExpectedScore <= ourScore) {
             println("Our result: high score: ${highScore} expected at least: ${ourExpectedScore} actual: ${ourScore} \npath : ${path} \nmine: \n${answer.robot.mine}")
+            System.out.flush()
         }
         assertTrue(ourExpectedScore <= ourScore, "The actual score is too small, high score: ${highScore} expected at least: ${ourExpectedScore} actual: ${ourScore} \npath : ${path} \nmine: \n${answer.robot.mine}")
     }
