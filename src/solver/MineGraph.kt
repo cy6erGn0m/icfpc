@@ -23,7 +23,8 @@ private fun Mine.iterator() = object : Iterator<Point> {
     var x = 0
     var y = 0
     override fun next(): Point {
-        if (!hasNext) throw IllegalStateException("Mine has no more cells")
+        if (!hasNext)
+            throw IllegalStateException("Mine has no more cells")
         val ans = Point(x, y)
         if (++x == width) {
             x = 0
@@ -38,16 +39,12 @@ private fun Mine.iterator() = object : Iterator<Point> {
 private val DX = array(1, 0, -1, 0)
 private val DY = array(0, 1, 0, -1)
 
-//TODO make more efficient
-class PointSet : HashSet<Point>()
-class PointMap<T> : HashMap<Point, T>()
-
-private class PathSearchQueue(val initialCapacity: Int = 10) {
+private class PathSearchQueue(val mine: Mine, val initialCapacity: Int = 10) {
     val queue = PriorityQueue<Point>(initialCapacity, object : Comparator<Point> {
         public override fun compare(o1: Point?, o2: Point?): Int = distanceTo(o1!!) - distanceTo(o2!!)
         public override fun equals(obj: Any?): Boolean = this === obj
     })
-    val distance = PointMap<Int>()
+    val distance = PointMap<Int>(mine)
 
     fun add(point: Point, dist: Int) {
         val d = distance[point]
@@ -82,7 +79,7 @@ class MineGraph(
     val passableCells: (MineCell) -> Boolean = { cell -> isRoughlyPassable(cell) }
 ) {
     val vertices = PointSet()
-    val edges = PointMap<List<Edge>>();
+    val edges = PointMap<List<Edge>>(mine);
 
     {
         val cells = mine.width * mine.height
@@ -115,7 +112,7 @@ class MineGraph(
     }
 
     fun findPathLengths(start: Point): PointMap<Int> {
-        val queue = PathSearchQueue()
+        val queue = PathSearchQueue(mine)
         queue.add(start, 0)
 
         while (!queue.isEmpty()) {
