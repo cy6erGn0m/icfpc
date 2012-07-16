@@ -8,12 +8,3 @@ echo '# #  # #     OOOOOOOOO       \\\      LLL.....  ***  ...  .....'
 echo '###   ###    OOOOOOOOO       \\\      LLLLLLLL  ***  ...   ....'
 echo
 cat README
-
-echo
-echo Required packages:
-cat PACKAGES-TESTING
-
-echo
-echo NOTE:
-echo Please, make sure Java 1.6 is installed
-echo      e.g. '$ sudo apt-get install openjdk-6-jdk'
