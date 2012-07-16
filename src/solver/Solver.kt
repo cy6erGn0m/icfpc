@@ -113,7 +113,6 @@ public class Solver(val initialMine: Mine, val scorer: Scorer, val highScore: In
                     logger.log("WON!!!")
                     logger.log("Count score: ${countScore(newState.robot)}")
                     logger.log("Score: ${newState.score}")
-                    logger.log("Score fun: ${newState.scorer.scoreFunction(newState)}")
                     break
                 }
 
