@@ -78,14 +78,11 @@ class MineGraph(
     val mine: Mine,
     val passableCells: (MineCell) -> Boolean = { cell -> isRoughlyPassable(cell) }
 ) {
-    val vertices = PointSet()
     val edges = PointMap<List<Edge>>(mine);
 
     {
-        val cells = mine.width * mine.height
         for (point in mine) {
             if (isRoughlyPassable(mine[point])) {
-                vertices.add(point)
                 edges[point] = getNeighbors(point)
             }
         }

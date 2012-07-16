@@ -24,8 +24,7 @@ class MineGraphTest : TestCase() {
 
     fun testCreation() {
         val graph = createSimpleGraph()
-        assertEquals(graph.vertices.size, graph.edges.size)
-        assertEquals(23, graph.vertices.size)
+        assertEquals(23, graph.edges.size)
     }
 
     fun testFindPathLengths() {

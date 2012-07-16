@@ -10,8 +10,6 @@ import java.util.Map
 import java.util.AbstractSet
 import java.util.Map.Entry
 
-class PointSet : HashSet<Point>()
-
 class PointMap<T>(val mine : Mine) : AbstractMap<Point, T>() {
     val array: Array<T?> = Array<T?>(mine.width * mine.height) { null }
 
