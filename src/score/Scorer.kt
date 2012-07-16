@@ -15,8 +15,6 @@ abstract class Scorer {
 
     open fun initialize(mine: Mine) {
     }
-
-    open fun scoreFunction(state: RobotState): String = ""
 }
 
 class CollectedLambdasScorer: Scorer() {
@@ -53,22 +51,6 @@ class CollectedLambdasScorer: Scorer() {
 //        }
 //
 //        return 100 * 50.0 * state.robot.collectedLambdas - state.robot.moveCount - MIN_DIST_WEIGHT * minDist!!
-    }
-
-    override fun scoreFunction(state: RobotState): String {
-        var ans = 50 * state.robot.collectedLambdas - MOVE_COUNT_WEIGHT * state.robot.moveCount
-        if (state.robot.status == RobotStatus.WON) {
-            ans += 25 * state.robot.collectedLambdas
-            return "$ans + 1e9"
-        }
-        val graph = MineGraph(state.robot.mine)
-        var minDist = graph.findMinPathToLambdaOrOpenLift(state.robot.pos)
-        if (graph.mine.getPointsOfType(MineCell.LAMBDA).size() <= 1) {
-            ans += 50 * state.robot.collectedLambdas
-            return "${ans} - ${MIN_DIST_WEIGHT} * ${minDist}"
-        }
-
-        return "100 * 50 * ${state.robot.collectedLambdas} - ${state.robot.moveCount} - ${MIN_DIST_WEIGHT} * ${minDist}"
     }
 }
 
