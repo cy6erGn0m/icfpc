@@ -144,6 +144,9 @@ public class Solver(val initialMine: Mine, val scorer: Scorer, val highScore: In
             logger.log("Current states: ${currentStates.size}")
             queue.clearQueue()
         }
+
+        logger.log("Answer: ")
+        logger.logNewState(queue, answer!!)
     }
 
     public fun interruptAndWriteResult() {

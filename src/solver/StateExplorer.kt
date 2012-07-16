@@ -22,7 +22,7 @@ class SimpleStateExplorer(
 
         solver.logger.log("Best states ${solver.iteration}")
         for (state in states.bestStates) {
-            solver.logger.logNewState(queue, state, Move.ABORT)
+            solver.logger.logNewState(queue, state)
         }
         return states
     }
