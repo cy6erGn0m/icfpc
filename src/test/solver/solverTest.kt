@@ -186,7 +186,7 @@ class SolverTest : TestCase() {
         SolverTestData.logger.log("Actual path:   (${path.length()}) ${path}")
         SolverTestData.logger.log("Previous expected score: ${SolverTestData.expectedScores.get(testName)} Current score: ${ourScore}")
 
-        assertTrue(answer.robot.status == RobotStatus.WON, "We wanted to win here!\n path: ${path} \nmine: ${answer.robot.mine}")
+        assertTrue(answer.robot.status == RobotStatus.WON, "We wanted to win here!\n path: ${path} \nmine: \n${answer.robot.mine}")
 
     }
 
@@ -206,7 +206,10 @@ class SolverTest : TestCase() {
         SolverTestData.logger.log("Expected: (${expected.length()}) ${expected} \nActual:   (${path.length()}) ${path}")
         SolverTestData.logger.log("High score: ${highScore} Previous expected score: ${SolverTestData.expectedScores.get(testName)} Current score: ${ourScore}")
 
-        assertTrue(ourExpectedScore <= ourScore, "The actual score is too small, high score: ${highScore} expected at least: ${ourExpectedScore} actual: ${ourScore} \npath : ${path} \nmine: ${answer.robot.mine}")
+        if (ourExpectedScore <= ourScore) {
+            println("Our result: high score: ${highScore} expected at least: ${ourExpectedScore} actual: ${ourScore} \npath : ${path} \nmine: \n${answer.robot.mine}")
+        }
+        assertTrue(ourExpectedScore <= ourScore, "The actual score is too small, high score: ${highScore} expected at least: ${ourExpectedScore} actual: ${ourScore} \npath : ${path} \nmine: \n${answer.robot.mine}")
     }
 }
 
