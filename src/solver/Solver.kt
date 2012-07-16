@@ -53,6 +53,42 @@ public class Solver(val initialMine: Mine, val scorer: Scorer, val highScore: In
         return RobotState(newRobot, newPath, scorer)
     }
 
+    fun isValidMove(state: RobotState, move: Move) : Boolean {
+        val mine = state.robot.mine
+
+        if (move == Move.DOWN || move == Move.UP || move == Move.LEFT || move == Move.RIGHT) {
+            val nextPos = move.nextPosition(state.robot.pos)
+            if (mine[nextPos].isPassable()) {
+                return true
+            }
+
+            val nextPosCell = mine[nextPos]
+            if (nextPosCell == MineCell.WALL || nextPosCell == MineCell.CLOSED_LIFT) {
+                return false
+            }
+
+            // Don't check rocks
+            return true
+        }
+
+        if (move == Move.SHAVE) {
+            val robotX = state.robot.pos.x
+            val robotY = state.robot.pos.y
+            if (mine.get(robotX - 1, robotY - 1) == MineCell.BEARD) return true
+            if (mine.get(robotX - 1, robotY) == MineCell.BEARD) return true
+            if (mine.get(robotX - 1, robotY + 1) == MineCell.BEARD) return true
+            if (mine.get(robotX, robotY - 1) == MineCell.BEARD) return true
+            if (mine.get(robotX, robotY + 1) == MineCell.BEARD) return true
+            if (mine.get(robotX + 1, robotY - 1) == MineCell.BEARD) return true
+            if (mine.get(robotX + 1, robotY) == MineCell.BEARD) return true
+            if (mine.get(robotX + 1, robotY + 1) == MineCell.BEARD) return true
+
+            return false
+        }
+
+        return true
+    }
+
 
     fun updateAnswer(state: RobotState) {
         var newState = state
@@ -100,8 +136,13 @@ public class Solver(val initialMine: Mine, val scorer: Scorer, val highScore: In
             val moves = model.possibleMoves.toList()
 //            Collections.shuffle(moves)
             for (move in moves) {
+                if (!isValidMove(robotState, move)) {
+                    continue
+                }
+
                 val newState = makeMove(robotState, move)
                 updateAnswer(newState)
+
                 if (newState.robot.status == RobotStatus.DEAD) {
                     continue
                 }
