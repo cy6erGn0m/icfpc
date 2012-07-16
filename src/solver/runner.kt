@@ -16,6 +16,5 @@ fun main(args: Array<String>) {
 
     solver.start()
     solver.interruptAndWriteResult()
-    System.out.println()
     System.exit(0)
 }
