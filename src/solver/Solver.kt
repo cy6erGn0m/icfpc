@@ -34,7 +34,7 @@ trait SolverFramework {
 public class Solver(val initialMine: Mine, val scorer: Scorer, val highScore: Int? = null) : SolverFramework {
 //    private val workerThread = Thread.currentThread()!!;
     override val logger = Logger("process_log", false)
-    private val depth = 10
+    private val depth = Math.max(10 - initialMine.maxMoveCount / 1000, 2)
     private val resultLimit = 20
 
     public volatile var answer: RobotState? = null
