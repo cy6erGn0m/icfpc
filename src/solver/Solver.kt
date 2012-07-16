@@ -20,18 +20,30 @@ import evaluator.mineUpdateWithFullCopy
 import score.Scorer
 import model.Point
 import evaluator.countScore
+import java.util.ArrayList
 
 public val solverUpdate: (Mine) -> Mine = {m -> mineUpdateWithFullCopy(m)}
 
 private val RESULT_LIMIT = 20
 private val DEPTH = 10
 
-public class Solver(val initialMine: Mine, val scorer: Scorer, val highScore: Int? = null) {
+trait SolverFramework {
+    val needToTerminateFlag: Boolean
+    val logger: Logger
+    val iteration: Int
+    fun iterateQueue(queue: StateQueue, depth: Int, acceptor: StateAcceptor)
+}
+
+public class Solver(val initialMine: Mine, val scorer: Scorer, val highScore: Int? = null) : SolverFramework {
     private val workerThread = Thread.currentThread()!!;
-    private val logger = Logger("process_log", false)
+    override val logger = Logger("process_log", false)
 
     public var answer: RobotState? = null
-    private volatile var needToTerminateFlag: Boolean = false
+    override volatile var needToTerminateFlag: Boolean = false
+    override var iteration = 0
+
+
+    private val shortTermExplorer: StateExplorer = SimpleStateExplorer(this)
 
     fun makeMove(state: RobotState, move: Move): RobotState {
         val robot = state.robot
@@ -69,18 +81,12 @@ public class Solver(val initialMine: Mine, val scorer: Scorer, val highScore: In
         return false
     }
 
-
-    var iteration = 0
-
-    fun processStates(queue: StateQueue, resultsLimit: Int, depth: Int?): BestRobotStates {
-        val states = BestRobotStates(resultsLimit)
+    override fun iterateQueue(queue: StateQueue, depth: Int, acceptor: StateAcceptor) {
         val initialMoves = queue.peek().robot.moveCount
         while (!queue.isEmpty()) {
             if (needToTerminateFlag) {
-                for (state in queue) {
-                    states.add(state)
-                }
-                return states
+                // Doesn't mater waht to return
+                return
             }
             val robotState = queue.pop()
 
@@ -92,8 +98,8 @@ public class Solver(val initialMine: Mine, val scorer: Scorer, val highScore: In
                 if (newState.robot.status == RobotStatus.DEAD) {
                     continue
                 }
-                if (depth != null && newState.robot.moveCount == initialMoves + depth) {
-                    states.add(newState)
+                if (newState.robot.moveCount == initialMoves + depth) {
+                    acceptor.add(newState)
                     continue
                 }
                 if (newState.robot.status == RobotStatus.WON) {
@@ -107,12 +113,7 @@ public class Solver(val initialMine: Mine, val scorer: Scorer, val highScore: In
                 2 + 2
             }
         }
-
-        logger.log("Best states ${++iteration}")
-        for (state in states.bestStates) {
-            logger.logNewState(queue, state, Move.ABORT)
-        }
-        return states
+        _assert(queue.isEmpty(), "...")
     }
 
     public fun start() {
@@ -122,10 +123,11 @@ public class Solver(val initialMine: Mine, val scorer: Scorer, val highScore: In
         val queue = StateQueue()
         while (!needToTerminate() && !currentStates.isEmpty()) {
             logger.log("Current: ${currentStates.size()} Answer: ${answer?.path}")
-            for (state in currentStates) {
-                queue.push(state)
-            }
-            val robotStates = processStates(queue, RESULT_LIMIT, DEPTH)
+//            for (state in currentStates) {
+//                queue.push(state)
+//            }
+            val robotStates = shortTermExplorer.processStates(currentStates, queue, RESULT_LIMIT, DEPTH)
+            iteration++
             currentStates = robotStates.getBestStates()
             logger.log("Current states: ${currentStates.size}")
             queue.clearQueue()

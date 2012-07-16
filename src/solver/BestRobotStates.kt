@@ -7,7 +7,11 @@ import java.util.Comparator
 import java.util.Collection
 import java.util.PriorityQueue
 
-class BestRobotStates(val limit: Int) {
+trait StateAcceptor {
+    fun add(state: RobotState)
+}
+
+class BestRobotStates(val limit: Int) : StateAcceptor {
     val WORST_SCORE_FIRST_OUT = object : Comparator<RobotState> {
         public override fun equals(obj: Any?): Boolean {
             return obj == this
@@ -25,7 +29,7 @@ class BestRobotStates(val limit: Int) {
 
     val bestStates = PriorityQueue<RobotState>(limit, WORST_SCORE_FIRST_OUT)
 
-    fun add(state: RobotState) {
+    override fun add(state: RobotState) {
         val score = state.score
         if (bestStates.size() > limit && bestStates.peek()!!.score >= score) {
             return

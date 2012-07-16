@@ -89,7 +89,7 @@ public fun Char.toMineCell(): MineCell {
 }
 
 val trackedCells: (Int) -> Boolean = { i ->
-    i == MineCell.LAMBDA.index || i == MineCell.LAMBDA_ROCK.index
+    i == MineCell.LAMBDA.index || i == MineCell.LAMBDA_ROCK.index || i == MineCell.TRAMPOLINE.index
 }
 
 public fun Mine(width: Int, height: Int, public val trampolinesMap: TrampolinesMap): Mine
