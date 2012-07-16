@@ -89,7 +89,8 @@ public fun Char.toMineCell(): MineCell {
 }
 
 val trackedCells: (Int) -> Boolean = { i ->
-    i == MineCell.LAMBDA.index || i == MineCell.LAMBDA_ROCK.index || i == MineCell.TRAMPOLINE.index
+    i == MineCell.LAMBDA.index || i == MineCell.LAMBDA_ROCK.index || i == MineCell.TRAMPOLINE.index ||
+    i == MineCell.OPEN_LIFT.index || i == MineCell.CLOSED_LIFT.index
 }
 
 public fun Mine(width: Int, height: Int, public val trampolinesMap: TrampolinesMap): Mine
@@ -140,15 +141,15 @@ public class Mine(private val matrix: CellMatrix, public val trampolinesMap: Tra
 
     public val liftPos: Point
         get() {
-            for (x in 0..width - 1) {
-                for (y in 0..height - 1) {
-                    if (matrix.get(x, y).isLift()) {
-                        return Point(x, y)
-                    }
-                }
+            val closedLift = getPointsOfType(MineCell.CLOSED_LIFT)
+            if (!closedLift.isEmpty()) {
+                return closedLift.iterator().next()
             }
-
-            throw IllegalStateException("No lift on the map")
+            val openLift = getPointsOfType(MineCell.OPEN_LIFT)
+            if (openLift.isEmpty()) {
+                throw IllegalStateException("No lift on the map")
+            }
+            return openLift.iterator().next()
         }
 
     public fun get(x: Int, y: Int): MineCell {
