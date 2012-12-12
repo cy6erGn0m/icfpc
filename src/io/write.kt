@@ -56,5 +56,5 @@ public fun Mine.serialize() : String {
         sb.append("Razors $razors\n")
     }
 
-    return sb.toString()!!
+    return sb.toString()
 }

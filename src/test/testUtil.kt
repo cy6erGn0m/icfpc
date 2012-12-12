@@ -5,7 +5,6 @@ import junit.framework.TestCase
 import util.trimTrailingSpaces
 import java.util.ArrayList
 import model.Move
-import java.util.List
 
 public fun assertSameLines(message: String, expectedText: String, actualText: String) {
     val expectedLines = expectedText.split('\n')

@@ -225,8 +225,8 @@ fun readExpectedResults() {
     properties.load(fileInputStream)
     fileInputStream.close()
     for (testName in properties.keySet()) {
-        val score = properties.getProperty(testName.toString())
-        SolverTestData.previousScores.put(testName.toString(), Integer.valueOf(score)!!)
+        val score = properties.getProperty(testName.toString())!!
+        SolverTestData.previousScores.put(testName.toString(), score.toInt())
     }
 }
 

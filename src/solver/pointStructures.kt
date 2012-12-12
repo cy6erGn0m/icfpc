@@ -5,30 +5,29 @@ import model.Point
 import model.Mine
 import java.util.AbstractMap
 import java.util.HashMap
-import java.util.Set
-import java.util.Map
 import java.util.AbstractSet
-import java.util.Map.Entry
 
-class PointMap<T>(val mine : Mine) : AbstractMap<Point, T>() {
+class PointMap<T: Any>(val mine : Mine) : AbstractMap<Point, T>() {
     val array: Array<T?> = Array<T?>(mine.width * mine.height) { null }
 
     var size = 0
 
-    class PointMapEntry(var myKey: Point, var myValue: T) : Map.Entry<Point, T> {
+    class PointMapEntry(var myKey: Point, var myValue: T) : MutableMap.MutableEntry<Point, T> {
+
         public override fun setValue(value: T): T {
             myValue = value
             return value
         }
+
         public override fun getKey(): Point = myKey
         public override fun getValue(): T = myValue
-        public override fun equals(o: Any?): Boolean = this === o
+        public override fun equals(other: Any?): Boolean = this === other
         public override fun hashCode(): Int = 0
     }
 
-    public override fun entrySet(): Set<Map.Entry<Point, T>> = object : AbstractSet<Map.Entry<Point, T>>() {
+    public override fun entrySet(): MutableSet<MutableMap.MutableEntry<Point, T>> = object : AbstractSet<MutableMap.MutableEntry<Point, T>>() {
         public override fun size(): Int = size
-        public override fun iterator(): java.util.Iterator<Map.Entry<Point, T>> = object : java.util.Iterator<Map.Entry<Point, T>> {
+        public override fun iterator(): MutableIterator<MutableMap.MutableEntry<Point, T>> = object : MutableIterator<MutableMap.MutableEntry<Point, T>> {
             var x = 0
             var y = 0
             var visited = 0
@@ -39,7 +38,7 @@ class PointMap<T>(val mine : Mine) : AbstractMap<Point, T>() {
                 }
             }
             public override fun hasNext(): Boolean = visited < size
-            public override fun next(): Map.Entry<Point, T> {
+            public override fun next(): MutableMap.MutableEntry<Point, T> {
                 if (!hasNext())
                     throw IllegalStateException("PointMap has no more cells")
                 while (array[index(x, y)] == null)

@@ -2,17 +2,15 @@ package model
 
 import java.util.ArrayList
 import java.util.HashMap
-import java.util.List
-import java.util.Map
 
 val Char.isTrampolineId: Boolean get() = this in 'A'..'I'
 val Char.isTargetId: Boolean get() = this in '1'..'9'
 
 public class TrampolinesMap() {
-    private val trampolineToTarget: Map<Point, Point> = HashMap<Point, Point>()
-    private val targetToTrampoline: Map<Point, List<Point>> = HashMap<Point, List<Point>>()
+    private val trampolineToTarget: MutableMap<Point, Point> = HashMap<Point, Point>()
+    private val targetToTrampoline: MutableMap<Point, MutableList<Point>> = HashMap<Point, MutableList<Point>>()
 
-    private val locationToId: Map<Point, Char> = HashMap<Point, Char>()
+    private val locationToId: MutableMap<Point, Char> = HashMap<Point, Char>()
 
     // use only from map reader
     public fun addId(id: Char, location: Point) {

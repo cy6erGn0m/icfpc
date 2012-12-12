@@ -4,7 +4,6 @@ import java.io.File
 import java.io.FileInputStream
 import java.io.InputStream
 import java.util.HashMap
-import java.util.List
 import model.*
 import util._assert
 
@@ -25,7 +24,7 @@ public fun streamToLines(input: InputStream): List<String> {
 }
 
 private fun textToLines(text: String): List<String> {
-    val lines = text.replace("\r\n", "\n").split('\n').toList()
+    val lines: MutableList<String> = text.replace("\r\n", "\n").split('\n').toLinkedList()
 
     // remove last blank lines
     while (lines[lines.size() - 1].isBlankLine()) {

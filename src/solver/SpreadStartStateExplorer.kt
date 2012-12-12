@@ -1,6 +1,5 @@
 package solver
 
-import java.util.Collection
 import java.util.ArrayList
 import util._assert
 import model.MineCell

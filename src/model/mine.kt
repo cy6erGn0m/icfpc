@@ -1,9 +1,6 @@
 package model
 
-import java.util.Collection
 import java.util.HashMap
-import java.util.Map
-import java.util.Set
 import util._assert
 import java.util.HashSet
 import io.serialize
@@ -31,7 +28,7 @@ val allCells: Set<MineCell> = run {
     r
 }
 
-val charToState: java.util.Map<Char, MineCell> = run {
+val charToState: Map<Char, MineCell> = run {
     val map = HashMap<Char, MineCell>()
     for (cs in validCells) {
         map[cs.toChar()] = cs

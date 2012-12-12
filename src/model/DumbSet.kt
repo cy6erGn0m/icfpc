@@ -1,17 +1,17 @@
 package util
 
-import java.util.Set
 import model.Point
 import java.util.AbstractSet
 import java.util.Collections
+import java.util.ArrayList
 
 object DumbSet : AbstractSet<Point>() {
     public override fun size(): Int {
         return 0;
     }
 
-    public override fun iterator(): java.util.Iterator<Point> {
-        return Collections.emptyList<Point>()!!.iterator()
+    public override fun iterator(): MutableIterator<Point> {
+        return ArrayList<Point>().iterator()
     }
 
     public override fun add(e: Point): Boolean {

@@ -1,14 +1,10 @@
 package model
 
-import java.util.Map
 import java.util.HashMap
 import util._assert
-import java.util.List
-import java.util.Collection
 import java.util.HashSet
 import util.DumbSet
 import java.util.ArrayList
-import java.util.Set
 
 class Point(val x: Int, val y: Int) {
     public fun equals(other: Any?): Boolean {
@@ -53,10 +49,10 @@ public abstract class CellMatrix(
 public abstract class AbstractCellTrackingMatrix(
         width: Int, height: Int,
         cellIndicesToTrack: (Int) -> Boolean,
-        initialPositions: (Int) -> Set<Point> = {HashSet<Point>()}
+        initialPositions: (Int) -> MutableSet<Point> = {HashSet<Point>()}
     ) : CellMatrix(width, height, cellIndicesToTrack) {
 
-    private val positions = Array<Set<Point>>(allCells.size) {
+    private val positions = Array<MutableSet<Point>>(allCells.size) {
         cellIndex ->
         if (cellIndicesToTrack(cellIndex)) {
             initialPositions(cellIndex)

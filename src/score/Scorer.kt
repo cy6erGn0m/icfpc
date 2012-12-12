@@ -62,7 +62,7 @@ class CollectedLambdasScorerWithDistToLambdas: Scorer() {
     override fun score(state: RobotState): Double {
 
         if (state.robot.mine.get(state.robot.pos) == MineCell.INVALID) {
-            return Double.MIN_VALUE
+            return java.lang.Double.MIN_VALUE
         }
 
         var total: Double = 0.toDouble()

@@ -11,8 +11,6 @@ import evaluator.makeMove
 import java.util.HashSet
 import java.io.PrintWriter
 import java.io.FileWriter
-import java.util.Collection
-import java.util.List
 import util._assert
 import util.Logger
 import model.MineCell

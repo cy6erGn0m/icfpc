@@ -1,10 +1,8 @@
 package solver
 
-import java.util.List
 import java.util.TreeSet
 import java.util.ArrayList
 import java.util.Comparator
-import java.util.Collection
 import java.util.PriorityQueue
 
 trait StateAcceptor {
@@ -17,10 +15,10 @@ class BestRobotStates(val limit: Int) : StateAcceptor {
             return obj == this
         }
 
-        public override fun compare(o1: RobotState?, o2: RobotState?): Int {
+        public override fun compare(o1: RobotState, o2: RobotState): Int {
             // Invert comparator for removing from the end
-            val score1 = o1!!.score
-            val score2 = o2!!.score
+            val score1 = o1.score
+            val score2 = o2.score
             if (score1 < score2) return -1
             if (score1 > score2) return 1
             return 0

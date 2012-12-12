@@ -1,6 +1,5 @@
 package solver
 
-import java.util.Collection
 import model.Move
 
 abstract class StateExplorer(

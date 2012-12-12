@@ -2,10 +2,10 @@ package model
 
 import java.util.Arrays
 
-public enum class Move(val repr: Char, val deltaX: Int = 0, val deltaY: Int = 0) {
-    WAIT: Move('W')
-    ABORT: Move('A')
-    SHAVE: Move('S')
+public enum class Move(val repr: Char, val deltaX: Int, val deltaY: Int) {
+    WAIT: Move('W', 0, 0)
+    ABORT: Move('A', 0, 0)
+    SHAVE: Move('S', 0, 0)
     UP: Move('U', 0, 1)
     DOWN: Move('D', 0, -1)
     LEFT: Move('L', -1, 0)

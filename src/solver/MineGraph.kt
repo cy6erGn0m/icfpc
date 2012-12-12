@@ -2,7 +2,6 @@ package solver
 
 import model.Point
 import model.Mine
-import java.util.List
 import java.util.ArrayList
 import java.util.HashMap
 import model.MineCell
@@ -23,7 +22,7 @@ private fun Mine.iterator() = object : Iterator<Point> {
     var x = 0
     var y = 0
     override fun next(): Point {
-        if (!hasNext)
+        if (!hasNext())
             throw IllegalStateException("Mine has no more cells")
         val ans = Point(x, y)
         if (++x == width) {
@@ -32,8 +31,10 @@ private fun Mine.iterator() = object : Iterator<Point> {
         }
         return ans
     }
-    override val hasNext: Boolean
-        get() = y < height
+
+    override fun hasNext(): Boolean {
+        return y < height
+    }
 }
 
 private val DX = array(1, 0, -1, 0)
@@ -41,7 +42,7 @@ private val DY = array(0, 1, 0, -1)
 
 private class PathSearchQueue(val mine: Mine, val initialCapacity: Int = 10) {
     val queue = PriorityQueue<Point>(initialCapacity, object : Comparator<Point> {
-        public override fun compare(o1: Point?, o2: Point?): Int = distanceTo(o1!!) - distanceTo(o2!!)
+        public override fun compare(o1: Point, o2: Point): Int = distanceTo(o1) - distanceTo(o2)
         public override fun equals(obj: Any?): Boolean = this === obj
     })
     val distance = PointMap<Int>(mine)
@@ -122,7 +123,9 @@ class MineGraph(
             // _assert(isPassable(mine[vertex]))
             // _assert(edges[vertex] != null)
             val oldDistance = queue.distanceTo(vertex)
-            for (edge in edges[vertex]) {
+            val listOfEdges = edges[vertex]
+            if (listOfEdges == null) continue
+            for (edge in listOfEdges) {
                 queue.add(edge.end, oldDistance + edge.length)
                 2 + 2
             }

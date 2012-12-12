@@ -20,7 +20,7 @@ fun String.repeat(count : Int) : String {
     for (i in 1..count) {
         buf.append(this)
     }
-    return buf.toString()!!
+    return buf.toString()
 }
 
 fun String.trimTrailingSpaces() : String {
@@ -29,7 +29,7 @@ fun String.trimTrailingSpaces() : String {
         return if (Character.isWhitespace(this[0])) "" else this
     }
 
-    for (i in length - 1 downto 0) {
+    for (i in (0..(length - 1)).reversed) {
         if (!Character.isWhitespace(this[i])) {
             return substring(0, i + 1)
         }

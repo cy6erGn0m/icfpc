@@ -6,7 +6,6 @@ import io.readMine
 import org.junit.Test as test
 import org.junit.Assert.assertEquals
 import model.Move
-import java.util.List
 import model.RobotStatus
 import java.io.InputStream
 import java.util.ArrayList

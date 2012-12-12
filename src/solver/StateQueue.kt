@@ -21,5 +21,5 @@ class StateQueue {
     fun containsSimilar(state: RobotState) =
         visited.contains(RobotHash.calculate(state.robot))
 
-    fun iterator(): java.util.Iterator<RobotState> = queue.iterator()
+    fun iterator(): MutableIterator<RobotState> = queue.iterator()
 }

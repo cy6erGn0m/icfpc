@@ -1,14 +1,12 @@
 package test.minegen
 
 import model.CellMatrix
-import java.util.List
 import java.util.Random
 import util._assert
 import model.ArrayCellMatrix
 import model.MineCell
 import java.util.Collections
 import java.util.ArrayList
-import java.util.Collection
 import model.Mine
 import model.count
 import model.contains
