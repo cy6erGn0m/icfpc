@@ -8,7 +8,7 @@ import score.CollectedLambdasScorerWithDistToLambdas
 fun main(args: Array<String>) {
     val solver = Solver(readMine(System.`in`), CollectedLambdasScorerWithDistToLambdas())
 
-    Runtime.getRuntime()!!.addShutdownHook(object : Thread() {
+    Runtime.getRuntime().addShutdownHook(object : Thread() {
         public override fun run() {
             solver.interruptAndWriteResult()
         }
