@@ -1,26 +1,23 @@
 package evolution
 
+import io.readMine
+import io.serialize
+import io.streamToLines
+import java.io.File
+import java.io.FileInputStream
+import junit.framework.TestCase
 import model.Mine
 import model.equalsTo
-import java.io.FileInputStream
-import io.readMine
 import org.junit.Assert.assertEquals
-import junit.framework.TestCase
-import testUtil.UsefulTestCase
-import java.io.File
-import io.streamToLines
-import junit.framework.Test
-import junit.framework.TestSuite
-import evaluator.mineUpdate
 import evaluator.mineUpdateWithFullCopy
-import io.serialize
+import evaluator.incremental.mineUpdateWithIncrementalCopy
 
-val END_MINE = "-END MINE"
-val ROOT_DIR = File("mines")
-val EXTENSION = "evolution"
+abstract class AbstractEvolutionTest(): TestCase() {
+    val mineUpdateWithFullCopyStrategy = {(m: Mine) -> mineUpdateWithFullCopy(m) }
+    val mineUpdateWithIncrementalCopyStrategy = {(m: Mine) -> mineUpdateWithIncrementalCopy(m) }
 
-class EvolutionTest(val file: File, val update: (Mine) -> Mine) : TestCase("test" + file.getName().capitalize()) {
-    public override fun runTest() {
+    public fun doTest(path: String, val update: (Mine) -> Mine) {
+        val file = File(path)
         println(file)
         val lines = streamToLines(FileInputStream(file))
 
@@ -31,21 +28,10 @@ class EvolutionTest(val file: File, val update: (Mine) -> Mine) : TestCase("test
 
         assertEquals(expected, actual)
     }
+
 }
 
-public fun suite(): Test {
-    return createSuite("Evolution") {m -> mineUpdateWithFullCopy(m)}
-}
-public fun createSuite(name: String, update: (Mine) -> Mine): Test {
-    val suite = TestSuite(name)
-    ROOT_DIR.recurse {
-        file ->
-        if (file.getName().endsWith(".$EXTENSION")) {
-            suite.addTest(EvolutionTest(file, update))
-        }
-    }
-    return suite
-}
+val END_MINE = "-END MINE"
 
 fun evolution(mine: Mine, update: (Mine) -> Mine): String {
     val result = StringBuilder(mine.serialize())
@@ -62,3 +48,4 @@ fun evolution(mine: Mine, update: (Mine) -> Mine): String {
     }
     return result.toString()
 }
+
