@@ -10,7 +10,7 @@ class SpreadStartStateExplorer(
         solver: SolverFramework
 ) : StateExplorer(solver) {
     class Clusters(val perClusterLimit: Int): StateAcceptor {
-        class Cluster(
+        inner class Cluster(
                 val minx: Int,
                 val maxx: Int,
                 val miny: Int,

@@ -12,8 +12,7 @@ class PointMap<T: Any>(val mine : Mine) : AbstractMap<Point, T>() {
 
     var size = 0
 
-    class PointMapEntry(var myKey: Point, var myValue: T) : MutableMap.MutableEntry<Point, T> {
-
+    inner class PointMapEntry(var myKey: Point, var myValue: T) : MutableMap.MutableEntry<Point, T> {
         public override fun setValue(value: T): T {
             myValue = value
             return value
