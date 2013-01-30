@@ -29,7 +29,7 @@ fun String.trimTrailingSpaces() : String {
         return if (Character.isWhitespace(this[0])) "" else this
     }
 
-    for (i in (0..(length - 1)).reversed) {
+    for (i in (0..(length - 1)).reversed()) {
         if (!Character.isWhitespace(this[i])) {
             return substring(0, i + 1)
         }
