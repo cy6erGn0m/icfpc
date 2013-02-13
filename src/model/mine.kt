@@ -90,7 +90,7 @@ val trackedCells: (Int) -> Boolean = { i ->
     i == MineCell.OPEN_LIFT.index || i == MineCell.CLOSED_LIFT.index
 }
 
-public fun Mine(width: Int, height: Int, public val trampolinesMap: TrampolinesMap): Mine
+public fun Mine(width: Int, height: Int, public trampolinesMap: TrampolinesMap): Mine
         = Mine(ArrayCellMatrix(width, height, trackedCells), trampolinesMap)
 
 public class Mine(private val matrix: CellMatrix, public val trampolinesMap: TrampolinesMap) {

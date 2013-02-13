@@ -16,7 +16,7 @@ abstract class AbstractEvolutionTest(): TestCase() {
     val mineUpdateWithFullCopyStrategy = {(m: Mine) -> mineUpdateWithFullCopy(m) }
     val mineUpdateWithIncrementalCopyStrategy = {(m: Mine) -> mineUpdateWithIncrementalCopy(m) }
 
-    public fun doTest(path: String, val update: (Mine) -> Mine) {
+    public fun doTest(path: String, update: (Mine) -> Mine) {
         val file = File(path)
         println(file)
         val lines = streamToLines(FileInputStream(file))
