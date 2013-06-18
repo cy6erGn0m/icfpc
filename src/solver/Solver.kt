@@ -104,16 +104,19 @@ public class Solver(val initialMine: Mine, val scorer: Scorer, val highScore: In
     fun needToTerminate(): Boolean {
         if (needToTerminateFlag) {
             logger.log("terminated because of terminateFlag")
+            System.err?.println("terminated because of terminateFlag")
             return true
         }
         if (answer == null)
             return false
         if (answer!!.robot.moveCount == answer!!.robot.mine.maxMoveCount) {
             logger.log("terminated because of move count: " + answer!!.robot.moveCount)
+            System.err?.println("terminated because of move count: " + answer!!.robot.moveCount)
             return true
         }
         if (highScore != null && countScore(answer!!.robot) >= highScore) {
             logger.log("terminated because of high score: " + countScore(answer!!.robot))
+            System.err?.println("terminated because of high score: " + countScore(answer!!.robot))
             return true
         }
         return false
