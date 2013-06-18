@@ -40,7 +40,7 @@ object SolverTestData {
     val scorer = CollectedLambdasScorerWithDistToLambdas()
 //    val scorer = CollectedLambdasScorer()
 
-    val delay = 25000.toLong()
+    val delay = 26000.toLong()
 }
 
 class SolverTest : TestCase() {
