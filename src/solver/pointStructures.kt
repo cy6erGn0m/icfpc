@@ -25,7 +25,7 @@ class PointMap<T: Any>(val mine : Mine) : AbstractMap<Point, T>() {
     }
 
     public override fun entrySet(): MutableSet<MutableMap.MutableEntry<Point, T>> = object : AbstractSet<MutableMap.MutableEntry<Point, T>>() {
-        public override fun size(): Int = size
+        public override fun size(): Int = this@PointMap.size
         public override fun iterator(): MutableIterator<MutableMap.MutableEntry<Point, T>> = object : MutableIterator<MutableMap.MutableEntry<Point, T>> {
             var x = 0
             var y = 0
