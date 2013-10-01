@@ -8,7 +8,7 @@ import java.util.HashMap
 import java.util.AbstractSet
 
 class PointMap<T: Any>(val mine : Mine) : AbstractMap<Point, T>() {
-    val array: Array<T?> = Array<T?>(mine.width * mine.height) { null }
+    val array: Array<Any?> = Array<Any?>(mine.width * mine.height) { null }
 
     var size = 0
 
@@ -42,7 +42,7 @@ class PointMap<T: Any>(val mine : Mine) : AbstractMap<Point, T>() {
                     throw IllegalStateException("PointMap has no more cells")
                 while (array[index(x, y)] == null)
                     makeOneStep()
-                val ans = PointMapEntry(Point(x, y), array[index(x, y)]!!)
+                val ans = PointMapEntry(Point(x, y), array[index(x, y)] as T)
                 makeOneStep()
                 visited++
                 return ans
@@ -63,13 +63,13 @@ class PointMap<T: Any>(val mine : Mine) : AbstractMap<Point, T>() {
         if (prev == null)
             size++
         array[i] = value
-        return prev
+        return prev as T?
     }
 
     public override fun get(key: Any?): T? {
         if (key !is Point) return null
         val i = index(key)
-        return array[i]
+        return array[i] as T?
     }
 
     public override fun size(): Int = size
