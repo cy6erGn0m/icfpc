@@ -19,7 +19,7 @@ abstract class Scorer {
 
 class CollectedLambdasScorer: Scorer() {
     override fun score(state: RobotState): Double {
-        var ans = 50 * state.robot.collectedLambdas - state.robot.moveCount
+        var ans = 50.0 * state.robot.collectedLambdas - state.robot.moveCount
         if (state.robot.status == RobotStatus.WON) {
             ans += 25 * state.robot.collectedLambdas
             return ans + 1e9
