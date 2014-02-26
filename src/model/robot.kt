@@ -11,9 +11,10 @@ public enum class Move(val repr: Char, val deltaX: Int, val deltaY: Int) {
     LEFT: Move('L', -1, 0)
     RIGHT: Move('R', 1, 0)
 
-    public fun toString(): String = "${repr}"
     public fun nextPosition(curPos: Point): Point = if (this != ABORT) Point(curPos.x + deltaX, curPos.y + deltaY)
                                                     else throw IllegalStateException("Can't call nextPosition for ABORT command")
+
+    override fun toString(): String = "${repr}"
 }
 
 val possibleMoves = array(
@@ -31,7 +32,7 @@ public enum class RobotStatus(val terminated: Boolean, val name: String) {
     ABORTED: RobotStatus(true, "ABORTED")
     WON: RobotStatus(true, "WON")
 
-    public fun toString(): String = name
+    override fun toString(): String = name
 }
 
 public class Robot(val mine: Mine, val moveCount: Int, val collectedLambdas: Int, val status: RobotStatus,
@@ -39,10 +40,10 @@ public class Robot(val mine: Mine, val moveCount: Int, val collectedLambdas: Int
     val x: Int = if (!won) mine.robotX else -1
     val y: Int = if (!won) mine.robotY else -1
 
-    public fun toString(): String {
-        return "Robot[moveCount=${moveCount},collectedLambdas=${collectedLambdas},status=${status},oxygen=${oxygen}]"
-    }
-
     public val pos: Point
         get() = Point(x, y)
+
+    override fun toString(): String {
+        return "Robot[moveCount=${moveCount},collectedLambdas=${collectedLambdas},status=${status},oxygen=${oxygen}]"
+    }
 }

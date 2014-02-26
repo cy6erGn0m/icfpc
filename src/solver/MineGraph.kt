@@ -43,7 +43,7 @@ private val DY = array(0, 1, 0, -1)
 private class PathSearchQueue(val mine: Mine, val initialCapacity: Int = 10) {
     val queue = PriorityQueue<Point>(initialCapacity, object : Comparator<Point> {
         public override fun compare(o1: Point, o2: Point): Int = distanceTo(o1) - distanceTo(o2)
-        public override fun equals(obj: Any?): Boolean = this === obj
+        public override fun equals(other: Any?): Boolean = this === other
     })
     val distance = PointMap<Int>(mine)
 

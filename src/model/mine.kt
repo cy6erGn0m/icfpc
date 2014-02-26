@@ -73,7 +73,7 @@ enum class MineCell(
     public fun isLift(): Boolean = this == CLOSED_LIFT || this == OPEN_LIFT
 
     public fun toChar(): Char = representation
-    public fun toString(): String = representation.toString()
+    override fun toString(): String = representation.toString()
 }
 
 // this is an extension function because enums can't have class object (KT-2410)
@@ -248,9 +248,7 @@ public class Mine(private val matrix: CellMatrix, public val trampolinesMap: Tra
         return matrix.positions(mineCell)
     }
 
-    public fun toString(): String {
-        return serialize()
-    }
+    override fun toString(): String = serialize()
 }
 
 public fun Mine.equalsTo(other: Mine): Boolean {

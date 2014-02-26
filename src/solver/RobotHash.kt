@@ -24,9 +24,9 @@ class RobotHash(val hash1: Int, val hash2: Int) {
         }
     }
 
-    fun hashCode() = hash1 + hash2
+    override fun hashCode() = hash1 + hash2
 
-    fun equals(o: Any?) = o is RobotHash && hash1 == o.hash1 && hash2 == o.hash2
+    override fun equals(other: Any?) = other is RobotHash && hash1 == other.hash1 && hash2 == other.hash2
 
-    fun toString() = "${hash1},${hash2}"
+    override fun toString() = "${hash1},${hash2}"
 }

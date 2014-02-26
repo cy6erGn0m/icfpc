@@ -11,8 +11,8 @@ trait StateAcceptor {
 
 class BestRobotStates(val limit: Int) : StateAcceptor {
     val WORST_SCORE_FIRST_OUT = object : Comparator<RobotState> {
-        public override fun equals(obj: Any?): Boolean {
-            return obj == this
+        public override fun equals(other: Any?): Boolean {
+            return other == this
         }
 
         public override fun compare(o1: RobotState, o2: RobotState): Int {

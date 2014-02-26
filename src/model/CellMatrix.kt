@@ -7,22 +7,19 @@ import util.DumbSet
 import java.util.ArrayList
 
 class Point(val x: Int, val y: Int) {
-    public fun equals(other: Any?): Boolean {
-        if (other == null) return false
-        if (other.javaClass != javaClass<Point>()) return false
-        val otherPoint = other as Point
-        return x == otherPoint.x && y == otherPoint.y
+    override fun equals(other: Any?): Boolean {
+        return other is Point && x == other.x && y == other.y
     }
 
-    public fun hashCode(): Int {
-        return x + 13 * y;
+    override fun hashCode(): Int {
+        return x + 13 * y
     }
 
     public fun above(): Point {
         return Point(x, y + 1)
     }
 
-    public fun toString(): String {
+    override fun toString(): String {
         return "($x, $y)"
     }
 }
