@@ -49,7 +49,7 @@ private fun findSeparatorLine(lines: List<String>) : Int {
     for (i in 0..lines.size() - 1) {
         val index = lines.size() - i - 1
         val line = lines[index]
-        if (line.isBlankLine() || validMetadataKeywords.contains(line.trim().split("\\s")[0])) {
+        if (line.isBlankLine() || validMetadataKeywords.contains(line.trim().split("\\s".toRegex())[0])) {
             // blank line, metadata line, okay
         }
         else {
