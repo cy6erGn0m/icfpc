@@ -124,7 +124,7 @@ public class DeltaCellMatrix internal(
                 DumbSet
     }) {
 
-    class object {
+    companion object {
         fun create(baseline: CellMatrix): DeltaCellMatrix {
             if (baseline is DeltaCellMatrix) {
                 val effectiveBaseline = baseline.baseline

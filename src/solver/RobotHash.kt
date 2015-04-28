@@ -5,7 +5,7 @@ import util._assert
 import model.MineCell
 
 class RobotHash(val hash1: Int, val hash2: Int) {
-    class object {
+    companion object {
         fun calculate(robot: Robot): RobotHash {
             val mine = robot.mine
             var hash1 = 0

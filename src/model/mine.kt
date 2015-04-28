@@ -76,7 +76,7 @@ enum class MineCell(
     override fun toString(): String = representation.toString()
 }
 
-// this is an extension function because enums can't have class object (KT-2410)
+// this is an extension function because enums can't have companion object (KT-2410)
 public fun Char.toMineCell(): MineCell {
     val cell = charToState[this]
     if (cell == null) {

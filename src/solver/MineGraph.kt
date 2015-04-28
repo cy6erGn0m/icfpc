@@ -95,7 +95,7 @@ class MineGraph(
         // for (entry in edges) for (e in entry.value) println("${entry.key} -> ${e.end}")
     }
 
-    class object {
+    companion object {
         val ROCK_COST = 3
         val BEARD_COST = 30
     }
