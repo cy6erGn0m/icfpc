@@ -85,7 +85,7 @@ class MineGraph(
 ) {
     val edges = PointMap<List<Edge>>(mine);
 
-    {
+    init {
         for (point in mine) {
             if (isRoughlyPassable(mine[point])) {
                 edges[point] = getNeighbors(point)
