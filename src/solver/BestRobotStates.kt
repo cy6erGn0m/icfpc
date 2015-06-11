@@ -5,7 +5,7 @@ import java.util.ArrayList
 import java.util.Comparator
 import java.util.PriorityQueue
 
-trait StateAcceptor {
+interface StateAcceptor {
     fun add(state: RobotState)
 }
 

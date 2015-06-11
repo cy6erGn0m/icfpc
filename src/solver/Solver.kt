@@ -22,7 +22,7 @@ import java.util.ArrayList
 
 public val solverUpdate: (Mine) -> Mine = {m -> mineUpdateWithFullCopy(m)}
 
-trait SolverFramework {
+interface SolverFramework {
     val needToTerminateFlag: Boolean
     val logger: Logger
     val iteration: Int

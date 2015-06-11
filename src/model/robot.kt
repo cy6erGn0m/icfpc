@@ -3,13 +3,13 @@ package model
 import java.util.Arrays
 
 public enum class Move(val repr: Char, val deltaX: Int, val deltaY: Int) {
-    WAIT: Move('W', 0, 0)
-    ABORT: Move('A', 0, 0)
-    SHAVE: Move('S', 0, 0)
-    UP: Move('U', 0, 1)
-    DOWN: Move('D', 0, -1)
-    LEFT: Move('L', -1, 0)
-    RIGHT: Move('R', 1, 0)
+    WAIT('W', 0, 0),
+    ABORT('A', 0, 0),
+    SHAVE('S', 0, 0),
+    UP('U', 0, 1),
+    DOWN('D', 0, -1),
+    LEFT('L', -1, 0),
+    RIGHT('R', 1, 0);
 
     public fun nextPosition(curPos: Point): Point = if (this != ABORT) Point(curPos.x + deltaX, curPos.y + deltaY)
                                                     else throw IllegalStateException("Can't call nextPosition for ABORT command")
@@ -27,10 +27,10 @@ val possibleMoves = array(
 )
 
 public enum class RobotStatus(val terminated: Boolean, val name: String) {
-    LIVE: RobotStatus(false, "LIVE")
-    DEAD: RobotStatus(true, "DEAD")
-    ABORTED: RobotStatus(true, "ABORTED")
-    WON: RobotStatus(true, "WON")
+    LIVE(false, "LIVE"),
+    DEAD(true, "DEAD"),
+    ABORTED(true, "ABORTED"),
+    WON(true, "WON");
 
     override fun toString(): String = name
 }

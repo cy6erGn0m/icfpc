@@ -43,7 +43,7 @@ class CollectedLambdasScorer: Scorer() {
             ans += 1e7
         }
 
-        return 100 * ans.toDouble() - minDist!!
+        return 100 * ans.toDouble() - minDist
 //
 //        if (graph.mine.getPointsOfType(MineCell.LAMBDA).size() <= 1) {
 //            ans += 50 * state.robot.collectedLambdas

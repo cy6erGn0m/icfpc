@@ -50,20 +50,20 @@ enum class MineCell(
         private val representation: Char,
         public val index: Int
 ) {
-    ROBOT: MineCell('R', 0)
-    ROCK: MineCell('*', 1)
-    CLOSED_LIFT: MineCell('L', 2)
-    EARTH: MineCell('.', 3)
-    WALL: MineCell('#', 4)
-    LAMBDA: MineCell('\\', 5)
-    OPEN_LIFT: MineCell('O', 6)
-    EMPTY: MineCell(' ', 7)
-    INVALID: MineCell('?', 8)
-    TRAMPOLINE: MineCell('T', 9)
-    TARGET: MineCell('t', 10)
-    BEARD: MineCell('W', 11)
-    RAZOR: MineCell('!', 12)
-    LAMBDA_ROCK: MineCell('@', 13)
+    ROBOT('R', 0),
+    ROCK('*', 1),
+    CLOSED_LIFT('L', 2),
+    EARTH('.', 3),
+    WALL('#', 4),
+    LAMBDA('\\', 5),
+    OPEN_LIFT('O', 6),
+    EMPTY(' ', 7),
+    INVALID('?', 8),
+    TRAMPOLINE('T', 9),
+    TARGET('t', 10),
+    BEARD('W', 11),
+    RAZOR('!', 12),
+    LAMBDA_ROCK('@', 13);
 
     fun isPassable(): Boolean {
         return this == EARTH || this == EMPTY || this == LAMBDA || this == OPEN_LIFT || this == TRAMPOLINE || this == RAZOR

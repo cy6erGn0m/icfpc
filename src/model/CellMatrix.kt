@@ -113,7 +113,7 @@ public class ArrayCellMatrix(
     }
 }
 
-public class DeltaCellMatrix internal(
+public class DeltaCellMatrix internal constructor(
         private val baseline: CellMatrix
 //    ) : AbstractCellMatrixWithStupidCellTracking(baseline.width, baseline.height, baseline.cellIndicesToTrack) {
     ) : AbstractCellTrackingMatrix(baseline.width, baseline.height, baseline.cellIndicesToTrack, {

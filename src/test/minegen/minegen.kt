@@ -21,7 +21,7 @@ val TRACKED_CELLS = hashSet(
         MineCell.OPEN_LIFT,
         MineCell.CLOSED_LIFT
 )
-val trackedCellIndices = {(i: Int) -> model.indexToCell[i] in TRACKED_CELLS}
+val trackedCellIndices = { i: Int -> model.indexToCell[i] in TRACKED_CELLS}
 
 class MineGenerator(private val seed: Long = 1234567) {
 

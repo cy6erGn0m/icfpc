@@ -149,7 +149,7 @@ class MineGraph(
         val dist = findPathLengthsToLambdaAndOpenLift(start)
         var min: Int? = null
         for (length in dist)
-            min = if (min == null) length else Math.min(min!!, length)
+            min = if (min == null) length else Math.min(min, length)
         return min
     }
 }

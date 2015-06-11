@@ -13,8 +13,8 @@ import evaluator.mineUpdateWithFullCopy
 import evaluator.incremental.mineUpdateWithIncrementalCopy
 
 abstract class AbstractEvolutionTest(): TestCase() {
-    val mineUpdateWithFullCopyStrategy = {(m: Mine) -> mineUpdateWithFullCopy(m) }
-    val mineUpdateWithIncrementalCopyStrategy = {(m: Mine) -> mineUpdateWithIncrementalCopy(m) }
+    val mineUpdateWithFullCopyStrategy = { m: Mine -> mineUpdateWithFullCopy(m) }
+    val mineUpdateWithIncrementalCopyStrategy = { m: Mine -> mineUpdateWithIncrementalCopy(m) }
 
     public fun doTest(path: String, update: (Mine) -> Mine) {
         val file = File(path)
