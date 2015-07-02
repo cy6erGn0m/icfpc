@@ -48,7 +48,7 @@ class BestRobotStatesTest : TestCase() {
 
     fun testManyStatesLimitOne() {
         val s = BestRobotStates(1)
-        val states = arrayList(
+        val states = listOf(
                 makeDummyState(20),
                 makeDummyState(15),
                 makeDummyState(25),
@@ -62,7 +62,7 @@ class BestRobotStatesTest : TestCase() {
 
     fun testManyStatesLimitThree() {
         val s = BestRobotStates(3)
-        val states = arrayList(
+        val states = listOf(
                 makeDummyState(20),
                 makeDummyState(15),
                 makeDummyState(25),

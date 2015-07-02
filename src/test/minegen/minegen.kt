@@ -15,7 +15,7 @@ import model.TrampolinesMap
 import io.serialize
 
 val DEBUG = false
-val TRACKED_CELLS = hashSet(
+val TRACKED_CELLS = hashSetOf(
         MineCell.LAMBDA,
         MineCell.ROBOT,
         MineCell.OPEN_LIFT,

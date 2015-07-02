@@ -172,7 +172,7 @@ public class Solver(val initialMine: Mine, val scorer: Scorer, val highScore: In
             val startRobot = Robot(initialMine, 0, 0, RobotStatus.LIVE, initialMine.waterproof)
             val startState = RobotState(startRobot, null, scorer)
             updateAnswer(startState)
-            var currentStates : Collection<RobotState> = arrayList(startState)
+            var currentStates : Collection<RobotState> = listOf(startState)
             val queue = StateQueue()
             while (!needToTerminate() && !currentStates.isEmpty()) {
                 logger.log("Current: ${currentStates.size()} Answer: ${answer?.path}")

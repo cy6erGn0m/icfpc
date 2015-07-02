@@ -29,7 +29,7 @@ class MineTest : TestCase() {
 \....L
 R.....
 \.\...""")
-        val lambdas = mine.getPointsOfType(MineCell.LAMBDA).copyToArray()
+        val lambdas = mine.getPointsOfType(MineCell.LAMBDA).toTypedArray()
         assertEquals(3, lambdas.size())
         assertEquals(Point(0, 0), lambdas[0])
         assertEquals(Point(2, 0), lambdas[1])

@@ -28,7 +28,7 @@ object SolverTestData {
     val testScores = LinkedHashMap<String, Int>()
 
     var previousResultsWasRead = false
-    val previousScores: HashMap<String, Int> = hashMap()
+    val previousScores: HashMap<String, Int> = hashMapOf()
         get() {
             if (!previousResultsWasRead) readExpectedResults()
             return $previousScores

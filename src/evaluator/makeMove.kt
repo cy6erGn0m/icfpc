@@ -23,7 +23,7 @@ import model.RobotStatus
 import util._assert
 import model.Point
 
-val validTargetCells = arrayList(MineCell.EMPTY, MineCell.EARTH, MineCell.LAMBDA, MineCell.OPEN_LIFT)
+val validTargetCells = listOf(MineCell.EMPTY, MineCell.EARTH, MineCell.LAMBDA, MineCell.OPEN_LIFT)
 
 fun shavePoint(mine: Mine, x: Int, y: Int) {
     if (mine[x, y] == MineCell.BEARD) {

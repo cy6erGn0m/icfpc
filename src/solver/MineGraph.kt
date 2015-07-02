@@ -37,8 +37,8 @@ private fun Mine.iterator() = object : Iterator<Point> {
     }
 }
 
-private val DX = array(1, 0, -1, 0)
-private val DY = array(0, 1, 0, -1)
+private val DX = arrayOf(1, 0, -1, 0)
+private val DY = arrayOf(0, 1, 0, -1)
 
 private class PathSearchQueue(val mine: Mine, val initialCapacity: Int = 10) {
     val queue = PriorityQueue<Point>(initialCapacity, object : Comparator<Point> {

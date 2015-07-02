@@ -33,7 +33,7 @@ private fun textToLines(text: String): List<String> {
     return lines
 }
 
-private val validMetadataKeywords = hashSet("Water", "Flooding", "Waterproof", "Trampoline", "Growth", "Razors")
+private val validMetadataKeywords = hashSetOf("Water", "Flooding", "Waterproof", "Trampoline", "Growth", "Razors")
 
 private fun String.isBlankLine(): Boolean {
     for (c in this) {

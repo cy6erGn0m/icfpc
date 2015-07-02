@@ -11,7 +11,7 @@ import kotlin.test.assertFalse
 
 class MineGraphTest : TestCase() {
 
-    private fun createSimpleGraph() = MineGraph(readMine(arrayList(
+    private fun createSimpleGraph() = MineGraph(readMine(listOf(
             """########""",
             """#L....\#""",
             """####.#.#""",
@@ -56,7 +56,7 @@ class MineGraphTest : TestCase() {
 
 
 
-    private fun createGraphWithRocks() = MineGraph(readMine(arrayList(
+    private fun createGraphWithRocks() = MineGraph(readMine(listOf(
             """##########""",
             """#..*...#.#""",
             """#..*...###""",
@@ -85,7 +85,7 @@ class MineGraphTest : TestCase() {
 
 
     fun testTrampolineDijkstra() {
-        val graph = MineGraph(readMine(arrayList(
+        val graph = MineGraph(readMine(listOf(
                 """#R.A#1.O#""",
                 """""",
                 """Trampoline A targets 1"""

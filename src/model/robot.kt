@@ -17,7 +17,7 @@ public enum class Move(val repr: Char, val deltaX: Int, val deltaY: Int) {
     override fun toString(): String = "${repr}"
 }
 
-val possibleMoves = array(
+val possibleMoves = arrayOf(
         Move.DOWN,
         Move.LEFT,
         Move.RIGHT,

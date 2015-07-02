@@ -5,7 +5,7 @@ import util._assert
 import java.util.HashSet
 import io.serialize
 
-public val validCells: Set<MineCell> = hashSet(
+public val validCells: Set<MineCell> = hashSetOf(
         MineCell.ROBOT,
         MineCell.ROCK,
         MineCell.CLOSED_LIFT,
@@ -19,7 +19,6 @@ public val validCells: Set<MineCell> = hashSet(
         MineCell.BEARD,
         MineCell.RAZOR,
         MineCell.LAMBDA_ROCK
-
 )
 
 val allCells: Set<MineCell> = run {
