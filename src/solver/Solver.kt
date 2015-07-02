@@ -182,7 +182,7 @@ public class Solver(val initialMine: Mine, val scorer: Scorer, val highScore: In
                 val robotStates = shortTermExplorer.processStates(currentStates, queue, resultLimit, depth)
                 iteration++
                 currentStates = robotStates.getBestStates()
-                logger.log("Current states: ${currentStates.size}")
+                logger.log("Current states: ${currentStates.size()}")
                 queue.clearQueue()
             }
 

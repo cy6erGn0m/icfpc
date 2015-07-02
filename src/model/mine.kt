@@ -37,7 +37,7 @@ val charToState: Map<Char, MineCell> = run {
 }
 
 val indexToCell = run {
-    val r = Array<MineCell>(allCells.size) {
+    val r = Array<MineCell>(allCells.size()) {
     i -> MineCell.INVALID
     }
     for (c in allCells) {

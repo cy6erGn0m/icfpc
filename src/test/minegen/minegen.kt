@@ -33,7 +33,7 @@ class MineGenerator(private val seed: Long = 1234567) {
             val random: Random
     ) {
         val chunks = run {
-            val n = length / pieces.size
+            val n = length / pieces.size()
             if (n == 0) 1 else n
         }
         val chunkWithRobot = random.nextInt() mod chunks
@@ -42,7 +42,7 @@ class MineGenerator(private val seed: Long = 1234567) {
         var liftReturned = false
 
         val initialPieces = ArrayList<CellMatrix>(pieces)
-        val shuffledPieces = ArrayList<CellMatrix>(pieces.size)
+        val shuffledPieces = ArrayList<CellMatrix>(pieces.size())
         var currentChunk = 0
         var offsetInChunk = 0
 

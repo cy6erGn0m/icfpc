@@ -90,7 +90,7 @@ class CollectedLambdasScorerWithDistToLambdas: Scorer() {
         val distToLift = allDistLengths.get(graph.mine.liftPos)
 
         if (distToLift != null) {
-            val liftScore = 25 * (state.robot.collectedLambdas + (1 - NEW_LAMBDAS_COEFFICIENT) * lambdaPoints.size) - distToLift
+            val liftScore = 25 * (state.robot.collectedLambdas + (1 - NEW_LAMBDAS_COEFFICIENT) * lambdaPoints.size()) - distToLift
             total += liftScore * LIFT_IS_REACHABLE_COEFFICIENT
         }
 

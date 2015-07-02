@@ -49,7 +49,7 @@ public abstract class AbstractCellTrackingMatrix(
         initialPositions: (Int) -> MutableSet<Point> = {HashSet<Point>()}
     ) : CellMatrix(width, height, cellIndicesToTrack) {
 
-    private val positions = Array<MutableSet<Point>>(allCells.size) {
+    private val positions = Array<MutableSet<Point>>(allCells.size()) {
         cellIndex ->
         if (cellIndicesToTrack(cellIndex)) {
             initialPositions(cellIndex)

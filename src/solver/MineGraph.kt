@@ -102,7 +102,7 @@ class MineGraph(
 
     private fun getNeighbors(point: Point): List<Edge> {
         val neighbors = ArrayList<Edge>(4) // average number of edges from any vertex
-        for (d in 0..DX.size-1) {
+        for (d in DX.indices) {
             val newPoint = Point(point.x + DX[d], point.y + DY[d])
             if (mine[newPoint] != MineCell.INVALID && isRoughlyPassable(mine[newPoint])) {
                 neighbors.add(Edge(point, newPoint, edgeCost(mine[point], mine[newPoint])))

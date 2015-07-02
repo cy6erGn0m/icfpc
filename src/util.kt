@@ -25,11 +25,11 @@ fun String.repeat(count : Int) : String {
 
 fun String.trimTrailingSpaces() : String {
     // workaround for downto bug
-    if (length == 1) {
+    if (length() == 1) {
         return if (Character.isWhitespace(this[0])) "" else this
     }
 
-    for (i in (0..(length - 1)).reversed()) {
+    for (i in indices.reversed()) {
         if (!Character.isWhitespace(this[i])) {
             return substring(0, i + 1)
         }

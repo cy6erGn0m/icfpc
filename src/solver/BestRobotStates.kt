@@ -33,7 +33,7 @@ class BestRobotStates(val limit: Int) : StateAcceptor {
             return
         }
         bestStates.add(state)
-        if (bestStates.size > limit) {
+        if (bestStates.size() > limit) {
             bestStates.poll()
         }
     }

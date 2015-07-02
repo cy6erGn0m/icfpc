@@ -36,7 +36,7 @@ class PointMap<T: Any>(val mine : Mine) : AbstractMap<Point, T>() {
                     y++
                 }
             }
-            public override fun hasNext(): Boolean = visited < size
+            public override fun hasNext(): Boolean = visited < this@PointMap.size
             public override fun next(): MutableMap.MutableEntry<Point, T> {
                 if (!hasNext())
                     throw IllegalStateException("PointMap has no more cells")

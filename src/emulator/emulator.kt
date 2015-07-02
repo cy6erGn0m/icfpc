@@ -14,7 +14,7 @@ import model.Mine
 import evaluator.countScore
 
 fun main(args: Array<String>) {
-    val pathToMap = if (args.size == 0) {
+    val pathToMap = if (args.isEmpty()) {
         print("Enter path to map: ")
         System.`in`.reader().buffered().readLine()!!.trim()
     } else args[0]
