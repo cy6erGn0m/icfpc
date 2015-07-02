@@ -16,8 +16,8 @@ class RobotHash(val hash1: Int, val hash2: Int) {
                     if (cell == MineCell.EMPTY && !(mine[x - 1,y].isRock() || mine[x + 1,y].isRock() || mine[x,y + 1].isRock())) {
                         cell = MineCell.EARTH
                     }
-                    hash1 = hash1 * 239 + cell.toChar()
-                    hash2 = hash2 * 366239 + cell.toChar()
+                    hash1 = hash1 * 239 + cell.toChar().toInt()
+                    hash2 = hash2 * 366239 + cell.toChar().toInt()
                 }
             }
             return RobotHash(hash1, hash2)
