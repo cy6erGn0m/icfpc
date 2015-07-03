@@ -20,19 +20,16 @@ public fun assertSameLines(message: String, expectedText: String, actualText: St
 
 public abstract class UsefulTestCase: TestCase() {
     protected fun getTestName(): String {
-        val name = getName()
-        if (name == null) {
-            return ""
-        }
+        val name = getName() ?: return ""
+
         return name.removePrefix("test").removeSuffix("test").decapitalize()
     }
 
 }
 
-public fun readMovesFromString(s: String): List<Move> {
-    val moves = ArrayList<Move>()
-    for (c in s) {
-        moves.add(when(c) {
+public fun readMovesFromString(s: String): List<Move> =
+    s.map { c ->
+        when(c) {
             'A' -> Move.ABORT
             'W' -> Move.WAIT
             'L' -> Move.LEFT
@@ -41,7 +38,5 @@ public fun readMovesFromString(s: String): List<Move> {
             'D' -> Move.DOWN
             'S' -> Move.SHAVE
             else -> throw IllegalArgumentException("Unknown character: $c")
-        })
+        }
     }
-    return moves
-}

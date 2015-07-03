@@ -15,14 +15,6 @@ fun _assert(c: Boolean, message: String) {
 
 fun _assert(c: Boolean) = _assert(c, "Assertion failed")
 
-fun String.repeat(count : Int) : String {
-    val buf = StringBuilder()
-    for (i in 1..count) {
-        buf.append(this)
-    }
-    return buf.toString()
-}
-
 class Logger(val fileName: String, val isActive: Boolean = true) {
     val logFile = PrintWriter(fileName)
 

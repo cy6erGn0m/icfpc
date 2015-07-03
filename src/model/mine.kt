@@ -27,13 +27,7 @@ val allCells: Set<MineCell> = run {
     r
 }
 
-val charToState: Map<Char, MineCell> = run {
-    val map = HashMap<Char, MineCell>()
-    for (cs in validCells) {
-        map[cs.toChar()] = cs
-    }
-    map
-}
+val charToState: Map<Char, MineCell> = validCells.toMap { it.toChar() }
 
 val indexToCell = run {
     val r = Array<MineCell>(allCells.size()) {

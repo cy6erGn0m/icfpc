@@ -142,11 +142,7 @@ public class DeltaCellMatrix internal constructor(
         get() = map.size()
 
     public override fun get(x: Int, y: Int): MineCell {
-        val value = map.get(Point(x, y))
-        if (value == null) {
-            return baseline[x, y]
-        }
-        return value
+        return map.get(Point(x, y)) ?: baseline[x, y]
     }
 
     protected override fun doSet(x: Int, y: Int, v: MineCell) {

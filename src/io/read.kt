@@ -106,14 +106,10 @@ public fun readMine(lines: List<String>): Mine {
                 val trimmed = line.removePrefix("Trampoline").trim() // e.g., "A targets 1"
                 val trampolineId = trimmed[0]
                 val targetId = trimmed[trimmed.length() - 1]
-                val trampolineLocation = idToLocation[trampolineId]
-                if (trampolineLocation == null) {
-                    throw IllegalStateException("Could not find trampoline for id: $trampolineId")
-                }
-                val targetLocation = idToLocation[targetId]
-                if (targetLocation == null) {
-                    throw IllegalStateException("Could not find target for id: $targetId")
-                }
+                val trampolineLocation = idToLocation[trampolineId] ?:
+                        throw IllegalStateException("Could not find trampoline for id: $trampolineId")
+                val targetLocation = idToLocation[targetId] ?:
+                        throw IllegalStateException("Could not find target for id: $targetId")
                 trampolinesMap.addLink(trampolineLocation, targetLocation)
             }
             else if (line.startsWith("Growth")) {

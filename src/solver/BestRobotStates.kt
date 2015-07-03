@@ -42,5 +42,5 @@ class BestRobotStates(val limit: Int) : StateAcceptor {
         return bestStates
     }
 
-    fun getBestState() : RobotState = ArrayList<RobotState>(bestStates).sortBy(WORST_SCORE_FIRST_OUT).last()
+    fun getBestState() : RobotState = bestStates.sortBy(WORST_SCORE_FIRST_OUT).last()
 }
