@@ -91,19 +91,19 @@ public fun readMine(lines: List<String>): Mine {
         for (i in separatorLine + 1..(lines.size() - 1)) {
             val line = lines[i].trim()
             if (line.startsWith("Waterproof")) {
-                mine.waterproof = Integer.parseInt(line.trimLeading("Waterproof").trim())
+                mine.waterproof = Integer.parseInt(line.removePrefix("Waterproof").trim())
             }
             else if (line.startsWith("Water")) {
-                mine.water = Integer.parseInt(line.trimLeading("Water").trim()) - 1 // we count from 0
+                mine.water = Integer.parseInt(line.removePrefix("Water").trim()) - 1 // we count from 0
             }
             else if (line.startsWith("Flooding")) {
-                val floodInfos = line.trimLeading("Flooding").trim().split('/')
+                val floodInfos = line.removePrefix("Flooding").trim().split('/')
                 _assert(floodInfos.size() <= 2, "only one slash is allowed")
                 mine.floodPeriod = Integer.parseInt(floodInfos[0])
                 mine.nextFlood = if (floodInfos.size() == 2) Integer.parseInt(floodInfos[1]) else mine.floodPeriod
             }
             else if (line.startsWith("Trampoline")) {
-                val trimmed = line.trimLeading("Trampoline").trim() // e.g., "A targets 1"
+                val trimmed = line.removePrefix("Trampoline").trim() // e.g., "A targets 1"
                 val trampolineId = trimmed[0]
                 val targetId = trimmed[trimmed.length() - 1]
                 val trampolineLocation = idToLocation[trampolineId]
@@ -117,13 +117,13 @@ public fun readMine(lines: List<String>): Mine {
                 trampolinesMap.addLink(trampolineLocation, targetLocation)
             }
             else if (line.startsWith("Growth")) {
-                val growthInfos = line.trimLeading("Growth").trim().split('/')
+                val growthInfos = line.removePrefix("Growth").trim().split('/')
                 _assert(growthInfos.size() <= 2, "only one slash is allowed")
                 mine.beardGrowthPeriod = Integer.parseInt(growthInfos[0])
                 mine.nextBeardGrowth = if (growthInfos.size() == 2) Integer.parseInt(growthInfos[1]) else mine.beardGrowthPeriod
             }
             else if (line.startsWith("Razors")) {
-                mine.razors = Integer.parseInt(line.trimLeading("Razors").trim())
+                mine.razors = Integer.parseInt(line.removePrefix("Razors").trim())
             }
         }
     }

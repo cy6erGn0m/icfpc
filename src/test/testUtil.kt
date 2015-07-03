@@ -2,7 +2,6 @@ package testUtil
 
 import junit.framework.ComparisonFailure
 import junit.framework.TestCase
-import util.trimTrailingSpaces
 import java.util.ArrayList
 import model.Move
 
@@ -10,8 +9,8 @@ public fun assertSameLines(message: String, expectedText: String, actualText: St
     val expectedLines = expectedText.split('\n')
     val actualLines = actualText.split('\n')
     for (i in 0..(Math.max(expectedLines.size(), actualLines.size()) - 1)) {
-        val expectedLine = if (i < expectedLines.size()) expectedLines[i].trimTrailingSpaces() else ""
-        val actualLine = if (i < actualLines.size()) actualLines[i].trimTrailingSpaces() else ""
+        val expectedLine = if (i < expectedLines.size()) expectedLines[i].trimEnd() else ""
+        val actualLine = if (i < actualLines.size()) actualLines[i].trimEnd() else ""
 
         if (expectedLine != actualLine) {
             throw ComparisonFailure(message, expectedText, actualText)
@@ -25,7 +24,7 @@ public abstract class UsefulTestCase: TestCase() {
         if (name == null) {
             return ""
         }
-        return name.trim("test").decapitalize()
+        return name.removePrefix("test").removeSuffix("test").decapitalize()
     }
 
 }
