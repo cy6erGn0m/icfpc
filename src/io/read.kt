@@ -80,7 +80,7 @@ public fun readMine(lines: List<String>): Mine {
                     trampolinesMap.addId(c, point)
                     mine[x, y] = if (c.isTrampolineId) MineCell.TRAMPOLINE else MineCell.TARGET
                 } else {
-                    mine[x, y] = c.toMineCell()
+                    mine[x, y] = MineCell(c)
                 }
             }
             else mine[x, y] = MineCell.EMPTY

@@ -69,14 +69,8 @@ enum class MineCell(
     override fun toString(): String = representation.toString()
 }
 
-// this is an extension function because enums can't have companion object (KT-2410)
-public fun Char.toMineCell(): MineCell {
-    val cell = charToState[this]
-    if (cell == null) {
-        throw IllegalArgumentException("Unknown cell code: $this")
-    }
-    return cell
-}
+public fun MineCell(representation: Char): MineCell =
+        charToState[representation] ?: throw IllegalArgumentException("Unknown cell code: $representation")
 
 val trackedCells: (Int) -> Boolean = { i ->
     i == MineCell.LAMBDA.index || i == MineCell.LAMBDA_ROCK.index || i == MineCell.TRAMPOLINE.index ||
