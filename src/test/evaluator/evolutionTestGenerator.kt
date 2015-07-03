@@ -44,7 +44,7 @@ fun main(args: Array<String>) {
 }
 
 fun String.pathToTestName(): String {
-    return this.toSystemIndependentPath().replaceAll("/", "_").replaceAll("\\.", "_").replaceAll("-", "_")
+    return this.toSystemIndependentPath().replace('/', '_').replace('.', '_').replace('-', '_')
 }
 
 val NEWLINE = System.getProperty("line.separator")
@@ -54,6 +54,6 @@ fun StringBuilder.println(str: String = "") {
 }
 
 fun String.toSystemIndependentPath(): String {
-    return this.replaceAll("\\\\", "/")
+    return this.replace('\\', '/')
 }
 
