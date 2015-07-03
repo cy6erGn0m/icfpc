@@ -24,36 +24,21 @@ public fun streamToLines(input: InputStream): List<String> {
 }
 
 private fun textToLines(text: String): List<String> {
-    val lines: MutableList<String> = text.replace("\r\n", "\n").split('\n').toLinkedList()
-
-    // remove last blank lines
-    while (lines[lines.size() - 1].isBlankLine()) {
-        lines.remove(lines.size() - 1)
-    }
-    return lines
+    return text.lines().dropLastWhile { it.isBlank() }
 }
 
 private val validMetadataKeywords = hashSetOf("Water", "Flooding", "Waterproof", "Trampoline", "Growth", "Razors")
 
-private fun String.isBlankLine(): Boolean {
-    for (c in this) {
-        if (!Character.isWhitespace(c)) {
-            return false
-        }
-    }
-    return true
-}
 
 private fun findSeparatorLine(lines: List<String>) : Int {
     // we need to cut all blank and metadata lines from the end
-    for (i in 0..lines.size() - 1) {
-        val index = lines.size() - i - 1
+    for (index in lines.indices.reversed()) {
         val line = lines[index]
-        if (line.isBlankLine() || validMetadataKeywords.contains(line.trim().split("\\s".toRegex())[0])) {
+        if (line.isBlank() || validMetadataKeywords.contains(line.trim().split("\\s".toRegex())[0])) {
             // blank line, metadata line, okay
         }
         else {
-            return if (index == lines.size() - 1) - 1 else index + 1
+            return if (index == lines.lastIndex) -1 else index + 1
         }
     }
     return -1
@@ -88,7 +73,7 @@ public fun readMine(lines: List<String>): Mine {
     }
 
     if (separatorLine != -1) { // have metadata
-        for (i in separatorLine + 1..(lines.size() - 1)) {
+        for (i in (separatorLine + 1)..lines.lastIndex) {
             val line = lines[i].trim()
             if (line.startsWith("Waterproof")) {
                 mine.waterproof = Integer.parseInt(line.removePrefix("Waterproof").trim())
