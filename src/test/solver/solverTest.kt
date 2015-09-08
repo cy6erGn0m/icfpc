@@ -1,6 +1,5 @@
 package test.solver
 
-import solver as solverPackage
 import evaluator.countScore
 import evaluator.makeMove
 import io.readMine
@@ -175,7 +174,7 @@ class SolverTest : TestCase() {
         val path = answer.path.toString()
         var robot = answer.robot
         if (answer.robot.status == RobotStatus.LIVE) {
-            robot = makeMove(Move.ABORT, answer.robot, solverPackage.solverUpdate)
+            robot = makeMove(Move.ABORT, answer.robot, solver.solverUpdate)
         }
         val ourScore = countScore(robot)
 
@@ -195,7 +194,7 @@ class SolverTest : TestCase() {
         val path = answer.path.toString()
         var robot = answer.robot
         if (answer.robot.status == RobotStatus.LIVE) {
-            robot = makeMove(Move.ABORT, answer.robot, solverPackage.solverUpdate)
+            robot = makeMove(Move.ABORT, answer.robot, solver.solverUpdate)
         }
         val ourScore = countScore(robot)
 
