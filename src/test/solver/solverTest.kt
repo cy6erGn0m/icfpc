@@ -11,8 +11,6 @@ import java.util.Properties
 import java.util.Timer
 import java.util.TimerTask
 import junit.framework.TestCase
-import kotlin.test.assertTrue
-import kotlin.test.fail
 import model.Move
 import model.RobotStatus
 import score.CollectedLambdasScorerWithDistToLambdas

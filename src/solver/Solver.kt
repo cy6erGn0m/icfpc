@@ -35,8 +35,8 @@ public class Solver(val initialMine: Mine, val scorer: Scorer, val highScore: In
     private val depth = Math.max(10 - initialMine.maxMoveCount / 1000, 2)
     private val resultLimit = 20
 
-    public volatile var answer: RobotState? = null
-    override volatile var needToTerminateFlag: Boolean = false
+    public @Volatile var answer: RobotState? = null
+    override @Volatile var needToTerminateFlag: Boolean = false
     override var iteration = 0
 
 
@@ -194,7 +194,7 @@ public class Solver(val initialMine: Mine, val scorer: Scorer, val highScore: In
         }
     }
 
-    private volatile var answerWritten = false
+    private @Volatile var answerWritten = false
     public fun interruptAndWriteResult() {
         synchronized (this) {
             if (!answerWritten) {

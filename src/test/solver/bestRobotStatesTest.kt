@@ -7,9 +7,7 @@ import model.Robot
 import model.Mine
 import io.readMine
 import model.RobotStatus
-import kotlin.test.assertEquals
 import score.Scorer
-import kotlin.test.assertTrue
 
 class BestRobotStatesTest : TestCase() {
 

@@ -3,11 +3,8 @@ package test.solver
 import junit.framework.TestCase
 import io.readMine
 import solver.MineGraph
-import kotlin.test.assertEquals
 import model.Point
 import java.util.Collections
-import kotlin.test.assertTrue
-import kotlin.test.assertFalse
 
 class MineGraphTest : TestCase() {
 

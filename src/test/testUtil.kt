@@ -20,7 +20,7 @@ public fun assertSameLines(message: String, expectedText: String, actualText: St
 
 public abstract class UsefulTestCase: TestCase() {
     protected fun getTestName(): String {
-        val name = getName() ?: return ""
+        val name = name ?: return ""
 
         return name.removePrefix("test").removeSuffix("test").decapitalize()
     }

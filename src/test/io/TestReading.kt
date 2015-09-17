@@ -4,9 +4,7 @@ import java.io.File
 import java.io.FileInputStream
 import junit.framework.ComparisonFailure
 import junit.framework.TestCase
-import kotlin.test.assertTrue
 import testUtil.assertSameLines
-import kotlin.test.assertEquals
 import junit.framework.Assert
 
 public class TestReading : TestCase() {
