@@ -5,6 +5,9 @@ import io.readMine
 import solver.MineGraph
 import model.Point
 import java.util.Collections
+import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 class MineGraphTest : TestCase() {
 

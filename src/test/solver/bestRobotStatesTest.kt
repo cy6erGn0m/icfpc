@@ -8,6 +8,8 @@ import model.Mine
 import io.readMine
 import model.RobotStatus
 import score.Scorer
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class BestRobotStatesTest : TestCase() {
 

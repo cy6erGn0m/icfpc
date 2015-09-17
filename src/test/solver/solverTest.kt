@@ -18,6 +18,8 @@ import solver.RobotState
 import solver.Solver
 import util.Logger
 import util.Ref
+import kotlin.test.assertTrue
+import kotlin.test.fail
 
 object SolverTestData {
     val updateExpectedResults = false

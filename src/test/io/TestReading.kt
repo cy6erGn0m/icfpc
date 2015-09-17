@@ -6,6 +6,7 @@ import junit.framework.ComparisonFailure
 import junit.framework.TestCase
 import testUtil.assertSameLines
 import junit.framework.Assert
+import kotlin.test.assertTrue
 
 public class TestReading : TestCase() {
     public fun testReadAllMines() {
