@@ -4,7 +4,6 @@ import model.Mine
 import model.MineCell
 import model.Move
 import model.Robot
-import model.MineCell
 import model.MineCell.ROBOT
 import model.MineCell.ROCK
 import model.MineCell.CLOSED_LIFT
