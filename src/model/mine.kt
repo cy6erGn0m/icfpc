@@ -102,22 +102,22 @@ public class Mine(private val matrix: CellMatrix, public val trampolinesMap: Tra
 
     public var robotX: Int = -1
         get() {
-            _assert($robotX != -1, "Robot position read before initialized")
-            return $robotX
+            _assert(field != -1, "Robot position read before initialized")
+            return field
         }
         private set(v) {
-            _assert($robotX == -1, "Robot position already set")
-            $robotX = v
+            _assert(field == -1, "Robot position already set")
+            field = v
         }
 
     public var robotY: Int = -1
         get() {
-            _assert($robotY != -1, "Robot position read before initialized")
-            return $robotY
+            _assert(field != -1, "Robot position read before initialized")
+            return field
         }
         private set(v) {
-            _assert($robotY == -1, "Robot position already set")
-            $robotY = v
+            _assert(field == -1, "Robot position already set")
+            field = v
         }
 
     public val robotPos: Point

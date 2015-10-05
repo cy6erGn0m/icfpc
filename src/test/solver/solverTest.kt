@@ -30,7 +30,7 @@ object SolverTestData {
     val previousScores: HashMap<String, Int> = hashMapOf()
         get() {
             if (!previousResultsWasRead) readExpectedResults()
-            return $previousScores
+            return field
         }
 
     val propertiesFile = "src/test/solver/previousResults.properties"
