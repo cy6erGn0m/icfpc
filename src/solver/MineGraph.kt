@@ -18,7 +18,7 @@ private class Edge(
         val length: Int
 )
 
-private fun Mine.iterator() = object : Iterator<Point> {
+private operator fun Mine.iterator() = object : Iterator<Point> {
     var x = 0
     var y = 0
     override fun next(): Point {

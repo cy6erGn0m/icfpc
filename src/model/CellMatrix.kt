@@ -30,17 +30,17 @@ public abstract class CellMatrix(
         val cellIndicesToTrack: (Int) -> Boolean
 ) {
 
-    public abstract fun get(x: Int, y: Int): MineCell
+    public abstract operator fun get(x: Int, y: Int): MineCell
     public abstract fun positions(cell: MineCell): Collection<Point>
     protected abstract fun replace(x: Int, y: Int, oldValue: MineCell, newValue: MineCell)
 
-    public fun set(x: Int, y: Int, v: MineCell) {
+    public operator fun set(x: Int, y: Int, v: MineCell) {
         val oldValue = get(x, y)
         replace(x, y, oldValue, v)
     }
 
-    public fun get(pos: Point): MineCell = get(pos.x, pos.y)
-    public fun set(pos: Point, v: MineCell): Unit = set(pos.x, pos.y, v)
+    public operator fun get(pos: Point): MineCell = get(pos.x, pos.y)
+    public operator fun set(pos: Point, v: MineCell): Unit = set(pos.x, pos.y, v)
 }
 
 public abstract class AbstractCellTrackingMatrix(
@@ -153,7 +153,7 @@ public class DeltaCellMatrix internal constructor(
     }
 }
 
-public fun CellMatrix.contains(cell: MineCell): Boolean {
+public operator fun CellMatrix.contains(cell: MineCell): Boolean {
 //    for (px in 0..width - 1) {
 //        for (py in 0..height - 1) {
 //            if (this[px, py] == cell) return true

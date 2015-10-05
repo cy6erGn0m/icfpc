@@ -136,16 +136,16 @@ public class Mine(private val matrix: CellMatrix, public val trampolinesMap: Tra
             return openLift.iterator().next()
         }
 
-    public fun get(x: Int, y: Int): MineCell {
+    public operator fun get(x: Int, y: Int): MineCell {
         if (!inRange(x, y)) {
             return MineCell.INVALID
         }
         return matrix[x, y]
     }
 
-    public fun get(pos: Point): MineCell = get(pos.x, pos.y)
+    public operator fun get(pos: Point): MineCell = get(pos.x, pos.y)
 
-    public fun set(x: Int, y: Int, v: MineCell) {
+    public operator fun set(x: Int, y: Int, v: MineCell) {
         if (!inRange(x, y)) {
             throw IllegalArgumentException("Attempt to write $v outside the range: ($x, $y) is outside ($width, $height)")
         }
@@ -173,7 +173,7 @@ public class Mine(private val matrix: CellMatrix, public val trampolinesMap: Tra
         matrix[x, y] = v
     }
 
-    public fun set(pos: Point, v: MineCell): Unit = set(pos.x, pos.y, v)
+    public operator fun set(pos: Point, v: MineCell): Unit = set(pos.x, pos.y, v)
 
     public fun moveRobot(oldPos: Point, newPos: Point) {
         if (matrix[oldPos] != MineCell.ROBOT) {
