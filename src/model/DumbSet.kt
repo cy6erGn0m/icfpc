@@ -6,9 +6,7 @@ import java.util.Collections
 import java.util.ArrayList
 
 object DumbSet : AbstractSet<Point>() {
-    public override fun size(): Int {
-        return 0;
-    }
+    public override val size: Int get() = 0
 
     public override fun iterator(): MutableIterator<Point> {
         return ArrayList<Point>().iterator()

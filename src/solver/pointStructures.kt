@@ -1,16 +1,13 @@
 package solver
 
-import java.util.HashSet
-import model.Point
 import model.Mine
-import java.util.AbstractMap
-import java.util.HashMap
-import java.util.AbstractSet
+import model.Point
+import java.util.*
 
 class PointMap<T: Any>(val mine : Mine) : AbstractMap<Point, T>() {
     val array: Array<Any?> = Array<Any?>(mine.width * mine.height) { null }
 
-    var size = 0
+    override var size = 0
 
     inner class PointMapEntry(var myKey: Point, var myValue: T) : MutableMap.MutableEntry<Point, T> {
         public override fun setValue(value: T): T {
@@ -25,7 +22,7 @@ class PointMap<T: Any>(val mine : Mine) : AbstractMap<Point, T>() {
     }
 
     public override fun entrySet(): MutableSet<MutableMap.MutableEntry<Point, T>> = object : AbstractSet<MutableMap.MutableEntry<Point, T>>() {
-        public override fun size(): Int = this@PointMap.size
+        public override val size: Int get() = this@PointMap.size
         public override fun iterator(): MutableIterator<MutableMap.MutableEntry<Point, T>> = object : MutableIterator<MutableMap.MutableEntry<Point, T>> {
             var x = 0
             var y = 0
@@ -71,8 +68,6 @@ class PointMap<T: Any>(val mine : Mine) : AbstractMap<Point, T>() {
         val i = index(key)
         return array[i] as T?
     }
-
-    public override fun size(): Int = size
 
     public override fun isEmpty(): Boolean = size == 0
 }
