@@ -26,11 +26,11 @@ val possibleMoves = arrayOf(
         Move.SHAVE
 )
 
-public enum class RobotStatus(val terminated: Boolean, val name: String) {
-    LIVE(false, "LIVE"),
-    DEAD(true, "DEAD"),
-    ABORTED(true, "ABORTED"),
-    WON(true, "WON");
+public enum class RobotStatus(val terminated: Boolean) {
+    LIVE(false),
+    DEAD(true),
+    ABORTED(true),
+    WON(true);
 
     override fun toString(): String = name
 }

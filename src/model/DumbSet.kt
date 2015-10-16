@@ -17,7 +17,7 @@ object DumbSet : AbstractSet<Point>() {
     }
 
 
-    public override fun remove(o: Any?): Boolean {
+    public override fun remove(o: Point): Boolean {
         return false
     }
 

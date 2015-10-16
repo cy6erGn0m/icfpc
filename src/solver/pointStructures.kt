@@ -9,19 +9,16 @@ class PointMap<T: Any>(val mine : Mine) : AbstractMap<Point, T>() {
 
     override var size = 0
 
-    inner class PointMapEntry(var myKey: Point, var myValue: T) : MutableMap.MutableEntry<Point, T> {
-        public override fun setValue(value: T): T {
-            myValue = value
-            return value
+    inner class PointMapEntry(override var key: Point, override var value: T) : MutableMap.MutableEntry<Point, T> {
+        public override fun setValue(newValue: T): T {
+            value = newValue
+            return newValue
         }
-
-        public override fun getKey(): Point = myKey
-        public override fun getValue(): T = myValue
         public override fun equals(other: Any?): Boolean = this === other
         public override fun hashCode(): Int = 0
     }
 
-    public override fun entrySet(): MutableSet<MutableMap.MutableEntry<Point, T>> = object : AbstractSet<MutableMap.MutableEntry<Point, T>>() {
+    public override val entries: MutableSet<MutableMap.MutableEntry<Point, T>> = object : AbstractSet<MutableMap.MutableEntry<Point, T>>() {
         public override val size: Int get() = this@PointMap.size
         public override fun iterator(): MutableIterator<MutableMap.MutableEntry<Point, T>> = object : MutableIterator<MutableMap.MutableEntry<Point, T>> {
             var x = 0
@@ -63,8 +60,7 @@ class PointMap<T: Any>(val mine : Mine) : AbstractMap<Point, T>() {
         return prev as T?
     }
 
-    public override fun get(key: Any?): T? {
-        if (key !is Point) return null
+    public override fun get(key: Point): T? {
         val i = index(key)
         return array[i] as T?
     }
