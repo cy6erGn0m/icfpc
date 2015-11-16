@@ -21,19 +21,15 @@ fun main(args: Array<String>) {
     incEvSb.println("class IncrementalEvolutionTestGenerated: AbstractEvolutionTest() {")
     incEvSb.println()
 
-    File("mines").recurse {
-        file ->
-        if (file.getName().endsWith(".evolution")) {
-            evSb.println("    fun testEvolution_${file.path.pathToTestName()}() {")
-            evSb.println("        doTest(\"${file.path.toSystemIndependentPath()}\", mineUpdateWithFullCopyStrategy)")
-            evSb.println("    }")
-            evSb.println()
-
-            incEvSb.println("    fun testIncrementalEvolution_${file.path.pathToTestName()}() {")
-            incEvSb.println("        doTest(\"${file.path.toSystemIndependentPath()}\", mineUpdateWithIncrementalCopyStrategy)")
-            incEvSb.println("    }")
-            incEvSb.println()
-        }
+    File("mines").walkTopDown().filter { it.name.endsWith(".evolution") }.forEach {
+        evSb.println("    fun testEvolution_${it.path.pathToTestName()}() {")
+        evSb.println("        doTest(\"${it.path.toSystemIndependentPath()}\", mineUpdateWithFullCopyStrategy)")
+        evSb.println("    }")
+        evSb.println()
+         incEvSb.println("    fun testIncrementalEvolution_${it.path.pathToTestName()}() {")
+        incEvSb.println("        doTest(\"${it.path.toSystemIndependentPath()}\", mineUpdateWithIncrementalCopyStrategy)")
+        incEvSb.println("    }")
+        incEvSb.println()
     }
 
     evSb.println("}")

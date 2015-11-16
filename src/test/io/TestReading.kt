@@ -13,18 +13,16 @@ public class TestReading : TestCase() {
         var ex : ComparisonFailure? = null
         var totalFiles = 0
         var errorFiles = 0
-        File("mines").recurse{ f ->
-            if (f.isFile() && f.getName().endsWith(".map")) {
-                val input = FileInputStream(f)
-                val mine = readMine(input)
-                input.close()
-                totalFiles++
-                try {
-                    assertSameLines(f.toString(), f.readText(), mine.serialize())
-                } catch (e : ComparisonFailure) {
-                    ex = e
-                    errorFiles++
-                }
+        File("mines").walkTopDown().filter { it.isFile && it.name.endsWith(".map") }.forEach {
+            val input = FileInputStream(it)
+            val mine = readMine(input)
+            input.close()
+            totalFiles++
+            try {
+                assertSameLines(it.toString(), it.readText(), mine.serialize())
+            } catch (e : ComparisonFailure) {
+                ex = e
+                errorFiles++
             }
         }
         assertTrue((ex == null) == (errorFiles == 0))
