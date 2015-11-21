@@ -127,7 +127,7 @@ class SolverTest : TestCase() {
     fun testProgress() {
         var currentSum = 0
         var expectedSum = 0
-        for (testName in SolverTestData.testScores.keySet()) {
+        for (testName in SolverTestData.testScores.keys) {
             currentSum += SolverTestData.testScores.get(testName)!!
             if (!SolverTestData.previousScores.containsKey(testName)) {
                 println("Old ${SolverTestData.propertiesFile} Doesn't contain ${testName}")
@@ -143,9 +143,9 @@ class SolverTest : TestCase() {
         // Workaround for failed tests (previous value 0.8)
         if (currentSum.toDouble() / expectedSum < 0.5) {
             val message = StringBuilder()
-            for (entry in SolverTestData.testScores.entrySet()) {
-                val testName = entry.getKey()
-                message.append("test: ${testName} expected: ${SolverTestData.previousScores.get(testName)} actual: ${entry.getValue()}\n")
+            for (entry in SolverTestData.testScores.entries) {
+                val testName = entry.key
+                message.append("test: ${testName} expected: ${SolverTestData.previousScores.get(testName)} actual: ${entry.value}\n")
             }
             fail("Progress is getting worse. Current sum: ${currentSum} Previous sum: ${expectedSum} \n${message}")
         }
@@ -218,7 +218,7 @@ fun readExpectedResults() {
     val fileInputStream = FileInputStream(SolverTestData.propertiesFile)
     properties.load(fileInputStream)
     fileInputStream.close()
-    for (testName in properties.keySet()) {
+    for (testName in properties.keys) {
         val score = properties.getProperty(testName.toString())!!
         SolverTestData.previousScores.put(testName.toString(), score.toInt())
     }
@@ -227,8 +227,8 @@ fun readExpectedResults() {
 fun writeExpectedResults() {
     val properties = Properties()
     val fileOutputStream = FileOutputStream(SolverTestData.propertiesFile)
-    for (entry in SolverTestData.testScores.entrySet()) {
-        properties.put(entry.getKey(), entry.getValue().toString())
+    for (entry in SolverTestData.testScores.entries) {
+        properties.put(entry.key, entry.value.toString())
     }
     properties.store(fileOutputStream, null)
     fileOutputStream.close()

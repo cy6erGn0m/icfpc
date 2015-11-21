@@ -34,7 +34,7 @@ class Logger(val fileName: String, val isActive: Boolean = true) {
 
     fun logNewState(queue: StateQueue, newState: RobotState) {
         log("path: ${newState.path}")
-        log("visited: ${queue.visited.size()}")
+        log("visited: ${queue.visited.size}")
         log("status: ${newState.robot.status}")
         log("score: ${newState.score}")
         log("hash: ${RobotHash.calculate(newState.robot)}")

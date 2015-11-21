@@ -46,16 +46,14 @@ public class TrampolinesMap() {
             locationToId[location] ?: throw IllegalArgumentException("No trampoline/target at $location")
 
     public fun checkForOrphanTrampolinesAndTargets() {
-        for (locationAndId in locationToId) {
-            val location = locationAndId.getKey()
-            val id = locationAndId.getValue()
+        for ((location, id) in locationToId) {
             if (id.isTrampolineId) {
-                if (location !in trampolineToTarget.keySet()) {
+                if (location !in trampolineToTarget.keys) {
                     throw IllegalStateException("No target for trampoline $id")
                 }
             }
             else if (id.isTargetId) {
-                if (location !in targetToTrampoline.keySet()) {
+                if (location !in targetToTrampoline.keys) {
                     throw IllegalStateException("No trampoline for target $id")
                 }
             }

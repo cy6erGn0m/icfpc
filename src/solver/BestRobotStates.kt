@@ -29,11 +29,11 @@ class BestRobotStates(val limit: Int) : StateAcceptor {
 
     override fun add(state: RobotState) {
         val score = state.score
-        if (bestStates.size() > limit && bestStates.peek()!!.score >= score) {
+        if (bestStates.size > limit && bestStates.peek()!!.score >= score) {
             return
         }
         bestStates.add(state)
-        if (bestStates.size() > limit) {
+        if (bestStates.size > limit) {
             bestStates.poll()
         }
     }

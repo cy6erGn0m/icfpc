@@ -12,12 +12,12 @@ object DumbSet : AbstractSet<Point>() {
         return ArrayList<Point>().iterator()
     }
 
-    public override fun add(e: Point): Boolean {
+    public override fun add(element: Point): Boolean {
         return true
     }
 
 
-    public override fun remove(o: Point): Boolean {
+    public override fun remove(element: Point): Boolean {
         return false
     }
 

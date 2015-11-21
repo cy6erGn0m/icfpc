@@ -36,10 +36,10 @@ class MovesTest : UsefulTestCase() {
 
         val moves = readMovesFromString(lines[0])
 
-        val startMine = loadMine(lines.subList(1, lines.size()))
+        val startMine = loadMine(lines.subList(1, lines.size))
         val scoreString =  lines[lines.indexOf("-END MINE") + 1]
         val statusString = lines[lines.indexOf("-END MINE") + 2]
-        val expectedMine = loadMine(lines.subList(lines.indexOf("-END MINE") + 3, lines.size()))
+        val expectedMine = loadMine(lines.subList(lines.indexOf("-END MINE") + 3, lines.size))
         return TestData(startMine, moves, statusString.toStatus(), Integer.parseInt(scoreString), expectedMine)
 
     }

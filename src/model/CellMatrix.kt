@@ -49,7 +49,7 @@ public abstract class AbstractCellTrackingMatrix(
         initialPositions: (Int) -> MutableSet<Point> = {HashSet<Point>()}
     ) : CellMatrix(width, height, cellIndicesToTrack) {
 
-    private val positions = Array<MutableSet<Point>>(allCells.size()) {
+    private val positions = Array<MutableSet<Point>>(allCells.size) {
         cellIndex ->
         if (cellIndicesToTrack(cellIndex)) {
             initialPositions(cellIndex)
@@ -139,10 +139,10 @@ public class DeltaCellMatrix internal constructor(
     private val map = HashMap<Point, MineCell>()
 
     public val deltaSize: Int
-        get() = map.size()
+        get() = map.size
 
     public override fun get(x: Int, y: Int): MineCell {
-        return map.get(Point(x, y)) ?: baseline[x, y]
+        return map[Point(x, y)] ?: baseline[x, y]
     }
 
     protected override fun doSet(x: Int, y: Int, v: MineCell) {
@@ -171,5 +171,5 @@ public fun CellMatrix.count(cell: MineCell): Int {
 //        }
 //    }
 //    return result
-    return positions(cell).size()
+    return positions(cell).size
 }

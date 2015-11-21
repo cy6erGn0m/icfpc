@@ -33,7 +33,7 @@ class MineGenerator(private val seed: Long = 1234567) {
             val random: Random
     ) {
         val chunks = run {
-            val n = length / pieces.size()
+            val n = length / pieces.size
             if (n == 0) 1 else n
         }
         val chunkWithRobot = random.nextInt() mod chunks
@@ -42,7 +42,7 @@ class MineGenerator(private val seed: Long = 1234567) {
         var liftReturned = false
 
         val initialPieces = ArrayList<CellMatrix>(pieces)
-        val shuffledPieces = ArrayList<CellMatrix>(pieces.size())
+        val shuffledPieces = ArrayList<CellMatrix>(pieces.size)
         var currentChunk = 0
         var offsetInChunk = 0
 
@@ -54,7 +54,7 @@ class MineGenerator(private val seed: Long = 1234567) {
             }
             val result = shuffledPieces[offsetInChunk]
             offsetInChunk++
-            if (offsetInChunk >= pieces.size()) {
+            if (offsetInChunk >= pieces.size) {
                 offsetInChunk = 0
                 currentChunk++
             }
@@ -116,7 +116,7 @@ class MineGenerator(private val seed: Long = 1234567) {
     }
 
     private fun doGenerateMineMatrix(pieces: Collection<CellMatrix>, widthInPieces: Int, heightInPieces: Int): CellMatrix {
-        _assert(pieces.size() > 0, "Can't generate mine: no pieces")
+        _assert(pieces.size > 0, "Can't generate mine: no pieces")
         // We assume all pieces to be of the same size
         val pieceW = pieces.first().width
         val pieceH = pieces.first().height

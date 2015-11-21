@@ -47,8 +47,8 @@ private fun findSeparatorLine(lines: List<String>) : Int {
 public fun readMine(lines: List<String>): Mine {
     val separatorLine = findSeparatorLine(lines)
 
-    val height = if (separatorLine == -1) lines.size() else separatorLine
-    val lengths: List<Int> = lines.subList(0, height).map { it.length() }
+    val height = if (separatorLine == -1) lines.size else separatorLine
+    val lengths: List<Int> = lines.subList(0, height).map { it.length }
     val width = lengths.fold(0, { x, y -> Math.max(x, y) })
 
     val trampolinesMap = TrampolinesMap()
@@ -57,7 +57,7 @@ public fun readMine(lines: List<String>): Mine {
     for (y in 0..(height - 1)) {
         val line = lines[height - y - 1]
         for (x in 0..(width - 1)) {
-            if (x < line.length()) {
+            if (x < line.length) {
                 val c = line[x]
                 val point = Point(x, y)
                 if (c.isTrampolineId || c.isTargetId) {
@@ -83,14 +83,14 @@ public fun readMine(lines: List<String>): Mine {
             }
             else if (line.startsWith("Flooding")) {
                 val floodInfos = line.removePrefix("Flooding").trim().split('/')
-                _assert(floodInfos.size() <= 2, "only one slash is allowed")
+                _assert(floodInfos.size <= 2, "only one slash is allowed")
                 mine.floodPeriod = Integer.parseInt(floodInfos[0])
-                mine.nextFlood = if (floodInfos.size() == 2) Integer.parseInt(floodInfos[1]) else mine.floodPeriod
+                mine.nextFlood = if (floodInfos.size == 2) Integer.parseInt(floodInfos[1]) else mine.floodPeriod
             }
             else if (line.startsWith("Trampoline")) {
                 val trimmed = line.removePrefix("Trampoline").trim() // e.g., "A targets 1"
                 val trampolineId = trimmed[0]
-                val targetId = trimmed[trimmed.length() - 1]
+                val targetId = trimmed[trimmed.length - 1]
                 val trampolineLocation = idToLocation[trampolineId] ?:
                         throw IllegalStateException("Could not find trampoline for id: $trampolineId")
                 val targetLocation = idToLocation[targetId] ?:
@@ -99,9 +99,9 @@ public fun readMine(lines: List<String>): Mine {
             }
             else if (line.startsWith("Growth")) {
                 val growthInfos = line.removePrefix("Growth").trim().split('/')
-                _assert(growthInfos.size() <= 2, "only one slash is allowed")
+                _assert(growthInfos.size <= 2, "only one slash is allowed")
                 mine.beardGrowthPeriod = Integer.parseInt(growthInfos[0])
-                mine.nextBeardGrowth = if (growthInfos.size() == 2) Integer.parseInt(growthInfos[1]) else mine.beardGrowthPeriod
+                mine.nextBeardGrowth = if (growthInfos.size == 2) Integer.parseInt(growthInfos[1]) else mine.beardGrowthPeriod
             }
             else if (line.startsWith("Razors")) {
                 mine.razors = Integer.parseInt(line.removePrefix("Razors").trim())

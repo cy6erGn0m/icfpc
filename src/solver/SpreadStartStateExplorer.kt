@@ -59,7 +59,7 @@ class SpreadStartStateExplorer(
             }
         }
 
-        val clusters = Clusters(totalLimit / (4 + targets.size()))
+        val clusters = Clusters(totalLimit / (4 + targets.size))
 
         clusters.addCluster(cx - depth, cx, cy - depth, cy)
         clusters.addCluster(cx - depth, cx, cy + 1, cy + depth)
@@ -77,7 +77,7 @@ class SpreadStartStateExplorer(
         _assert(queue.isEmpty(), "Queue must be empty")
         val finallyBestStates = BestRobotStates(resultsLimit)
 
-        if (rootStates.size() == 1) {
+        if (rootStates.size == 1) {
             val totalLimit = resultsLimit * 11
             val finallyBestStates = BestRobotStates(totalLimit)
             val state = rootStates.iterator().next()

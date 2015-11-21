@@ -175,14 +175,14 @@ public class Solver(val initialMine: Mine, val scorer: Scorer, val highScore: In
             var currentStates : Collection<RobotState> = listOf(startState)
             val queue = StateQueue()
             while (!needToTerminate() && !currentStates.isEmpty()) {
-                logger.log("Current: ${currentStates.size()} Answer: ${answer?.path}")
+                logger.log("Current: ${currentStates.size} Answer: ${answer?.path}")
     //            for (state in currentStates) {
     //                queue.push(state)
     //            }
                 val robotStates = shortTermExplorer.processStates(currentStates, queue, resultLimit, depth)
                 iteration++
                 currentStates = robotStates.getBestStates()
-                logger.log("Current states: ${currentStates.size()}")
+                logger.log("Current states: ${currentStates.size}")
                 queue.clearQueue()
             }
 

@@ -8,9 +8,9 @@ import model.Move
 public fun assertSameLines(message: String, expectedText: String, actualText: String) {
     val expectedLines = expectedText.split('\n')
     val actualLines = actualText.split('\n')
-    for (i in 0..(Math.max(expectedLines.size(), actualLines.size()) - 1)) {
-        val expectedLine = if (i < expectedLines.size()) expectedLines[i].trimEnd() else ""
-        val actualLine = if (i < actualLines.size()) actualLines[i].trimEnd() else ""
+    for (i in 0..(Math.max(expectedLines.size, actualLines.size) - 1)) {
+        val expectedLine = if (i < expectedLines.size) expectedLines[i].trimEnd() else ""
+        val actualLine = if (i < actualLines.size) actualLines[i].trimEnd() else ""
 
         if (expectedLine != actualLine) {
             throw ComparisonFailure(message, expectedText, actualText)

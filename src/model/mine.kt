@@ -21,16 +21,12 @@ public val validCells: Set<MineCell> = hashSetOf(
         MineCell.LAMBDA_ROCK
 )
 
-val allCells: Set<MineCell> = run {
-    val r = HashSet(validCells)
-    r.add(MineCell.INVALID)
-    r
-}
+val allCells: Set<MineCell> = validCells + MineCell.INVALID
 
-val charToState: Map<Char, MineCell> = validCells.toMap { it.toChar() }
+val charToState: Map<Char, MineCell> = validCells.toMapBy { it.toChar() }
 
 val indexToCell = run {
-    val r = Array<MineCell>(allCells.size()) {
+    val r = Array<MineCell>(allCells.size) {
     i -> MineCell.INVALID
     }
     for (c in allCells) {
@@ -97,7 +93,7 @@ public class Mine(private val matrix: CellMatrix, public val trampolinesMap: Tra
     public var razors: Int = 0
 
     fun shouldOpenLift(): Boolean {
-        return matrix.positions(MineCell.LAMBDA).size() + matrix.positions(MineCell.LAMBDA_ROCK).size() == 0
+        return matrix.positions(MineCell.LAMBDA).size + matrix.positions(MineCell.LAMBDA_ROCK).size == 0
     }
 
     public var robotX: Int = -1
@@ -238,7 +234,7 @@ public class Mine(private val matrix: CellMatrix, public val trampolinesMap: Tra
     override fun toString(): String = serialize()
 }
 
-public fun Mine.equalsTo(other: Mine): Boolean {
+public infix fun Mine.equalsTo(other: Mine): Boolean {
     if (width != other.width) return false
     if (height != other.height) return false
     for (y in 0..height - 1) {

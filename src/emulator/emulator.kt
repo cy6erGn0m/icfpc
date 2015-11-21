@@ -36,7 +36,7 @@ fun main(args: Array<String>) {
         val moves = try {
             readMovesFromString(line)
         } catch (e: IllegalArgumentException) {
-            println(e.getMessage())
+            println(e.message)
             continue
         }
         for (move in moves) {
