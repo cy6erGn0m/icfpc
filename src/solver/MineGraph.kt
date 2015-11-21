@@ -12,7 +12,7 @@ import java.util.AbstractQueue
 import java.util.PriorityQueue
 import java.util.Comparator
 
-private class Edge(
+class Edge(
         val begin: Point,
         val end: Point,
         val length: Int
