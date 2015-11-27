@@ -36,8 +36,8 @@ class MineGenerator(private val seed: Long = 1234567) {
             val n = length / pieces.size
             if (n == 0) 1 else n
         }
-        val chunkWithRobot = random.nextInt() mod chunks
-        val chunkWithLift = random.nextInt() mod chunks + 1 // there may be no lift of the map
+        val chunkWithRobot = random.nextInt().mod(chunks)
+        val chunkWithLift = random.nextInt().mod(chunks + 1) // there may be no lift of the map
 
         var liftReturned = false
 
